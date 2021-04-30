@@ -24,7 +24,7 @@ SECRET_KEY = '29st2j=m_g=qpxaerv#q9j%9*e7!vo4!u79(f$6q@-6jg7a1+h'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True #Turned off for deployment
-DEBUG = False
+# DEBUG = False
 
 ALLOWED_HOSTS = [
     'collegebookbychi.herokuapp.com', 
@@ -141,4 +141,4 @@ STATIC_URL = '/static/' #This url is how a client or browser can access static f
 MEDIA_ROOT= os.path.join(BASE_DIR, 'media/') # contains the absolute path to the file system where media files will be uploaded to store the images on the computer.
 MEDIA_URL= "/media/"  #is the reference URL for browser to access the files over Http.
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage' #This enables the app to now serve static assets directly from Gunicorn in production
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage' #This enables the app to now serve static assets directly from Gunicorn in production
