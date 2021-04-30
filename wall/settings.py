@@ -26,7 +26,7 @@ SECRET_KEY = '29st2j=m_g=qpxaerv#q9j%9*e7!vo4!u79(f$6q@-6jg7a1+h'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'collegebookbychi.herokuapp.com/', 
+    'collegebookbychi.herokuapp.com', 
     '0.0.0.0',
 ]
 
