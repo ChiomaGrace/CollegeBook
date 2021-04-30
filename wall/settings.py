@@ -132,7 +132,7 @@ STATIC_URL = '/static/'
 #     "/static/CSS/"
 # )
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static') #added this in order for static files to deploy on heroku
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') #added this in order for static files to deploy on heroku
 
 # #I added the below lines of code #
 MEDIA_ROOT= os.path.join(BASE_DIR, 'media/') # contains the absolute path to the file system where media files will be uploaded to store the images on the computer.
