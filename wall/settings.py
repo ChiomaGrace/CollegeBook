@@ -25,7 +25,10 @@ SECRET_KEY = '29st2j=m_g=qpxaerv#q9j%9*e7!vo4!u79(f$6q@-6jg7a1+h'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://collegebookbychi.herokuapp.com/',]
+ALLOWED_HOSTS = [
+    'collegebookbychi.herokuapp.com/', 
+    '0.0.0.0',
+]
 
 
 # Application definition
