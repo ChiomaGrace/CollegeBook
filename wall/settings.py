@@ -127,15 +127,13 @@ USE_TZ = True
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') #added this in order for static files to deploy on heroku. this generates where static files are placed after running the manage.py collectstatic command
 
-STATIC_URL = '/static/'
+STATIC_URL = '/static/' #This url is how a client or browser can access static files. Example: https://www.example.com/staticFiles/nameOfImg.jpg.
 
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "wallApp/static/CSS"), #baseDir references the "home" so for me starting at collegebook
     os.path.join(BASE_DIR, "wallApp/static/Images"),
     os.path.join(BASE_DIR, "wallApp/static/JavaScript"),
-
-
 )
 
 
