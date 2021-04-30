@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '29st2j=m_g=qpxaerv#q9j%9*e7!vo4!u79(f$6q@-6jg7a1+h'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True #Turned off for deployment
 
 ALLOWED_HOSTS = [
     'collegebookbychi.herokuapp.com', 
@@ -124,12 +124,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') #added this in order for static files to deploy on heroku
+STATIC_URL = '/static/'
 
 # #I added the below lines of code #
 MEDIA_ROOT= os.path.join(BASE_DIR, 'media/') # contains the absolute path to the file system where media files will be uploaded to store the images on the computer.
 MEDIA_URL= "/media/"  #is the reference URL for browser to access the files over Http.
 
-
+# Extra places for collectstatic to find static files.
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+    "/static/css/collegeWall.css"
+)
 
