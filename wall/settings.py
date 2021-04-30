@@ -131,7 +131,7 @@ STATIC_URL = '/static/' #This url is how a client or browser can access static f
 
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (
-    os.path.join(PROJECT_DIR, "static"), #baseDir references the "home" so for me starting at collegebook
+    os.path.join(BASE_DIR, "wallApp/static"), #baseDir references the "home" so for me starting at collegebook
     # os.path.join(BASE_DIR, "wallApp/static/CSS"), #baseDir references the "home" so for me starting at collegebook
     # os.path.join(BASE_DIR, "wallApp/static/Images"),
     # os.path.join(BASE_DIR, "wallApp/static/JavaScript"),
