@@ -11,9 +11,9 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-import cloudinary #to save uploaded images in heroku/deployment stage
-import cloudinary.uploader #to save uploaded images in heroku/deployment stage
-import cloudinary.api #to save uploaded images in heroku/deployment stage
+# import cloudinary #to save uploaded images in heroku/deployment stage
+# import cloudinary.uploader #to save uploaded images in heroku/deployment stage
+# import cloudinary.api #to save uploaded images in heroku/deployment stage
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
