@@ -227,8 +227,8 @@ class User(models.Model):
     emailAddress = models.CharField(max_length = 255)
     password = models.CharField(max_length = 255)
     confirmPassword = models.CharField(max_length = 255)
-    # profilePic= models.ImageField(upload_to='submittedProfilePicImages/', null=True, verbose_name="")
-    profilePic=cloudinary.models.CloudinaryField('submittedProfilePicImages', blank=True, null=True)
+    profilePic= models.ImageField(upload_to='submittedProfilePicImages/', null=True, verbose_name="")
+    # profilePic=cloudinary.models.CloudinaryField('submittedProfilePicImages', blank=True, null=True)
     profileHeader = models.CharField(max_length = 255, default = "") #The caption underneath the profile picture
     friends = models.ManyToManyField('self', related_name="friendship", symmetrical= False) # Self states this ManyToManyField is symmetrical – that is, if I am your friend, then you are my friend. So setting symmetrical to false makes the 'friendship' one way
     notifications = models.IntegerField(default = "0")
