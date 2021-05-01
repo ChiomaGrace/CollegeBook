@@ -13,9 +13,9 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'wall.settings')
 
 from django.core.wsgi import get_wsgi_application
 
-from whitenoise.django import DjangoWhiteNoise #added this to show static files in deployment stage
+# from whitenoise.django import DjangoWhiteNoise #added this to show static files in deployment stage
 
 application = get_wsgi_application()
 
-application = DjangoWhiteNoise(application) #added this to show static files in deployment stage
+# application = DjangoWhiteNoise(application) #added this to show static files in deployment stage
 
