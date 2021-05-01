@@ -131,7 +131,7 @@ STATIC_URL = '/static/' #This url is how a client or browser can access static f
 
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "static"), #baseDir references the "home" so for me starting at collegebook
+    os.path.join(BASE_DIR, "wallApp/static"), #baseDir references the "home" so for me starting at collegebook
     # os.path.join(BASE_DIR, "wallApp/static/CSS"), #baseDir references the "home" so for me starting at collegebook
     # os.path.join(BASE_DIR, "wallApp/static/Images"),
     # os.path.join(BASE_DIR, "wallApp/static/JavaScript"),
@@ -142,5 +142,6 @@ STATICFILES_DIRS = (
 MEDIA_ROOT= os.path.join(BASE_DIR, 'media/') # contains the absolute path to the file system where media files will be uploaded to store the images on the computer.
 MEDIA_URL= "/media/"  #is the reference URL for browser to access the files over Http.
 
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage' #This enables the app to now serve static assets directly from Gunicorn in production
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage' #This enables the app to now serve static assets directly from Gunicorn in production
+# STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage' #This enables the app to now serve static assets directly from Gunicorn in production
 
