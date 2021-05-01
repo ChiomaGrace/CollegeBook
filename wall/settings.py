@@ -42,7 +42,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary_storage', #added so media files save/stay in deployment
+    'cloudinary', #added so media files save/stay in deployment
 ]
+
+#The below code is added so media files save/stay in deployment
+CLOUDINARY_STORAGE = {
+            'CLOUD_NAME': 'hag7l2sjd',
+            'API_KEY': '282544168462578',
+            'API_SECRET': 'ENxRVBVJy7pG76TrjqLgB8nzd7s'
+            }
+#The above code is added so media files save/stay in deployment
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -145,9 +155,10 @@ STATICFILES_DIRS = (
 
 
 # #I added the below lines of code #
-MEDIA_ROOT= os.path.join(BASE_DIR, 'media/') # contains the absolute path to the file system where media files will be uploaded to store the images on the computer.
+# MEDIA_ROOT= os.path.join(BASE_DIR, 'media/') # contains the absolute path to the file system where media files will be uploaded to store the images on the computer.
+MEDIA_ROOT= os.path.join(BASE_DIR, 'media') # contains the absolute path to the file system where media files will be uploaded to store the images on the computer.
 MEDIA_URL= "/media/"  #is the reference URL for browser to access the files over Http.
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage' #This enables the app to now serve static assets directly from Gunicorn in production
-# STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage' #This enables the app to now serve static assets directly from Gunicorn in production
+DEFAULT_FILE_STORAGE='cloudinary_storage.storage.MediaCloudinaryStorage' #This enables the media files to be saved/stored
 
