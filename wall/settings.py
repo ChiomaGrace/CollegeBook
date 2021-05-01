@@ -83,11 +83,17 @@ WSGI_APPLICATION = 'wall.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql', #using in deployment
+        'NAME': 'd8ocpbri5qij5n', #using in deployment
+        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'HOST': 'ec2-35-174-35-242.compute-1.amazonaws.com',
+        'PORT': '5432',
+        'USER': 'axqbwmzhjpfmbg',
+        'PASSWORD': 'd298c7712382e93a1c1e5f46dd02d699cc27c6612e68a5a2da32f573c077da00',
     }
 }
-
+# The above code is from here which is from heroku's settings config vars: postgres://axqbwmzhjpfmbg:d298c7712382e93a1c1e5f46dd02d699cc27c6612e68a5a2da32f573c077da00@ec2-35-174-35-242.compute-1.amazonaws.com:5432/d8ocpbri5qij5n
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
