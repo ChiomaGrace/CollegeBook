@@ -158,8 +158,8 @@ STATICFILES_DIRS = (
 
 
 # #I added the below lines of code #
-# MEDIA_ROOT= os.path.join(BASE_DIR, 'media/') # contains the absolute path to the file system where media files will be uploaded to store the images on the computer.
-MEDIA_ROOT= os.path.join(BASE_DIR, '/media/') # contains the absolute path to the file system where media files will be uploaded to store the images on the computer.
+MEDIA_ROOT= os.path.join(BASE_DIR, 'media/') # contains the absolute path to the file system where media files will be uploaded to store the images on the computer.
+# MEDIA_ROOT= os.path.join(BASE_DIR, '/media/') # contains the absolute path to the file system where media files will be uploaded to store the images on the computer.
 MEDIA_URL= "/media/"  #is the reference URL for browser to access the files over Http.
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage' #This enables the app to now serve static assets directly from Gunicorn in production
