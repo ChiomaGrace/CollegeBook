@@ -50,7 +50,7 @@ INSTALLED_APPS = [
 ]
 
 #The below code is added so media files save/stay in deployment
-cloudinary.config{
+CLOUDINARY_STORAGE ={
             'CLOUD_NAME': 'hag7l2sjd',
             'API_KEY': '282544168462578',
             'API_SECRET': 'ENxRVBVJy7pG76TrjqLgB8nzd7s'
