@@ -11,9 +11,9 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-# import cloudinary #to save uploaded images in heroku/deployment stage
-# import cloudinary.uploader #to save uploaded images in heroku/deployment stage
-# import cloudinary.api #to save uploaded images in heroku/deployment stage
+import cloudinary #to save uploaded images in heroku/deployment stage
+import cloudinary_storage #to save uploaded images in heroku/deployment stage
+from decouple import config #to hide/retrieve my cloud config that are below in the settings.py
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -45,17 +45,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'cloudinary_storage', #added so media files save/stay in deployment
-    # 'cloudinary', #added so media files save/stay in deployment
+    'cloudinary', #added so media files save/stay in deployment
+    'cloudinary_storage', #added so media files save/stay in deployment
 ]
-
-#The below code is added so media files save/stay in deployment
-# CLOUDINARY_STORAGE ={
-#             'CLOUD_NAME': 'hag7l2sjd',
-#             'API_KEY': '282544168462578',
-#             'API_SECRET': 'ENxRVBVJy7pG76TrjqLgB8nzd7s'
-# }
-#The above code is added so media files save/stay in deployment
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -144,6 +136,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
+#The below code is added so media files save/stay in deployment
+CLOUDINARY_STORAGE ={
+            'CLOUD_NAME': 'hag7l2sjd',
+            'API_KEY': '282544168462578',
+            'API_SECRET': 'ENxRVBVJy7pG76TrjqLgB8nzd7s'
+}
+DEFAULT_FILE_STORAGE='cloudinary_storage.storage.MediaCloudinaryStorage' #This enables the media files to be saved/stored
+#The above code is added so media files save/stay in deployment
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') #added this in order for static files to deploy on heroku. this generates where static files are placed after running the manage.py collectstatic command
 
 STATIC_URL = '/static/' #This url is how a client or browser can access static files. Example: https://www.example.com/staticFiles/nameOfImg.jpg.
@@ -163,5 +164,4 @@ MEDIA_ROOT= os.path.join(BASE_DIR, 'media/') # contains the absolute path to the
 MEDIA_URL= "/media/"  #is the reference URL for browser to access the files over Http.
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage' #This enables the app to now serve static assets directly from Gunicorn in production
-# DEFAULT_FILE_STORAGE='cloudinary_storage.storage.MediaCloudinaryStorage' #This enables the media files to be saved/stored
 
