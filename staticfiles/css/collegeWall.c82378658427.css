@@ -2698,12 +2698,6 @@
         left: -8px;
     }
 
-    .sendIcon{
-        position: relative;
-        left: -4px;
-        top: -6px;
-    }
-
     #postAMessageButton{
         width: 48px;
         height: 24px;
@@ -2728,8 +2722,7 @@
 
     #profilePicContainer{
         margin-left: 70px;
-        /* margin-top: -430px;  */ /* This works on laptop responsibvebut not on mobile */
-        /* margin-top: -230px; */
+        margin-top: -430px;
     }
 
     #regForm{ /*The actual form*/
@@ -2755,7 +2748,13 @@
         width: 140px;
         height: 24px;
         margin-top: 18px;
-        font-size: 12px;
+        font-size: 8px;
+    }
+
+    .sendIcon{
+        position: relative;
+        left: -4px;
+        top: -6px;
     }
 
     .settingsDropDownMenu{
