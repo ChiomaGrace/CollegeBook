@@ -143,20 +143,33 @@ def processProfilePic(request):
     #         print("POST request occurred.")
     if request.method == 'POST' and request.FILES.get('userProfilePic'):
         userProfilePic = request.FILES['userProfilePic']
-        # print("This is the submitted profile picture:", userProfilePic)
+        print("This is the submitted profile picture:", userProfilePic)
+#The below code is how to upload a file in django development stage
         # fileSystem = FileSystemStorage()
         # uploadedImage = fileSystem.save(userProfilePic.name, userProfilePic)
         # uploadedImageURL = fileSystem.url(uploadedImage)
         # print("This is the uploaded image url:", uploadedImageURL)
         # addProfilePic = User.objects.filter(id=request.session['loginInfo']).update(profilePic=uploadedImageURL)
-        uploadToCloudinary = cloudinary.uploader.upload(request.FILES['userProfilePic'])
+#The above code is how to upload a file in django development stage
+        loggedInUser = User.objects.get(id = request.session['loginInfo'])
+        loggedInUser.profilePic = userProfilePic
+        print("This is the image being saved in the user object:", loggedInUser, loggedInUser.profilePic)
+        loggedInUser.save()
+        # uploadToCloudinary = cloudinary.uploader.upload(request.FILES['userProfilePic'])
+        # print("This is what is being uploaded to cloudinary:", uploadToCloudinary)
     print("THIS IS THE LAST PRINT STATEMENT IN THE PROCESS PROFILE PIC ROUTE.")
     print("*"*50)
     return redirect("/home")
 
 def userDeletesProfilePic(request):
     print("THIS FUNCTION REMOVES THE PROFILE PIC OF THE USER FROM THE USER FROM THE DATABASE.")
-    deleteProfilePic = User.objects.filter(id=request.session['loginInfo']).update(profilePic="") 
+    # deleteProfilePic = User.objects.filter(id=request.session['loginInfo']).update(profilePic="")
+#The below code is the same as the update line, but this works with cloudinary and the other does not 
+    loggedInUser = User.objects.get(id = request.session['loginInfo'])
+    loggedInUser.profilePic = ""
+    print("This is the image being deleted in the user object:", loggedInUser, loggedInUser.profilePic)
+    loggedInUser.save()
+#The below code is the same as the update line, but this works with cloudinary and the other does not 
     print("THIS IS THE LAST PRINT STATEMENT IN THE USER DELETES PROFILE PIC ROUTE.")
     return redirect("/home")
 

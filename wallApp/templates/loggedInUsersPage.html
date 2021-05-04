@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <title>CollegeBook</title>
     {% load static %}	<!-- Need this line to use static images -->
-    {% load cloudinary %}
     <link rel="stylesheet" href="{% static 'css/collegeWall.css' %}">  <!-- Need this line to use external stylesheet -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -1009,10 +1008,10 @@
                 <li class="nav-item">
                     <a id="linkForNavIconProfPic" href="/home" class="d-inline ">
                     <!-- This if statement only displays the image src when an image is uploaded -->
-                    {% if loggedInUser.profilePic == "" %} 
+                    {% if loggedInUser.profilePic.url == "" %} 
                         <img src="{% static 'Images/blankAvatar.png' %}" id="navIconProfPic" class="d-inline-block" alt="A thumbnail photo of the user"><p class="d-inline-block nameInNotification mb-0 mt-1">{{notif.friendRequest.firstName}} {{notif.friendRequest.lastName}}</p> 
                     {% else %}
-                        <img src='{{ loggedInUser.profilePic }}' id="navIconProfPic" class="d-inline notifIconProfPic"> 
+                        <img src='{{ loggedInUser.profilePic.url }}' id="navIconProfPic" class="d-inline notifIconProfPic"> 
                     {% endif %}
                     </a>
                 </li>
@@ -1037,7 +1036,7 @@
         {% for notif in notifications %} <!-- This loops through all the notifications -->
             {% if notif.user == loggedInUser %} <!-- This provides the notifications only for the logged in user-->
                 {% if notif.friendRequest%}
-                        {% if notif.friendRequest.profilePic == "" %}
+                        {% if notif.friendRequest.profilePic.url == "" %}
                             <div class="dropdown-item pb-0 pt-0">
                                 <div class="specificNotification friendRequestNotification" data-index="{{notif.friendRequest.id}}">
                                     <a href="/{{notif.friendRequest.firstName}}/{{notif.friendRequest.lastName}}/{{notif.friendRequest.id}}" class="d-inline-block">
@@ -1058,7 +1057,7 @@
                             <div class="dropdown-item pb-0 pt-0">
                                 <div class="specificNotification friendRequestNotification pb-0 pt-0" data-index="{{notif.friendRequest.id}}">
                                     <a href="/{{notif.friendRequest.firstName}}/{{notif.friendRequest.lastName}}/{{notif.friendRequest.id}}" class="d-inline-block">
-                                        <img src='{{notif.friendRequest.profilePic }}' id="notifIconProfPic" class="d-inline-block mt-1"><p class="d-inline-block nameInNotification mb-0 mt-1">{{notif.friendRequest.firstName}} {{notif.friendRequest.lastName}}</p>
+                                        <img src='{{notif.friendRequest.profilePic.url }}' id="notifIconProfPic" class="d-inline-block mt-1"><p class="d-inline-block nameInNotification mb-0 mt-1">{{notif.friendRequest.firstName}} {{notif.friendRequest.lastName}}</p>
                                     </a>
                                     <p class="d-inline-block mb-0 pt-0"> sent you a friend request.</p>
                                     <div class="btn-group mt-0 friendRequestButtonDiv">
@@ -1075,7 +1074,7 @@
                 {% endif %}
                 {% if notif.message %} <!-- prevents the notification appearing when it is null -->
                     {% if loggedInUser != notif.message.user %} <!-- This excludes notifications every time the logged in user posts on something  -->
-                        {% if notif.message.user.profilePic == ""%}
+                        {% if notif.message.user.profilePic.url == ""%}
                             <div class="dropdown-item pt-0">
                                 <div class="specificNotification newPostNotification pt-3" data-index="{{notif.message.id}}"> 
                                     <a href="/{{notif.message.user.firstName}}/{{notif.message.user.lastName}}/{{notif.message.user.id}}" class="d-inline-block mb-0">
@@ -1092,7 +1091,7 @@
                             <div class="dropdown-item">
                                 <div class="specificNotification newPostNotification pb-0 pt-0" data-index="{{notif.message.id}}">
                                     <a href="/{{notif.message.user.firstName}}/{{notif.message.user.lastName}}/{{notif.message.user.id}}" class="d-inline-block mb-0">
-                                        <img src='{{ notif.message.user.profilePic }}' id="notifIconProfPic" class="d-inline-block mt-1"> <p class="d-inline-block nameInNotification mb-0 mt-1">{{notif.message.user.firstName}} {{notif.message.user.lastName}}</p>
+                                        <img src='{{ notif.message.user.profilePic.url }}' id="notifIconProfPic" class="d-inline-block mt-1"> <p class="d-inline-block nameInNotification mb-0 mt-1">{{notif.message.user.firstName}} {{notif.message.user.lastName}}</p>
                                     </a>
                                     <p class="d-inline-block mb-0 pb-0 pt-0"> wrote on your <a href="/home">wall.</a></p> {% if notif.hover == 0 %} <!-- 0 signifying False, meaning the user has not hovered over the notification  --><div class="specificRedButtonDiv d-inline-block"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-circle-fill hoverNotif" data-index="{{notif.message.id}}" viewBox="0 0 16 16"><circle cx="6" cy="6" r="6"/></svg></div>{% endif %}                                    
                                 </div>
@@ -1102,7 +1101,7 @@
                 {% endif %}
                 {% if notif.comment %}
                     {% if loggedInUser != notif.comment.user %} <!-- This excludes  notifications every time the logged in user comments on something  -->
-                        {% if notif.comment.user.profilePic == ""%}
+                        {% if notif.comment.user.profilePic.url == ""%}
                             <div class="dropdown-item">
                                 <div class="specificNotification newCommentNotification pt-3" data-index="{{notif.comment.id}}">
                                     <a href="/{{notif.comment.user.firstName}}/{{notif.comment.user.lastName}}/{{notif.comment.user.id}}" class="d-inline-block mb-0">
@@ -1115,7 +1114,7 @@
                             <div class="dropdown-item">
                                 <div class="specificNotification newCommentNotification pt-2" data-index="{{notif.comment.id}}">
                                     <a href="/{{notif.comment.user.firstName}}/{{notif.comment.user.lastName}}/{{notif.comment.user.id}}" class="d-inline-block mb-0">
-                                        <img src='{{ notif.comment.user.profilePic }}' id="notifIconProfPic" class="d-inline-block mt-1"> <p class="d-inline-block nameInNotification mb-0 mt-1">{{notif.comment.user.firstName}} {{notif.comment.user.lastName}}</p>
+                                        <img src='{{ notif.comment.user.profilePic.url }}' id="notifIconProfPic" class="d-inline-block mt-1"> <p class="d-inline-block nameInNotification mb-0 mt-1">{{notif.comment.user.firstName}} {{notif.comment.user.lastName}}</p>
                                     </a>
                                     <p class="d-inline-block mb-0 pb-0 pt-0"> commented on a <a href="/home">post.</a></p>{% if notif.hover == 0 %}<div class="specificRedButtonDiv d-inline-block"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-circle-fill hoverNotif" data-index="{{notif.comment.id}}" viewBox="0 0 16 16"><circle cx="6" cy="6" r="6"/></svg></div>{% endif %} 
                                 </div>
@@ -1185,7 +1184,7 @@
                 <form enctype="multipart/form-data" method="POST" action="" class="mb-0 dropZone" id="profilePicForm">
                     {% csrf_token %}
                     <label for="profilePicInputID" id="profilePicContainer" class=""> <!-- Important to use "label for" attribute to get the feature of clicking on the circle to bring up the file explorer. ID needs to match the ID of the input below  -->
-                        <img src='{{ loggedInUser.profilePic }}' id="thumbnail" class="uploadedPhotoProperties"> 
+                        <img src='{{ loggedInUser.profilePic.url }}' id="thumbnail" class="uploadedPhotoProperties"> <!-- Need .url to display in deployment/heorku A read-only property to access the file’s relative URL by calling the url() method of the underlying Storage class. -->
                         <input type="file" id="profilePicInputID" class="" name="userProfilePic" accept="image/png, image/jpeg" style="display: none;" > <!-- The style hides the basic format "Choose file input and allows the circular border to represent the "file selector" instead" -->
                         <p class="mt-4">Click here to upload or <b>drag-and-drop</b> <br> an image...</br></p>
                     </label>
@@ -1196,7 +1195,7 @@
                 <form class="" action="userDeletesProfilePic" method="post">
                     {% csrf_token %}
                 <!-- This if statement only displays the image src when an image is uploaded -->
-                {% if loggedInUser.profilePic == "" %}
+                {% if loggedInUser.profilePic.url == "" %}
                     <button class="btn btn-sm" id="clearImage">X</button> <!--The X button removes the preview of the photo via ajax-->
                 {% else %}
                     <button class="btn btn-sm clearImage" type="submit">X</button> <!--This X button removes the photo from the database-->
@@ -1292,7 +1291,7 @@
 {% for user in allUsers %}
     {% if not user in loggedInUser.friends.all %}  <!-- this allows the logged in user to still remove the pending friend request if necessary -->
         {% if loggedInUser.id != user.id  %} <!-- to prevent the logged in user's name displaying in the friends section -->
-            {% if user.profilePic == "" %} 
+            {% if user.profilePic.url == "" %} 
                 <!-- if a user does not have an uploaded profile pic the below code will run -->
                     <figure class="ml-4 d-inline-block">
                         <a href="/{{user.firstName}}/{{user.lastName}}/{{user.id}}" class="">
@@ -1319,7 +1318,7 @@
                     <div class="d-inline-block">
                         <figure class="ml-4">
                             <a href="/{{user.firstName}}/{{user.lastName}}/{{user.id}}">
-                                <img src="{{user.profilePic}}" id="" class="friendsIconProfPic" alt="A thumbnail photo of the user">
+                                <img src="{{user.profilePic.url}}" id="" class="friendsIconProfPic" alt="A thumbnail photo of the user">
                             </a>
                         {% if not loggedInUser in user.friends.all %}
                             <button type="button" class="btn btn-sm sendFriendRequestButton" value="{{user.id}}">
@@ -1351,7 +1350,7 @@
 {% for user in friends %}
     {% if user in loggedInUser.friends.all and loggedInUser in user.friends.all %} 
         {% if loggedInUser.id != user.id  %} <!-- to prevent the logged in user's name displaying in the friends section -->
-            {% if user.profilePic == "" %} 
+            {% if user.profilePic.url == "" %} 
                 <!-- if a user does not have an uploaded profile pic the below code will run -->
                     <figure class="ml-4 d-inline-block">
                         <a href="/{{user.firstName}}/{{user.lastName}}/{{user.id}}" class="">
@@ -1373,7 +1372,7 @@
                     <div class="d-inline-block">
                         <figure class="ml-4">
                             <a href="/{{user.firstName}}/{{user.lastName}}/{{user.id}}">
-                                <img src="{{user.profilePic}}" id="" class="friendsIconProfPic" alt="A thumbnail photo of the user">
+                                <img src="{{user.profilePic.url}}" id="" class="friendsIconProfPic" alt="A thumbnail photo of the user">
                             </a>
                             <button type="button" class="btn btn-sm removeFriendRequestButton cancelNotificationButton" value="{{user.id}}">
                                 <a href="" class="removeFriendRequestButton">
@@ -1473,13 +1472,13 @@
                     </div>
                     <div class="form-group pt-2 pl-2">
                         <input type="hidden" id="userWhoReceivesPostID" name="userWhoReceivesPost" value="{{loggedInUser.id}}">
-                    {% if loggedInUser.profilePic == "" %}
+                    {% if loggedInUser.profilePic.url == "" %}
                         <a href="/home">
                             <img src="{% static 'Images/blankAvatar.png' %}" id="" class="postMessageProfPic mt-1" alt="A thumbnail photo of the user">
                         </a>
                     {% else %}
                         <a href="/home">
-                            <img src="{{loggedInUser.profilePic}}" class="postMessageProfPic" alt="" class="d-inline-block">
+                            <img src="{{loggedInUser.profilePic.url}}" class="postMessageProfPic" alt="" class="d-inline-block">
                         </a>
                     {% endif %}
                         <div class="d-inline-block mt-2 pl-2">
@@ -1507,24 +1506,24 @@
                                         <div class="messageContentsDiv">
                                             {% if message.user.id == loggedInUser.id %}
                                                 <a href="/home" class="">
-                                                {% if message.user.profilePic == "" %}
+                                                {% if message.user.profilePic.url == "" %}
                                                     <img src="{% static 'Images/blankAvatar.png' %}" class="postMessageProfPic mt-2" alt="A thumbnail photo of the user">
                                                 {% else %}
-                                                    <img src="{{message.user.profilePic}}" class="postMessageProfPic" alt="">
+                                                    <img src="{{message.user.profilePic.url}}" class="postMessageProfPic" alt="">
                                                 {% endif %}
                                                     {{message.user.firstName}} {{message.user.lastName}}
                                                 </a>
                                             {% else %}
                                                 <a href="/{{message.user.firstName}}/{{message.user.lastName}}/{{message.user.id}}">
-                                                {% if message.user.profilePic == "" %}
+                                                {% if message.user.profilePic.url == "" %}
                                                     <img src="{% static 'Images/blankAvatar.png' %}" class="postMessageProfPic mt-2" alt="A thumbnail photo of the user">
                                                 {% else %}
-                                                    <img src="{{message.user.profilePic}}" class="postMessageProfPic" alt="">
+                                                    <img src="{{message.user.profilePic.url}}" class="postMessageProfPic" alt="">
                                                 {% endif %}
                                                     {{message.user.firstName}} {{message.user.lastName}}
                                                 </a>
                                             {% endif %}
-                                            {% if message.user.profilePic == "" %}
+                                            {% if message.user.profilePic.url == "" %}
                                                 <small class="d-block ml-4 text-secondary messageCreatedAt">{{message.createdAt}}</small>
                                             {% else %}
                                                 <small class="d-block ml-4 text-secondary messageCreatedAtWithThumbnail">{{message.createdAt}}</small>
@@ -1667,13 +1666,13 @@
         <!-- the above code contains the logic for displaying specific words dependent on who and how many likes-->
                             {% for comment in message.comments.all %}
                                 <div class="commentSectionDiv row mt-2 ml-3">
-                                {% if comment.user.profilePic == "" %} 
+                                {% if comment.user.profilePic.url == "" %} 
                                     <a href="/{{comment.user.firstName}}/{{comment.user.lastName}}/{{comment.user.id}}">
                                         <img src="{% static 'Images/blankAvatar.png' %}" id="" class="commentIconProfPic " alt="A thumbnail photo of the user">
                                     </a>
                                 {% else %}
                                     <a href="/{{comment.user.firstName}}/{{comment.user.lastName}}/{{comment.user.id}}">
-                                        <img src="{{comment.user.profilePic}}" id="" alt="" class="d-inline commentIconProfPic ml-1 mr-1">
+                                        <img src="{{comment.user.profilePic.url}}" id="" alt="" class="d-inline commentIconProfPic ml-1 mr-1">
                                     </a>
                                 {% endif %}
                                     <div class="badge badge-pill badge-light commentSection pl-2 pr-5">
@@ -1716,7 +1715,7 @@
                                         </a>
                                     {% else %}
                                         <a href="/home">
-                                            <img src="{{loggedInUser.profilePic}}" id="" alt="" class="d-inline mt-3 ml-3 commentIconProfPic">
+                                            <img src="{{loggedInUser.profilePic.url}}" id="" alt="" class="d-inline mt-3 ml-3 commentIconProfPic">
                                         </a>
                                     {% endif %}
                                         <textarea class="form-control form-control-sm col-sm-8 mt-3 rounded-pill bg-light text-black d-inline comment commentTextAreaOnForm" value="{{loggedInUser.id}}" rows="1" data-index="{{message.id}}" id="userCommentID" name="userComment"></textarea>
@@ -1749,9 +1748,9 @@
                     <td>
                         <div class="row">
                             <div class="col-sm mb-1">
-                            {% if not user.profilePic == "" %} 
+                            {% if not user.profilePic.url == "" %} 
                                 <a href="/{{user.firstName}}/{{user.lastName}}/{{user.id}}" class="d-inline-block">
-                                    <img src='{{ user.profilePic }}' class="d-inline thumbnailForEachFriend"> 
+                                    <img src='{{ user.profilePic.url }}' class="d-inline thumbnailForEachFriend"> 
                                 </a>
                             {% else %}
                                 <a href="/{{user.firstName}}/{{user.lastName}}/{{user.id}}" class="d-inline-block">
@@ -1837,9 +1836,9 @@
                     <td>
                         <div class="row">
                             <div class="col-sm mb-1">
-                            {% if not friend.profilePic == "" %} 
+                            {% if not friend.profilePic.url == "" %} 
                                 <a href="/{{friend.firstName}}/{{friend.lastName}}/{{friend.id}}" class="d-inline-block">
-                                    <img src='{{ friend.profilePic }}' class="d-inline thumbnailForEachFriend"> 
+                                    <img src='{{ friend.profilePic.url }}' class="d-inline thumbnailForEachFriend"> 
                                 </a>
                             {% else %}
                                 <a href="/{{friend.firstName}}/{{friend.lastName}}/{{friend.id}}" class="d-inline-block">
