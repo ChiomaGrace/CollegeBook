@@ -249,7 +249,7 @@
     .likeUnlikeCommentButtonStylingOnWall{
         border: none;
         height: 20px;
-        /* padding-top: -2px; */
+        padding-top: -2px;
         margin-top: -30px;
     }
 
@@ -2130,7 +2130,7 @@
         font-size: 14px;
         margin-left: -48px;
         padding-left: 28px;
-        padding-right: 28px;
+        padding-right: 28px;        
     }
 
     .likeUnlikeCommentButtonStylingOnWall{
@@ -2164,9 +2164,10 @@
         position: relative;
     }
 
-    /* .messageTextOnWall{
-        top: -60px;
-    } */
+    .messageTextOnWall{
+        /* top: -60px; */
+        /* color: red; */
+    }
 
     .middleWallColumn{
         overflow-y: scroll; 
@@ -2727,7 +2728,8 @@
 
     #profilePicContainer{
         margin-left: 70px;
-        margin-top: -430px;
+        /* margin-top: -430px; */
+        margin-top: -230px;
     }
 
     #regForm{ /*The actual form*/

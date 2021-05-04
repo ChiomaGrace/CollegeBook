@@ -2728,7 +2728,8 @@
 
     #profilePicContainer{
         margin-left: 70px;
-        margin-top: -430px;
+        /* margin-top: -430px; */
+        margin-top: -230px;
     }
 
     #regForm{ /*The actual form*/
