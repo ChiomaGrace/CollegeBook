@@ -32,7 +32,9 @@
         //The above code is the list of variables involved in the scripted code. 
 
         //The below code are function calls that run as soon as the window is loaded.
-            showThumbnail(); // a function that determines whether or not a photo has been uploaded by a user and then acts accordingly
+            if (thumbnail != undefined) { //Added this line for deployment stage. When a user initially logs in, a photo/thumbnail is not there(undefined)
+                showThumbnail(); // a function that determines whether or not a photo has been uploaded by a user and then acts accordingly
+            }
 
             enableDisableMessageButton(); // a function that enables and disables the post a message button
 
@@ -227,18 +229,18 @@
         //The below code checks if there is an image or not, and changes the border of the profile pic container accordingly.
             function showThumbnail(e) {
                 $('#navIconProfPic').hide()
-                console.log("Show Thumbnail function")
-                console.log("This is the thumbnail uploaded:",thumbnail)
-                console.log("Length", thumbnail.length)
-                if (thumbnail.length > 0) {
-                    console.log("There is an image")
-                    $('#profilePicContainer').css("border", "3px solid white") //This changes the border of the thumbnail when a photo is successfully uploaded
-                    console.log("End of if statement")
-                }
-                else{
-                    console.log("There is not an image.")
-                    console.log("End of if statement")
-                }
+                    console.log("Show Thumbnail function")
+                    // console.log("This is the thumbnail uploaded:",thumbnail)
+                    // console.log("Length", thumbnail.length)                   
+                    if (thumbnail.length > 0) {
+                        console.log("There is an image")
+                        $('#profilePicContainer').css("border", "3px solid white") //This changes the border of the thumbnail when a photo is successfully uploaded
+                        console.log("End of if statement")
+                    }
+                    else{
+                        console.log("There is not an image.")
+                        console.log("End of if statement")
+                    }
             };
         //The above code checks if there is an image or not, and changes the border of the profile pic container accordingly.
 
@@ -1008,7 +1010,7 @@
                 <li class="nav-item">
                     <a id="linkForNavIconProfPic" href="/home" class="d-inline ">
                     <!-- This if statement only displays the image src when an image is uploaded -->
-                    {% if loggedInUser.profilePic.url == "" %} 
+                    {% if loggedInUser.profilePic == "" %} 
                         <img src="{% static 'Images/blankAvatar.png' %}" id="navIconProfPic" class="d-inline-block" alt="A thumbnail photo of the user"><p class="d-inline-block nameInNotification mb-0 mt-1">{{notif.friendRequest.firstName}} {{notif.friendRequest.lastName}}</p> 
                     {% else %}
                         <img src='{{ loggedInUser.profilePic.url }}' id="navIconProfPic" class="d-inline notifIconProfPic"> 
@@ -1036,7 +1038,7 @@
         {% for notif in notifications %} <!-- This loops through all the notifications -->
             {% if notif.user == loggedInUser %} <!-- This provides the notifications only for the logged in user-->
                 {% if notif.friendRequest%}
-                        {% if notif.friendRequest.profilePic.url == "" %}
+                        {% if notif.friendRequest.profilePic == "" %}
                             <div class="dropdown-item pb-0 pt-0">
                                 <div class="specificNotification friendRequestNotification" data-index="{{notif.friendRequest.id}}">
                                     <a href="/{{notif.friendRequest.firstName}}/{{notif.friendRequest.lastName}}/{{notif.friendRequest.id}}" class="d-inline-block">
@@ -1074,7 +1076,7 @@
                 {% endif %}
                 {% if notif.message %} <!-- prevents the notification appearing when it is null -->
                     {% if loggedInUser != notif.message.user %} <!-- This excludes notifications every time the logged in user posts on something  -->
-                        {% if notif.message.user.profilePic.url == ""%}
+                        {% if notif.message.user.profilePic == ""%}
                             <div class="dropdown-item pt-0">
                                 <div class="specificNotification newPostNotification pt-3" data-index="{{notif.message.id}}"> 
                                     <a href="/{{notif.message.user.firstName}}/{{notif.message.user.lastName}}/{{notif.message.user.id}}" class="d-inline-block mb-0">
@@ -1101,7 +1103,7 @@
                 {% endif %}
                 {% if notif.comment %}
                     {% if loggedInUser != notif.comment.user %} <!-- This excludes  notifications every time the logged in user comments on something  -->
-                        {% if notif.comment.user.profilePic.url == ""%}
+                        {% if notif.comment.user.profilePic == ""%}
                             <div class="dropdown-item">
                                 <div class="specificNotification newCommentNotification pt-3" data-index="{{notif.comment.id}}">
                                     <a href="/{{notif.comment.user.firstName}}/{{notif.comment.user.lastName}}/{{notif.comment.user.id}}" class="d-inline-block mb-0">
@@ -1184,7 +1186,9 @@
                 <form enctype="multipart/form-data" method="POST" action="" class="mb-0 dropZone" id="profilePicForm">
                     {% csrf_token %}
                     <label for="profilePicInputID" id="profilePicContainer" class=""> <!-- Important to use "label for" attribute to get the feature of clicking on the circle to bring up the file explorer. ID needs to match the ID of the input below  -->
-                        <img src='{{ loggedInUser.profilePic.url }}' id="thumbnail" class="uploadedPhotoProperties"> <!-- Need .url to display in deployment/heorku A read-only property to access the file’s relative URL by calling the url() method of the underlying Storage class. -->
+                    {% if loggedInUser.profilePic != "" %}
+                        <img src='{{ loggedInUser.profilePic.url }}' id="thumbnail" class="uploadedPhotoProperties"> 
+                    {% endif %}
                         <input type="file" id="profilePicInputID" class="" name="userProfilePic" accept="image/png, image/jpeg" style="display: none;" > <!-- The style hides the basic format "Choose file input and allows the circular border to represent the "file selector" instead" -->
                         <p class="mt-4">Click here to upload or <b>drag-and-drop</b> <br> an image...</br></p>
                     </label>
@@ -1195,7 +1199,7 @@
                 <form class="" action="userDeletesProfilePic" method="post">
                     {% csrf_token %}
                 <!-- This if statement only displays the image src when an image is uploaded -->
-                {% if loggedInUser.profilePic.url == "" %}
+                {% if loggedInUser.profilePic == "" %}
                     <button class="btn btn-sm" id="clearImage">X</button> <!--The X button removes the preview of the photo via ajax-->
                 {% else %}
                     <button class="btn btn-sm clearImage" type="submit">X</button> <!--This X button removes the photo from the database-->
@@ -1291,7 +1295,7 @@
 {% for user in allUsers %}
     {% if not user in loggedInUser.friends.all %}  <!-- this allows the logged in user to still remove the pending friend request if necessary -->
         {% if loggedInUser.id != user.id  %} <!-- to prevent the logged in user's name displaying in the friends section -->
-            {% if user.profilePic.url == "" %} 
+            {% if user.profilePic == "" %} 
                 <!-- if a user does not have an uploaded profile pic the below code will run -->
                     <figure class="ml-4 d-inline-block">
                         <a href="/{{user.firstName}}/{{user.lastName}}/{{user.id}}" class="">
@@ -1350,7 +1354,7 @@
 {% for user in friends %}
     {% if user in loggedInUser.friends.all and loggedInUser in user.friends.all %} 
         {% if loggedInUser.id != user.id  %} <!-- to prevent the logged in user's name displaying in the friends section -->
-            {% if user.profilePic.url == "" %} 
+            {% if user.profilePic == "" %} 
                 <!-- if a user does not have an uploaded profile pic the below code will run -->
                     <figure class="ml-4 d-inline-block">
                         <a href="/{{user.firstName}}/{{user.lastName}}/{{user.id}}" class="">
@@ -1472,7 +1476,7 @@
                     </div>
                     <div class="form-group pt-2 pl-2">
                         <input type="hidden" id="userWhoReceivesPostID" name="userWhoReceivesPost" value="{{loggedInUser.id}}">
-                    {% if loggedInUser.profilePic.url == "" %}
+                    {% if loggedInUser.profilePic == "" %}
                         <a href="/home">
                             <img src="{% static 'Images/blankAvatar.png' %}" id="" class="postMessageProfPic mt-1" alt="A thumbnail photo of the user">
                         </a>
@@ -1506,7 +1510,7 @@
                                         <div class="messageContentsDiv">
                                             {% if message.user.id == loggedInUser.id %}
                                                 <a href="/home" class="">
-                                                {% if message.user.profilePic.url == "" %}
+                                                {% if message.user.profilePic == "" %}
                                                     <img src="{% static 'Images/blankAvatar.png' %}" class="postMessageProfPic mt-2" alt="A thumbnail photo of the user">
                                                 {% else %}
                                                     <img src="{{message.user.profilePic.url}}" class="postMessageProfPic" alt="">
@@ -1515,7 +1519,7 @@
                                                 </a>
                                             {% else %}
                                                 <a href="/{{message.user.firstName}}/{{message.user.lastName}}/{{message.user.id}}">
-                                                {% if message.user.profilePic.url == "" %}
+                                                {% if message.user.profilePic == "" %}
                                                     <img src="{% static 'Images/blankAvatar.png' %}" class="postMessageProfPic mt-2" alt="A thumbnail photo of the user">
                                                 {% else %}
                                                     <img src="{{message.user.profilePic.url}}" class="postMessageProfPic" alt="">
@@ -1523,7 +1527,7 @@
                                                     {{message.user.firstName}} {{message.user.lastName}}
                                                 </a>
                                             {% endif %}
-                                            {% if message.user.profilePic.url == "" %}
+                                            {% if message.user.profilePic == "" %}
                                                 <small class="d-block ml-4 text-secondary messageCreatedAt">{{message.createdAt}}</small>
                                             {% else %}
                                                 <small class="d-block ml-4 text-secondary messageCreatedAtWithThumbnail">{{message.createdAt}}</small>
@@ -1666,7 +1670,7 @@
         <!-- the above code contains the logic for displaying specific words dependent on who and how many likes-->
                             {% for comment in message.comments.all %}
                                 <div class="commentSectionDiv row mt-2 ml-3">
-                                {% if comment.user.profilePic.url == "" %} 
+                                {% if comment.user.profilePic == "" %} 
                                     <a href="/{{comment.user.firstName}}/{{comment.user.lastName}}/{{comment.user.id}}">
                                         <img src="{% static 'Images/blankAvatar.png' %}" id="" class="commentIconProfPic " alt="A thumbnail photo of the user">
                                     </a>
@@ -1748,7 +1752,7 @@
                     <td>
                         <div class="row">
                             <div class="col-sm mb-1">
-                            {% if not user.profilePic.url == "" %} 
+                            {% if not user.profilePic == "" %} 
                                 <a href="/{{user.firstName}}/{{user.lastName}}/{{user.id}}" class="d-inline-block">
                                     <img src='{{ user.profilePic.url }}' class="d-inline thumbnailForEachFriend"> 
                                 </a>
@@ -1836,7 +1840,7 @@
                     <td>
                         <div class="row">
                             <div class="col-sm mb-1">
-                            {% if not friend.profilePic.url == "" %} 
+                            {% if not friend.profilePic == "" %} 
                                 <a href="/{{friend.firstName}}/{{friend.lastName}}/{{friend.id}}" class="d-inline-block">
                                     <img src='{{ friend.profilePic.url }}' class="d-inline thumbnailForEachFriend"> 
                                 </a>

@@ -334,7 +334,7 @@
                 <li class="nav-item">
                     <a id="linkForNavIconProfPic" href="/home" class="d-inline ">
                     <!-- This if statement only displays the image src when an image is uploaded -->
-                    {% if loggedInUser.profilePic.url == "" %} 
+                    {% if loggedInUser.profilePic == "" %} 
                         <img src="{% static 'Images/blankAvatar.png' %}" id="navIconProfPic" class="d-inline-block" alt="A thumbnail photo of the user"><p class="d-inline-block nameInNotification mb-0 mt-1">{{notif.friendRequest.firstName}} {{notif.friendRequest.lastName}}</p> 
                     {% else %}
                         <img src='{{ loggedInUser.profilePic.url }}' id="navIconProfPic" class="d-inline notifIconProfPic"> 
@@ -363,7 +363,7 @@
             {% if notif.user == loggedInUser %} <!-- This provides the notifications only for the logged in user-->
                 {% if notif.friendRequest%}
                     {% if not loggedInUser in loggedInUser.friends.all %} <!-- This code would remove the sent friend request signifying the logged in user did not accept the friend request -->
-                        {% if notif.friendRequest.profilePic.url == "" %}
+                        {% if notif.friendRequest.profilePic == "" %}
                             <div class="dropdown-item pb-0 pt-0">
                                 <div class="specificNotification friendRequestNotification" data-index="{{notif.friendRequest.id}}">
                                     <a href="/{{notif.friendRequest.firstName}}/{{notif.friendRequest.lastName}}/{{notif.friendRequest.id}}" class="d-inline-block">
@@ -402,7 +402,7 @@
                 {% endif %}
                 {% if notif.message %} <!-- prevents the notification appearing when it is null -->
                     {% if loggedInUser != notif.message.user %} <!-- This excludes notifications every time the logged in user posts on something  -->
-                        {% if notif.message.user.profilePic.url == ""%}
+                        {% if notif.message.user.profilePic == ""%}
                             <div class="dropdown-item pt-0">
                                 <div class="specificNotification newPostNotification pt-3" data-index="{{notif.message.id}}"> 
                                     <a href="/{{notif.message.user.firstName}}/{{notif.message.user.lastName}}/{{notif.message.user.id}}" class="d-inline-block mb-0">
@@ -429,7 +429,7 @@
                 {% endif %}
                 {% if notif.comment %}
                     {% if loggedInUser != notif.comment.user %} <!-- This excludes  notifications every time the logged in user comments on something  -->
-                        {% if notif.comment.user.profilePic.url == ""%}
+                        {% if notif.comment.user.profilePic == ""%}
                             <div class="dropdown-item">
                                 <div class="specificNotification newCommentNotification pt-3" data-index="{{notif.comment.id}}">
                                     <a href="/{{notif.comment.user.firstName}}/{{notif.comment.user.lastName}}/{{notif.comment.user.id}}" class="d-inline-block mb-0">
@@ -508,7 +508,7 @@
                         <td>
                             <div class="row">
                                 <div class="col-sm mb-1">
-                                {% if not user.profilePic.url == "" %} 
+                                {% if not user.profilePic == "" %} 
                                     <a href="/{{user.firstName}}/{{user.lastName}}/{{user.id}}" class="d-inline-block">
                                         <img src='{{ user.profilePic.url }}' class="d-inline thumbnailForEachFriend"> 
                                     </a>
