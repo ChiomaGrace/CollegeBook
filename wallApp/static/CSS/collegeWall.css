@@ -2728,8 +2728,8 @@
 
     #profilePicContainer{
         margin-left: 70px;
-        /* margin-top: -430px; */
-        margin-top: -230px;
+        /* margin-top: -430px;  */ /* This works on laptop responsibvebut not on mobile */
+        /* margin-top: -230px; */
     }
 
     #regForm{ /*The actual form*/
