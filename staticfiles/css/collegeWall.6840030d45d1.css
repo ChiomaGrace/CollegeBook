@@ -249,7 +249,7 @@
     .likeUnlikeCommentButtonStylingOnWall{
         border: none;
         height: 20px;
-        /* padding-top: -2px; */
+        padding-top: -2px;
         margin-top: -30px;
     }
 
@@ -627,7 +627,7 @@
     }
 
     .ui-button .ui-icon{ /*The css for the X on the error dialog box for uploading an image*/
-        background-image: url(../CSS/redIcons.png);
+        background-image: url("../CSS/redIcons.7213986eac23.png");
     }
 
     .ui-dialog .ui-dialog-titlebar{ /*The css for the top section on the error dialog box for uploading an image*/
@@ -646,7 +646,7 @@
         margin:0 7px 20px 0;
         /* background-image: url(http://download.jqueryui.com/themeroller/images/ui-icons_ff0000_256x240.png
         ); */ /*another way to change the color of the icon above w this link but better to save the file locally*/
-        background-image: url(../CSS/redIcons.png);
+        background-image: url("../CSS/redIcons.7213986eac23.png");
     }
 
     .ui-widget.ui-widget-content{  /*The div of the entire error dialog box for an uploaded image */
@@ -2130,7 +2130,7 @@
         font-size: 14px;
         margin-left: -48px;
         padding-left: 28px;
-        padding-right: 28px;
+        padding-right: 28px;        
     }
 
     .likeUnlikeCommentButtonStylingOnWall{
@@ -2164,9 +2164,10 @@
         position: relative;
     }
 
-    /* .messageTextOnWall{
-        top: -60px;
-    } */
+    .messageTextOnWall{
+        /* top: -60px; */
+        /* color: red; */
+    }
 
     .middleWallColumn{
         overflow-y: scroll; 

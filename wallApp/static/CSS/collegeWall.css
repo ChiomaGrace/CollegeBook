@@ -2164,9 +2164,10 @@
         position: relative;
     }
 
-    /* .messageTextOnWall{
-        top: -60px;
-    } */
+    .messageTextOnWall{
+        /* top: -60px; */
+        /* color: red; */
+    }
 
     .middleWallColumn{
         overflow-y: scroll; 
