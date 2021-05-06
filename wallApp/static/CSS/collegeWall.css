@@ -1325,6 +1325,7 @@
 
     .nameInPost{
         font-size: 12px;
+        top:-10px; /* Not needed/Displays normally in media queries but needed on actual tablet view */
     }
 
     #navIconProfPic{
@@ -1469,7 +1470,9 @@
 
     .userReceivesNameOnWall{
         font-size: 12px;
+        top:  - 10px; /* Not needed/Displays normally in media queries but needed on actual tablet view */
     }
+    
 
     .weatherNavIcon{
         display: none;
