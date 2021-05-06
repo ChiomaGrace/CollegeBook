@@ -50,6 +50,7 @@ DEBUG = False
 ALLOWED_HOSTS = [
     'collegebookbychi.herokuapp.com', 
     '0.0.0.0',
+    'localhost',
 ]
 
 

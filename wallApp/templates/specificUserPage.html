@@ -22,6 +22,7 @@
             var thumbnail = $('#thumbnail').attr('src'); //The id for the img src that will display the uploaded profile photo by the user
             var navIconProfPic = document.querySelector('#navIconProfPic'); //The id that contains the css style for the thumbnail in the nav bar
             var navIconProfilePicContainer = document.querySelector('#linkForNavIconProfPic'); //The id for the label within the form that is posing as a container for the input field 
+            var userProfileHeaderEditLink = document.querySelector('#userProfileHeaderEditLink'); //The id for the link that displays and hides the user profile info form
 
         //The below code are function calls that run as soon as the window is loaded.
             if (thumbnail != undefined) {//Added this line for deployment stage. When a user initially logs in, a photo/thumbnail is not there(undefined)
@@ -53,7 +54,9 @@
             };
             
         //The below code shows and hides the user profile info form depending on the amount of times the user clicks the edit link.
+        if(userProfileHeaderEditLink != null) {
             userProfileHeaderEditLink.onclick = showUserProfileHeaderForm;
+        }
             function showUserProfileHeaderForm(e) {
                 console.log("This console log means the edit button was clicked. ")
                 $('#userProfileHeaderText').hide() //hides the info that is currently being displayed so the edit form can fit properly in its designated area
@@ -63,7 +66,9 @@
                 $('#userProfileHeaderForm').show()
                 }
             }
+        if(userProfileHeaderEditLink != null) {
             userProfileHeaderCancelButton.onclick = hideUserProfileHeaderForm;
+        }
                 function hideUserProfileHeaderForm(e) {
                     if(e) {
                         e.preventDefault(); //prevents the form from only temporarily hiding
@@ -655,19 +660,19 @@
             });
         //The above code is the function to show all the users when the 'Show All Users' link is clicked
 
-        //The below code is the function to show the logged in user's friends when the 'Show All Friends' link is clicked
-            $('.friendsLink').click(function(){
-                event.preventDefault(); //prevents the dialog box (create account) from hiding again
-                console.log("This is when the 'Show All Friends' link is clicked.")
-                $( '.triDiv' ).hide()
-                $('#postAMessageForm').hide()
-                $('.listOfPostedMessages').hide()
-                $('.showAllUsers').hide()
-                $('.showFriends').show()
-            });
-        //The above code is the function to show the logged in user's friends when the 'Show All Friends' link is clicked
+    //The below code is the function to show the logged in user's friends when the 'Show All Friends' link is clicked
+        $('.friendsLink').click(function(){
+            event.preventDefault(); //prevents the dialog box (create account) from hiding again
+            console.log("This is when the 'Show All Friends' link is clicked.")
+            $( '.triDiv' ).hide()
+            $('#postAMessageForm').hide()
+            $('.listOfPostedMessages').hide()
+            $('.showAllUsers').hide()
+            $('.showFriends').show()
+        });
+    //The above code is the function to show the logged in user's friends when the 'Show All Friends' link is clicked
 
-        //The below code is the function to show the main page when the 'About' link is clicked
+    //The below code is the function to show the main page when the 'About' link is clicked
         $('.aboutLink').click(function(){
                 event.preventDefault(); //prevents from hiding again
                 console.log("This is when the About link is clicked to display the logged in user's page.")
@@ -686,7 +691,7 @@
                     $('.listOfPostedMessages').hide()
                 }
             });
-        //The above code is the function to show show the main page when the 'About' link is clicked
+    //The above code is the function to show show the main page when the 'About' link is clicked
 
         //The below code is the function to show the main page when the 'Posts' link is clicked
             $('.postsLink').click(function(){
