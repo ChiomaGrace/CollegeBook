@@ -1175,7 +1175,8 @@
 
     .carrotSymbol{
         position: relative;
-        top: 3px;
+        /* top: 3px; */ /* Looks normally on the computer media screen of the tablet but not the actual tablet */
+        top:-10px;
     }
 
     .clearImage{ /*For when the image is in the database */
