@@ -10,34 +10,43 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
+from pathlib import Path
 import os
-import cloudinary #to save uploaded images in heroku/deployment stage
-import cloudinary_storage #to save uploaded images in heroku/deployment stage
-from decouple import config #to hide/retrieve my cloud config that are below in the settings.py
+# import cloudinary #to save uploaded images in heroku/deployment stage
+# import cloudinary_storage #to save uploaded images in heroku/deployment stage
+# from decouple import config #to hide/retrieve my cloud config that are below in the settings.py
+import dj_database_url
+import environ
+
+env = environ.Env()
+
+environ.Env.read_env()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = Path(__file__).resolve().parent.parent #Use this for local
+
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 #The below code shows the error messages in deployment/heroku
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console'],
-            'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
-        },
-    },
-}
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'console': {
+#             'class': 'logging.StreamHandler',
+#         },
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['console'],
+#             'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
+#         },
+#     },
+# }
 #The above code shows the error messages in deployment/heroku
 
 # SECURITY WARNING: keep the secret key used in production secret!
@@ -48,9 +57,10 @@ SECRET_KEY = '29st2j=m_g=qpxaerv#q9j%9*e7!vo4!u79(f$6q@-6jg7a1+h'
 DEBUG = False 
 
 ALLOWED_HOSTS = [
-    'collegebookbychi.herokuapp.com', 
-    '0.0.0.0',
-    'localhost',
+    '*'
+    # 'collegebookbychi.herokuapp.com', 
+    # '0.0.0.0',
+    # 'localhost',
 ]
 
 
@@ -85,7 +95,6 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],
-        #'DIRS': [str(BASE_DIR.joinpath('templates'))], # added this line
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -103,20 +112,35 @@ WSGI_APPLICATION = 'wall.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
+# https://docs.djangoproject.com/en/3.0/ref/settings/#
 
+#The below code is the database used for deployment (Render PostgreSQL)
 DATABASES = {
-    'default': {
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        'ENGINE': 'django.db.backends.postgresql', #using in deployment
-        'NAME': 'd8ocpbri5qij5n', #using in deployment
-        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        'HOST': 'ec2-35-174-35-242.compute-1.amazonaws.com',
-        'PORT': '5432',
-        'USER': 'axqbwmzhjpfmbg',
-        'PASSWORD': 'd298c7712382e93a1c1e5f46dd02d699cc27c6612e68a5a2da32f573c077da00',
-    }
+    'default': dj_database_url.parse(env('DATABASE_URL'))
 }
+#The above code is the database used for deployment (Render PostgreSQL)
+
+#The below code is the database used for local environment
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+#The above code is the database used for local environment
+
+
+# The below code is configuring the database for heroku deployment
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'd   jango.db.backends.postgresql', #using in deployment
+#         'NAME': 'd8ocpbri5qij5n', #using in deployment
+#         'HOST': 'ec2-35-174-35-242.compute-1.amazonaws.com',
+#         'PORT': '5432',
+#         'USER': 'axqbwmzhjpfmbg',
+#         'PASSWORD': 'd298c7712382e93a1c1e5f46dd02d699cc27c6612e68a5a2da32f573c077da00',
+#     }
+# }
 # The above code is from here which is from heroku's settings config vars: postgres://axqbwmzhjpfmbg:d298c7712382e93a1c1e5f46dd02d699cc27c6612e68a5a2da32f573c077da00@ec2-35-174-35-242.compute-1.amazonaws.com:5432/d8ocpbri5qij5n
 
 # Password validation
@@ -184,3 +208,4 @@ MEDIA_URL= "/media/"  #is the reference URL for browser to access the files over
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage' #This enables the app to now serve static assets directly from Gunicorn in production
 
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
