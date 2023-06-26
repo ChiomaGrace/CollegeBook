@@ -195,6 +195,8 @@ class MessageManager(models.Manager):
         errors = {}
         # print('This is the postingAMessageValidator from models.')
         #The below line of code makes sure a message is submitted. 
+        if len(postData['areFriends']) == 0:
+            errors['friendshipRequired'] = "You're not friends, yet! Send or accept a friend request."
         if len(postData['userMessage']) == 0:
             errors['messageRequired'] = "Oops, you forgot to write something!"
         print("*"*50)
@@ -249,6 +251,7 @@ class Message(models.Model):
     user = models.ForeignKey(User, related_name = "messages", on_delete=models.CASCADE) #the user who makes the post
     userReceivesPost = models.ForeignKey(User, related_name = "postRecipient", on_delete=models.CASCADE, null=True,) #the user who receives the post
     userLikes = models.ManyToManyField(User, related_name = 'theLiker') # the user who likes the post
+    arefriends = models.BooleanField(default = False) # a boolean to verify the friendship
     likeMessageCount = models.IntegerField(default = 0)
     likeMessageCountMinusDisplayNames = models.IntegerField(default = 0)
     notification = models.IntegerField(default = "0") # 0 signifying the user has not been notified

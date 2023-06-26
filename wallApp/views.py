@@ -9,6 +9,8 @@ from django.db.models import Q #imported in order to filter multiple queries at 
 # import operator #imported in order to eliminate spaces in the search bar
 # from django.db.models.functions import Lower, Replace
 import json
+# from tkinter import* #imported in order to use dialog boxes
+# from tkinter import messagebox #imported to use messages on dialog boxes
 
 
 def regAndLoginPage(request):
@@ -67,10 +69,12 @@ def wall(request):
     loggedInUser.friends.add(loggedInUser)
     loggedInUsersFriends = loggedInUser.friends.all()
     # print("These are the logged in user's friends:", loggedInUsersFriends)
-    wallOfLoggedInUser = Message.objects.filter(userReceivesPost = loggedInUser).order_by('createdAt')
+    wallOfLoggedInUser = Message.objects.filter(userReceivesPost = loggedInUser).order_by('-createdAt')
     allMessages = Message.objects.all().order_by('-createdAt')
-    print("These are the messages on the logged in user's wall:", allMessages)
+    # print("These are the messages on the logged in user's wall:", allMessages)
     # print("These are all the users the logged in user sent friend requests to:", loggedInUser.friends.all())
+    notifications = Notification.objects.filter(user=loggedInUser)
+    # print("These are the logged in user's notifications:", notifications)
     print("THIS IS THE LAST PRINT STATEMENT IN THE WALL FUNCTION")
     context = {
         'loggedInUser': loggedInUser,
@@ -93,13 +97,16 @@ def loggedInUsersPage(request, messageId=0):
     loggedInUser = User.objects.get(id=request.session['loginInfo'])
     # print(loggedInUser)
     if loggedInUser.notifications < 0:
-        print("The notification counter is negative and needs to be reset to 0.")
+        # print("The notification counter is negative and needs to be reset to 0.")
         resetNotificationCounter = User.objects.filter(id=request.session['loginInfo']).update(notifications=0) 
+    # if not loggedInUser.notifications:
+    #     resetNotificationCounter = User.objects.filter(id=request.session['loginInfo']).update(notifications=0) 
     # print("This prints all the messages posted on the wall (by the user and by others) of the logged in user and orders them from latest post created.")
     wallOfLoggedInUser = Message.objects.filter(userReceivesPost = loggedInUser).order_by('-createdAt')
     # print(wallOfLoggedInUser)
-    commentsOnWall = Notification.objects.filter(user = loggedInUser)
-    # print("These are the comments on the logged in user's wall:", commentsOnWall)
+    loggedInUsersNotifs = Notification.objects.filter(user=loggedInUser)
+    # print("This prints the notifications of the logged in user:", loggedInUsersNotifs)
+    # print("Comment notifs:", loggedInUsersNotifs.commenter)
     # how to do a multi query #wallOfLoggedInUser = Message.objects.filter(Q(user = (loggedInUser)) | Q(userReceivesPost = (loggedInUser))).order_by('-createdAt')
     if messageId: #if these lines of code run it means a like occurred
         # print("This prints the id of the message that was just liked and passed via params from the userLikes function.")
@@ -117,16 +124,17 @@ def loggedInUsersPage(request, messageId=0):
     # print("This prints all the users that have an account except the logged in user.")
     allUsers = User.objects.exclude(id=request.session['loginInfo']).order_by('?') #filter will be randomized
     # print(allUsers)
-    friends = loggedInUser.friends.all().order_by('?')
-    # print("These are all the friends of the logged in user:", friends)
-    friendCount = friends.count() - 1
-    print("This is the friend count:", friendCount)
+    friends = loggedInUser.friends.all().order_by('?').exclude(id = loggedInUser.id)
+    print("These are all the friends of the logged in user:", friends)
+    friendCount = friends.count() 
+    # print("This is the friend count:", friendCount)
     # print("This is the notification count", Notification.objects.filter(user=loggedInUser).count())
-    # print("*"*50)
+    loggedInUsersNotifs = Notification.objects.filter(user=loggedInUser)
+    print("These are the notifications:", loggedInUsersNotifs)
+    print("*"*50)
     context = {
         'loggedInUser': User.objects.get(id=request.session['loginInfo']),
         'wallOfLoggedInUser': wallOfLoggedInUser,
-        'commentsOnWall': commentsOnWall,
         'allUsers': allUsers,
         'friends': friends,
         'friendCount': friendCount,
@@ -237,7 +245,7 @@ def processProfileIntro(request):
     return redirect("/home")
 
 def processMessage(request, userFirstName, userLastName, userId):
-    # print("*"*50)
+    print("*"*50)
     print("THIS FUNCTION PROCESSES THE FORM OF POSTING A MESSAGE.")
     postAMessageErrors = Message.objects.messageValidator(request.POST) #linking the messageValidator instance in the model that's containing the errors
     # print(postAMessageErrors)
@@ -246,24 +254,18 @@ def processMessage(request, userFirstName, userLastName, userId):
             messages.error(request,value)
         return JsonResponse({"errors": postAMessageErrors}, status=400)
     else:
-        #print("This prints the messaged created by the logged in user.")
+        print("This prints the messaged created by the logged in user.")
         userMessage = request.POST['userMessage']
         print(userMessage)
-        #print("This prints the logged in user.")
+        areFriends = request.POST['areFriends']
+        print("This prints the are Friends boolean:", areFriends )
+        print("This prints the logged in user.")
         loggedInUser = User.objects.get(id=request.session['loginInfo'])
-        # print(loggedInUser)
+        print(loggedInUser)
         recipientOfPost = request.POST['userWhoReceivesPost'] # is a number but as a string so need to convert before comparison   
         print("The id of the user receiving the post:", recipientOfPost)
         recipientOfPostObject = User.objects.get(id = recipientOfPost)
-        # print("The id of the loggedInUser:", loggedInUser.id)
         # print("These are the friends of the user receiving the posts:", recipientOfPostObject.friends.all())
-        # print("These are the logged in user's friends:", loggedInUser.friends.all())
-        # if recipientOfPostObject in loggedInUser.friends.all() and loggedInUser in recipientOfPostObject.friends.all():
-        #     print("This means there are friends.")
-        # if recipientOfPostObject not in loggedInUser.friends.all() and loggedInUser in recipientOfPostObject.friends.all():
-        #     print("This means the friend request is still pending/hasn't been accepted or declined yet.")
-        # if recipientOfPostObject not in loggedInUser.friends.all() and loggedInUser not in recipientOfPostObject.friends.all():
-        #     print("You're not friends! Send friend request")
         if loggedInUser.id == int(recipientOfPost): #this means the logged in user is writing on their own wall
             #this creates the message and saves it to the database
             submittedMessageByUser = Message.objects.create(message = userMessage, user = loggedInUser, userReceivesPost_id = recipientOfPost)
@@ -272,14 +274,23 @@ def processMessage(request, userFirstName, userLastName, userId):
             print("THIS IS THE LAST PRINT STATEMENT IN THE PROCESS POSTING A MESSAGE ROUTE.")    
             return redirect("/home")
         else: #this means the logged in user is writing a post to a different user
-            #this creates the message and saves it to the database
-            submittedMessageByUser = Message.objects.create(message = userMessage, user = loggedInUser, userReceivesPost_id = recipientOfPost)
-            userReceivesNewPost = User.objects.get(id = recipientOfPost)
-            notifyUser = Notification.objects.create(user = userReceivesNewPost, message = submittedMessageByUser) #This creates a notification for the user receiving the posted message
-            userReceivesNewPost.notifications += 1 #a counter for all the notifications (posted messages, comments, and friend requests)
-            userReceivesNewPost.save()
-            # print("*"*50)
-            print("THIS IS THE LAST PRINT STATEMENT IN THE PROCESS MESSAGE ROUTE.")    
+            if recipientOfPostObject in loggedInUser.friends.all() and loggedInUser in recipientOfPostObject.friends.all():
+                print("This means they are friends.")
+                submittedMessageByUser = Message.objects.create(message = userMessage, user = loggedInUser, userReceivesPost_id = recipientOfPost) #this creates the message and saves it to the database
+                messageObject = Message.objects.get(id=submittedMessageByUser.id) #This can be retrieved now because the code line above created the message instance
+                print("This is the message object:", messageObject)
+                confirmFriendshipOfRecipientOfPost = Message.objects.filter(id=messageObject.id).update(arefriends=True)
+                print("This is the message field updated to true to confirm the friendship:", confirmFriendshipOfRecipientOfPost)
+                userReceivesNewPost = User.objects.get(id = recipientOfPost)
+                notifyUser = Notification.objects.create(user = userReceivesNewPost, message = submittedMessageByUser) #This creates a notification for the user receiving the posted message
+                userReceivesNewPost.notifications += 1 #a counter for all the notifications (posted messages, comments, and friend requests)
+                userReceivesNewPost.save()
+            if recipientOfPostObject not in loggedInUser.friends.all() and loggedInUser not in recipientOfPostObject.friends.all():
+                print("You're not friends! Send friend request")
+            if recipientOfPostObject not in loggedInUser.friends.all() and loggedInUser in recipientOfPostObject.friends.all():
+                print("This means the friend request is still pending/hasn't been accepted or declined yet.")
+        print("*"*50)
+        print("THIS IS THE LAST PRINT STATEMENT IN THE PROCESS MESSAGE ROUTE.")    
         return redirect(reverse('specificUsersPage', args=(userFirstName, userLastName, userId,))) #using the name of the url to redirect and passing the variables/params to the form rendering the template
 
 def processMessageOnWall(request):
@@ -349,30 +360,30 @@ def processComment(request, userFirstName, userLastName, userId):
         return JsonResponse({"errors": postACommentErrors}, status=400)
     else:
         print("THIS FUNCTION PROCESSES THE FORM FOR POSTING A COMMENT.")
-        # print("*"* 50)
-        # print("This is the comment left by the logged in user.")
+        print("*"* 50)
+        print("This is the comment left by the logged in user.")
         comment = request.POST['userComment']
         # print("This is the logged in user's comment:", comment)
-        # print("This is the post id where the comment is made.")
+        print("This is the post id where the comment is made.")
         messageSelectedForComment = request.POST['postLocationForComment']
         # print(messageSelectedForComment)
-        # print("This is the user that made the comment.")
-        user = User.objects.get(id=request.session['loginInfo'])
-        # print(user)
-        # print("This prints the id of the specific user who received the comment.")
+        print("This is the user that made the comment.")
+        loggedInUser = User.objects.get(id=request.session['loginInfo'])
+        print(loggedInUser)
+        print("This prints the id of the specific user who received the comment.")
         userReceivesComment = request.POST['userReceivesComment']
         print("This is the user receiving the comment:", userReceivesComment)
         recipientOfComment = User.objects.get(id= userReceivesComment)
         #Now that I have the post that receives the comment(messageSelectedForComment), and the user who receives the comment(userReceivesComment), I can use said variables for a query to obtain its' instances.
         #To do that I need to get the message object via id to use for the foreign key/one to many relationship
         theSpecificPost = Message.objects.get(id = messageSelectedForComment)
-        if user.id == recipientOfComment.id: #This means the user is commenting on their own page and should be directed home
-            commentByUser = Comment.objects.create(comment = comment, message = theSpecificPost, user = user, userReceivesComment = recipientOfComment)
-            notifyUser = Notification.objects.create(user = user, comment = commentByUser) #This creates a notification for the user receiving the posted message
+        if loggedInUser.id == recipientOfComment.id: #This means the user is commenting on their own page and should be directed home
+            print("This print statement means the user is commenting on their own page and should be redirected home.")
+            commentByUser = Comment.objects.create(comment = comment, message = theSpecificPost, user = loggedInUser, userReceivesComment = recipientOfComment)
             return redirect("/home")
         else: #This means the user is commenting on someone else's page and should be directed their
-            commentByUser = Comment.objects.create(comment = comment, message = theSpecificPost, user = user, userReceivesComment = recipientOfComment)
-            notifyUser = Notification.objects.create(user = recipientOfComment, comment = commentByUser) #This creates a notification for the user receiving the posted message
+            commentByUser = Comment.objects.create(comment = comment, message = theSpecificPost, user = loggedInUser, userReceivesComment = recipientOfComment)
+            notifyUser = Notification.objects.create(user = recipientOfComment, comment = commentByUser, commenter = loggedInUser)  #This creates a notification for the user receiving the posted message
             print("This is the user that needs to be notified of the comment that was made on their page:", recipientOfComment)
             recipientOfComment.notifications += 1
             recipientOfComment.save()
@@ -390,24 +401,21 @@ def processCommentOnWall(request):
     else:
         print("THIS FUNCTION PROCESSES THE FORM FOR POSTING A COMMENT ON THE WALL.")
         # print("*"* 50)
-        # print("This is the comment left by the logged in user.")
+        loggedInUser = User.objects.get(id=request.session['loginInfo'])
         comment = request.POST['userComment']
-        # print("This is the logged in user's comment:", comment)
-        # print("This is the post id where the comment is made.")
+        print("This is the logged in user's comment:", comment)
         messageSelectedForComment = request.POST['postLocationForComment']
-        # print(messageSelectedForComment)
-        # print("This is the user that made the comment.")
-        user = User.objects.get(id=request.session['loginInfo'])
-        # print(user)
-        # print("This prints the id of the specific user who received the comment.")
-        userReceivesComment = request.POST['userReceivesComment']
-        print("This is the user receiving the comment:", userReceivesComment)
+        print("This is the id of the post location where the comment is made.", messageSelectedForComment)
+        userReceivesComment = request.POST['userReceivesComment'] #this is the id number
         recipientOfComment = User.objects.get(id= userReceivesComment)
+        print("The person recieving the comment:", recipientOfComment)
         #Now that I have the post that receives the comment(messageSelectedForComment), and the user who receives the comment(userReceivesComment), I can use said variables for a query to obtain its' instances.
         #To do that I need to get the message object via id to use for the foreign key/one to many relationship
         theSpecificPost = Message.objects.get(id = messageSelectedForComment)
-        commentByUser = Comment.objects.create(comment = comment, message = theSpecificPost, user = user, userReceivesComment = recipientOfComment)
-        notifyUser = Notification.objects.create(user = user, comment = commentByUser) #This creates a notification for the user receiving the posted message
+        print("This is the post message object:", theSpecificPost)
+        commentByUser = Comment.objects.create(comment = comment, message = theSpecificPost, user = loggedInUser, userReceivesComment = recipientOfComment)
+        print("The user who left the comment:",loggedInUser.firstName)
+        notifyUser = Notification.objects.create(user = recipientOfComment, comment = commentByUser, commenter = loggedInUser) #This creates a notification for the user receiving the posted message
         return redirect("/wall")
 
 def deleteComment(request, userFirstName, userLastName, userId):
@@ -437,15 +445,21 @@ def deleteComment(request, userFirstName, userLastName, userId):
             print("THIS IS THE LAST PRINT STATEMENT IN THE DELETE A MESSAGE ROUTE.")    
         return redirect(reverse('specificUsersPage', args=(userFirstName, userLastName, userId,))) #using the name of the url to redirect and passing the variables/params to the form rendering the template
 
-def specificUsersPage(request, userFirstName, userLastName, userId, messageId = 0):
-    print("THIS IS THE SPECIFIC USER'S PAGE ROUTE.")
+def specificUsersPage(request, userFirstName, userLastName, userId, messageId = 0, specificUsersPageId = 0):
     # print("*"*50)
+    print("THIS IS THE SPECIFIC USER'S PAGE ROUTE.")
     loggedInUser = User.objects.get(id=request.session['loginInfo'])
+    # if not loggedInUser.notifications:  #this resets the notification counter when an empty query set occurs if a user sends and unsends a friend request, posts/deletes a post, etc
+    #     resetNotificationCounter = User.objects.filter(id=request.session['loginInfo']).update(notifications=0) 
+    print("THIS IS THE message id via url on the specific user's route:", messageId)
+    print("THIS IS THE user id via url on the specific user's route:", userId)
     specificUsersPage = User.objects.get(id=userId) #retreiving from the url
-    specificUsersFirstName = User.objects.get(firstName=userFirstName) #retreiving from the url
-    specificUsersLastName = User.objects.get(lastName=userLastName) #retreiving from the url
+    # print("This is the object of the specific user's page:", specificUsersPage)
+    # specificUsersFirstName = User.objects.get(firstName=userFirstName) #retreiving from the url
+    # specificUsersLastName = User.objects.get(lastName=userLastName) #retreiving from the url
     # print("This prints all the messages posted on a page of a specific user and orders them from latest post created.")
     specificUsersMessages = Message.objects.filter(userReceivesPost = userId).order_by('-createdAt')
+    message = "You're not friends yet! You need to be friends first"
     if messageId:
         print("THIS IS THE SPECIFIC USER'S PAGE ROUTE THAT WAS REACHED BY THE LOGGED IN USER LIKING A MESAGE ON THE SPECIFIC USER'S PAGE.")
         # print("*"*50)
@@ -455,27 +469,31 @@ def specificUsersPage(request, userFirstName, userLastName, userId, messageId = 
         # print("This prints the message object.")
         messageBeingLiked = Message.objects.get(id=messageId)
         # print(messageBeingLiked)
-        # print("This prints the amount of likes the message has.")
-        # print(messageBeingLiked.likeMessageCount)
+        print("This prints the amount of likes the message has.")
+        print(messageBeingLiked.likeMessageCount)
         if messageBeingLiked.likeMessageCount > 3:
-                likesCountMinusDisplayNames = (messageBeingLiked.likeMessageCount) - 2
-                # print("This is the like count minus the display names:", likesCountMinusDisplayNames)
+                likesCountMinusDisplayNames = (messageBeingLiked.likeMessageCount) - 3
+                print("This is the like count minus the display names:", likesCountMinusDisplayNames)
                 displayCount = Message.objects.filter(id=messageId).update(likeMessageCountMinusDisplayNames=likesCountMinusDisplayNames) 
     # print(specificUsersMessages)
     # print("This prints all the users that have an account, excluding the specific user's page")
     allUsers = User.objects.all().exclude(id=specificUsersPage.id).order_by('?')
     # print(allUsers)
     specificUsersFriends = specificUsersPage.friends.all()
+    loggedInUserFriends = loggedInUser.friends.all()
     # print("These are the friends of the specific user:", specificUsersFriends)
-    friendCount = specificUsersPage.friends.count() - 1
-    print("This is the friend count:", friendCount)
+    # print("These are the friends of the logged in user:", loggedInUserFriends)
+    friendCount = (specificUsersPage.friends.count() - int(1)) # subtracting one because the count includes the user themself
+    # print("This is the friend count minus one:", friendCount)
     # print("*"*50)
     print("THIS IS THE LAST PRINT STATEMENT OF THE SPECIFIC USER'S PAGE ROUTE.")
     context = {
         'specificUsersPage': specificUsersPage,
         'specificUsersMessages': specificUsersMessages,
+        'message' : message,
         'allUsers': allUsers,
         'specificUsersFriends': specificUsersFriends,
+        'loggedInUserFriends' : loggedInUserFriends,
         'friendCount': friendCount,
         'loggedInUser': User.objects.get(id=request.session['loginInfo']),
         'notifications': Notification.objects.all,
@@ -483,14 +501,15 @@ def specificUsersPage(request, userFirstName, userLastName, userId, messageId = 
     }
     return render(request, "specificUserPage.html", context)
 
-def userLikes(request, userFirstName='firstName', userLastName='lastName', userId=0, messageId = 0): #need to have positional arguments in order to do the reroute to the specific page
+def userLikes(request, userFirstName='firstName', userLastName='lastName', userId=0, messageId = 0, specificUsersPageId = 0): #need to have positional arguments in order to do the reroute to the specific page
     print("THIS IS THE USER LIKES ROUTE")
     print("*"*50)
-    print("THIS IS THE MESSAGE ID:",messageId)
+    print("THIS IS THE MESSAGE ID:", messageId)
+    print("THIS IS THE SPECIFICUSERSPAGE ID:", specificUsersPageId)
     print("*"*50)
-    # print("This is the specific message being liked")
+    print("This is the specific message being liked")
     messageBeingLiked = Message.objects.get(id=messageId)
-    # print(messageBeingLiked) #prints as a Message Object(#)
+    print(messageBeingLiked) #prints as a Message Object(#)
     userFirstName = messageBeingLiked.userReceivesPost.firstName # need for params to reroute
     # print(userFirstName)
     userLastName = messageBeingLiked.userReceivesPost.lastName # need for params to reroute
@@ -500,9 +519,12 @@ def userLikes(request, userFirstName='firstName', userLastName='lastName', userI
     # print("This is the user liking the message")
     userWhoLikes = User.objects.get(id=request.session['loginInfo'])
     # print(userWhoLikes) # prints as a User Object(#)
-    # print("The id of the user giving the like", userWhoLikes.id)
-    # print("The id of the user receiving the like", messageBeingLiked.userReceivesPost.id)
     # print("The id of the users who have liked messages:", messageBeingLiked.userLikes.all())
+    print("The id of the user giving the like", userWhoLikes.id)
+    print("The id of the user receiving the like", messageBeingLiked.userReceivesPost.id)
+    if specificUsersPageId:
+        currentPageLocation = User.objects.get(id=specificUsersPageId)
+        print("The id of the user whose page is currently being viewed:", currentPageLocation)
     if userWhoLikes in messageBeingLiked.userLikes.all():
         print("You've already liked the message!")
         if userWhoLikes.id != messageBeingLiked.userReceivesPost.id: #if this line of code runs it means the repetitive like attempt occurred on the specific user's page
@@ -511,12 +533,12 @@ def userLikes(request, userFirstName='firstName', userLastName='lastName', userI
             return redirect(reverse('home', args=(messageId,))) #using the name of the url to redirect and passing the variables/params to the form rendering the template
     else:
         if userWhoLikes.id != messageBeingLiked.userReceivesPost.id: #if this line of code runs it means the like occurred on the specific user's page
-                messageBeingLiked.userLikes.add(userWhoLikes) #This creates the like - userLikes is the instance name in the Message model holding the many to many relationship
-                messageBeingLiked.likeMessageCount += 1
-                messageBeingLiked.save()
-                print("THIS IS THE LAST PRINT STATEMENT OF THE USER LIKES ROUTE (LIKE IS OCCURING ON A SPECIFIC USER'S PAGE).")
-                # return redirect(reverse('specificUsersPage', args=(userFirstName, userLastName, userId, messageId,))) #using the name of the url to redirect and passing the variables/params to the form rendering the template
-                return redirect(reverse('specificUsersPage', args=(userFirstName, userLastName, messageId,))) #using the name of the url to redirect and passing the variables/params to the form rendering the template
+            print("THIS IS THE LAST PRINT STATEMENT OF THE USER LIKES ROUTE (LIKE IS OCCURING ON A SPECIFIC USER'S PAGE).")
+            messageBeingLiked.userLikes.add(userWhoLikes) #This creates the like - userLikes is the instance name in the Message model holding the many to many relationship
+            messageBeingLiked.likeMessageCount += 1
+            messageBeingLiked.save()
+            # return redirect(reverse('specificUsersPage', args=(userFirstName, userLastName, userId, messageId,))) #using the name of the url to redirect and passing the variables/params to the form rendering the template
+            return redirect(reverse('specificUsersPage', args=(userFirstName, userLastName, userId, messageId,))) #using the name of the url to redirect and passing the variables/params to the form rendering the template
         else: #if these lines of code run it means the like occurred on logged in user's home page
             messageBeingLiked.userLikes.add(userWhoLikes) #userLikes is the instance name in the Message model holding the many to many relationship
             messageBeingLiked.likeMessageCount += 1
@@ -558,7 +580,7 @@ def userUnlikes(request, userFirstName='firstName', userLastName='lastName', use
             return redirect(reverse('home', args=(messageId,))) #using the name of the url to redirect and passing the variables/params to the form rendering the template
 
 def userLikesOnWall(request, messageId):
-    print("THIS IS THE USER LIKES ROUTE ON THE WALL")
+    print("THIS IS WHEN THE USER LIKES ROUTE ON THE WALL")
     print("*"*50)
     print("THIS IS THE MESSAGE ID:",messageId)
     print("*"*50)
@@ -606,71 +628,69 @@ def userUnlikesOnWall(request, messageId):
             print("THIS IS THE LAST PRINT STATEMENT OF THE USER LIKES ON THE WALL ROUTE")
         return redirect('/wall')
 
-def sendFriendRequest(request, userFirstName='firstName', userLastName='lastName', userId=0, messageId = 0):
+def sendFriendRequest(request, userFirstName='firstName', userLastName='lastName', userId=0):
+    print("*"*50)
     print("THIS IS THE SEND A FRIEND REQUEST ROUTE")
-    # print("*"*50)
-    userReceivesRequest = User.objects.get(id=userId) #the recipient of the friend request
-    print("This prints the user object of the user receiving the friend request.", userReceivesRequest)
-    # print(userReceivesRequest) #prints as a User Object(#)
-    userFirstName = userReceivesRequest.firstName # need for params to reroute
-    userLastName = userReceivesRequest.lastName # need for params to reroute
-    userId = userReceivesRequest.id # need for params to reroute
-    userWhoSentFriendRequest = User.objects.get(id=request.session['loginInfo'])
-    print("This prints the user object of the user sending the friend request aka the logged in user.")
-    print(userWhoSentFriendRequest) # prints as a User Object(#)
-    if userWhoSentFriendRequest in userReceivesRequest.friends.all():
-        print("You're already friends!")
-    else:
-        if userWhoSentFriendRequest.id != userReceivesRequest.id: #if this line of code runs it means the friend request occurred on the specific user's page
-            print("This print statement means the friend request is being created")
-            userReceivesRequest.friends.add(userWhoSentFriendRequest)
-            # print("These are all the users the logged in user sent friend requests to:", userWhoSentFriendRequest.friends.all())
-            # print("These are all the users who asked to be the logged in user's friend:", userReceivesRequest.friends.all())
-            notifyUser = Notification.objects.create(user= userReceivesRequest, friendRequest = userWhoSentFriendRequest) #This creates a notification for the user receiving the posted message
-            userReceivesRequest.notifications += 1
-            userReceivesRequest.save()
-            # print("*"*50)
-            print("THIS IS THE LAST PRINT STATEMENT OF THE SEND A FRIEND REQUEST ROUTE.")
-            return redirect(reverse('specificUsersPage', args=(userFirstName, userLastName, userId,)))
-        else: #if these lines of code run it means the friend request occurred on the logged in user's page
-            userReceivesRequest.friends.add(userWhoSentFriendRequest)
-            print("These are all the users the logged in user sent friend requests to:", userWhoSentFriendRequest.friends.all())
-            print("These are all the users who asked to be the logged in user's friend:", userReceivesRequest.friends.all())
-            userReceivesRequest.notifications += 1
-            userReceivesRequest.save()
-            print("THIS IS THE LAST PRINT STATEMENT OF THE SEND A FRIEND REQUEST ROUTE.")
-        return redirect("/home")
+    userWhoSentFriendRequest = User.objects.get(id=request.session['loginInfo']) 
+    print("This prints the user object of the user sending the friend request(logged in user).", userWhoSentFriendRequest)
+    userWhoReceivesRequest = User.objects.get(id=userId) #the recipient of the friend request #the user id is from the ajax data front side
+    print("This prints the user object of the user receiving the friend request.", userWhoReceivesRequest)
+    if userWhoSentFriendRequest in userWhoReceivesRequest.friends.all() and userWhoReceivesRequest in userWhoSentFriendRequest.friends.all():
+        print("This print means the users are already friends withc each other.")
+        return redirect("/home") 
+    userWhoSentFriendRequest.friends.add(userWhoReceivesRequest) #this creates the friend request
+    print("These are all the users the logged in user sent friend requests to:", userWhoSentFriendRequest.friends.all())
+    pageLocationId = request.POST['pageLocation']
+    print("This is the id of the page the user is currently on:", pageLocationId)
+    pageLocation = User.objects.get(id=pageLocationId)
+    print("This is the page location:", pageLocation)
+    notifyUser = Notification.objects.create(user= userWhoReceivesRequest, friendRequest = userWhoSentFriendRequest) #This creates a notification for the user receiving the posted message
+    print("This is the friend request notification:", notifyUser)
+    userWhoReceivesRequest.notifications += 1
+    userWhoReceivesRequest.save()
+    if userWhoSentFriendRequest.id != pageLocation.id: #if this line of code runs it means the friend request occurred on the specific user's page
+        print("This means the friend request is occuring on the specific user page.")
+        return redirect(reverse('specificUsersPage', args=(pageLocation.firstName, pageLocation.lastName, pageLocation.id,)))
+    else: 
+        print("This means the friend request is occuring on the home page.")
+    print("THIS IS THE LAST PRINT STATEMENT OF THE SEND A FRIEND REQUEST ROUTE.")
+    print("*"*50)
+    return redirect("/home") 
 
-def removeFriendRequest(request, userFirstName='firstName', userLastName='lastName', userId=0, messageId = 0):
+def removeFriendRequest(request, userFirstName='firstName', userLastName='lastName', userId=0, specificUserId=0):
+    print("*"*50)
     print("THIS IS THE REMOVE A FRIEND REQUEST ROUTE")
+    loggedInUser = User.objects.get(id=request.session['loginInfo']) #user who is removing the friend request
+    userBeingRemoved = User.objects.get(id=userId) #the recipient of the friend request
+    print("This is the user object being removed:", userBeingRemoved) #prints as a User Object(#)
+    userFirstName = userBeingRemoved.firstName # need for params to reroute
+    userLastName = userBeingRemoved.lastName # need for params to reroute
+    userId = userBeingRemoved.id # need for params to reroute
+    userWhoRequestFriendRemoval = loggedInUser
+    print("This prints the user object of the user removing the friend request:", userWhoRequestFriendRemoval)
+    if specificUserId:
+        currentPageLocation = User.objects(id= specificUserId)
+        print("This identifies the id of the location of where the user is currently browsing:", currentPageLocation)
+    if userBeingRemoved in userWhoRequestFriendRemoval.friends.all():
+        userWhoRequestFriendRemoval.friends.remove(userBeingRemoved) # When a friendship is established the user object displays in both users, so it would need to be removed in both users
+    if userWhoRequestFriendRemoval in userBeingRemoved.friends.all():
+        userBeingRemoved.friends.remove(userWhoRequestFriendRemoval)
+        if userBeingRemoved.notifications >= 0:
+            userBeingRemoved.notifications -= 1 # This removes the notification on the html and prevents it from displaying
+            userBeingRemoved.save() 
+            notificationRemoval = Notification.objects.filter(friendRequest_id= loggedInUser.id)
+            notificationRemoval.delete()  # This removes the notification in the database
+            print('This is the notification removal:', notificationRemoval)
+    print("THIS IS THE LAST PRINT STATEMENT OF THE REMOVE A FRIEND REQUEST ROUTE.")
     print("*"*50)
-    userReceivesRequest = User.objects.get(id=userId) #the recipient of the friend request
-    print("This prints the user object of the user receiving the friend request.")
-    print(userReceivesRequest) #prints as a User Object(#)
-    userFirstName = userReceivesRequest.firstName # need for params to reroute
-    userLastName = userReceivesRequest.lastName # need for params to reroute
-    userId = userReceivesRequest.id # need for params to reroute
-    userWhoSentFriendRequest = User.objects.get(id=request.session['loginInfo'])
-    print("This prints the user object of the user sending the friend request aka the logged in user.")
-    print(userWhoSentFriendRequest) # prints as a User Object(#)
-    print("*"*50)
-    idOfPageLocation = request.POST['userWhoReceivesPost'] #This identifies the location of where the user is currently browsing
-    # print("This identifies the id of the location of where the user is currently browsing", idOfPageLocation)
-    currentPageLocation = User.objects.get(id= idOfPageLocation) #a hidden input containing the id of the specific user
-    if userWhoSentFriendRequest in userReceivesRequest.friends.all():
-        userReceivesRequest.friends.remove(userWhoSentFriendRequest)
-        if userReceivesRequest.notifications >= 0:
-            userReceivesRequest.notifications -= 1
-            userReceivesRequest.save()
-            print("THIS IS THE LAST PRINT STATEMENT OF THE REMOVE A FRIEND REQUEST ROUTE.")
-    if currentPageLocation == loggedInUser:
-        return redirect("/home")
-    else:
+    if specificUserId:
         return redirect(reverse('specificUsersPage', args=(currentPageLocation.firstName, currentPageLocation.lastName, currentPageLocation.id,))) #using the name of the url to redirect and passing the variables/params to the form rendering the template
+    else:
+        return redirect("/home")
 
 
 def acceptFriendRequest(request, userFirstName='firstName', userLastName='lastName', userId=0, messageId = 0):
-    print("THIS IS THE ACCEPT A FRIEND REQUEST ROUTE POOP")
+    print("THIS IS THE ACCEPT A FRIEND REQUEST ROUTE")
     # print("*"*50)
     userReceivesRequest = User.objects.get(id=request.session['loginInfo'])
     # print(userReceivesRequest) #prints as a User Object(#)
@@ -684,11 +704,12 @@ def acceptFriendRequest(request, userFirstName='firstName', userLastName='lastNa
     userFirstName = currentPageLocation.firstName # need for params to reroute
     userId = currentPageLocation.id # need for params to reroute
     userLastName = userReceivesRequest.lastName # need for params to reroute
-    if userReceivesRequest in userWhoSentFriendRequest.friends.all():
+    if userWhoSentFriendRequest in userReceivesRequest.friends.all():
         print("You've already accepted the friend request!")
     else:
         print("This print statement means the friend request is being accepted")
         userWhoSentFriendRequest.friends.add(userReceivesRequest)
+        userReceivesRequest.friends.add(userWhoSentFriendRequest)
         #need to remove the notification after accepting the friend request
         removeNotif = Notification.objects.get(user = userReceivesRequest, friendRequest = userWhoSentFriendRequest)
         removeNotif.delete()
@@ -703,34 +724,48 @@ def acceptFriendRequest(request, userFirstName='firstName', userLastName='lastNa
             print("THIS IS THE LAST PRINT STATEMENT OF THE SEND A FRIEND REQUEST ROUTE.")
         return redirect("/home")
 
-def unfriend(request, userFirstName='firstName', userLastName='lastName', userId=0, messageId = 0):
-    print("THIS IS THE DELETE A FRIEND REQUEST ROUTE")
+def unfriend(request, userFirstName='firstName', userLastName='lastName', userId=0, messageId = 0, specificUserId=0):
     print("*"*50)
-    userWhoSentFriendRequest = User.objects.get(id=userId) #the recipient of the friend request
-    print("This prints the user object of the user who sent the friend request.")
-    print(userWhoSentFriendRequest) #prints as a User Object(#)
-    userFirstName = userWhoSentFriendRequest.firstName # need for params to reroute
-    userLastName = userWhoSentFriendRequest.lastName # need for params to reroute
-    userId = userWhoSentFriendRequest.id # need for params to reroute
-    userReceivesRequest = User.objects.get(id=request.session['loginInfo'])
-    print("This prints the user object of the user receiving request aka the logged in user.")
-    print(userReceivesRequest) # prints as a User Object(#)
+    print("THIS IS THE DELETE A FRIEND ROUTE")
+    loggedInUser = User.objects.get(id=request.session['loginInfo'])
+    print("This is the loggedInUser:", loggedInUser)
+    userIdOfFriend = request.POST['userIdOfFriend']  #this is the id of the user who is being unfriended
+    print("User id of friend:", userIdOfFriend)
+    userBeingUnfriended = User.objects.get(id=userIdOfFriend) # this grabs the user object
+    print("This is the user object of the friend being removed:", userBeingUnfriended)
+    # postLocationForFriendRemoval = request.POST['postLocationForFriendRemoval'] #This identifies the id of the location of where the user is currently browsing
+    # print("This is the post location for friend removal:", postLocationForFriendRemoval) # this is the id of the logged in user page
+    pageLocationId = request.POST['pageLocation']
+    print("This is the page location id:", pageLocationId)
+    pageLocation = User.objects.get(id = pageLocationId)
+    print("This is the page location:", pageLocation)
+    loggedInUsersNotifs = Notification.objects.filter(user=loggedInUser)
+    # print("These are the logged in user's notifs:", loggedInUsersNotifs)
     # print("These are the people a specific user sent friend requests to:", userWhoSentFriendRequest.friends.all())
-    #The below code removes the friendship
-    userWhoSentFriendRequest.friends.remove(userReceivesRequest)
-    userReceivesRequest.friends.remove(userWhoSentFriendRequest)
-    #also need to delete this object in the notification model
-    removeNotif = Notification.objects.get(user = userReceivesRequest, friendRequest = userWhoSentFriendRequest)
-    if removeNotif:
-        removeNotif.delete()
-        if userReceivesRequest.notifications > 0:
-            userReceivesRequest.notifications -= 1
-            userReceivesRequest.save()
-    print("*"*50)
+    userBeingUnfriended.friends.remove(loggedInUser)  #Removes the friendship
+    loggedInUser.friends.remove(userBeingUnfriended)
+    loggedInUser.friends.remove(loggedInUser)
+    loggedInUsersNotifs = Notification.objects.filter(user=loggedInUser)
+    if loggedInUsersNotifs.exists():
+        removeNotif = Notification.objects.get(user = loggedInUser, friendRequest = userBeingUnfriended)
+        if removeNotif:
+            removeNotif.delete() #also need to delete this object in the notification model
+        if loggedInUser.notifications > 0:
+            loggedInUser.notifications -= 1
+            loggedInUser.save()
+        # for notifs in loggedInUserNotifs:
+            # print("Inside the for loop:", notifs.friendRequest
+            # print("This prints the notifications of the logged in user in a query set:", loggedInUserNotifs)
+    if loggedInUser == pageLocation:
+        print("This means the logged in user is unfriending a user on their home page.")
+        return redirect("/home")
+    else:
+        print("This means the unfriending is occuring on a different page than the logged in user and the user being unfriended. Current location:", pageLocation)
     print("THIS IS THE LAST PRINT STATEMENT OF THE REMOVE A FRIEND REQUEST ROUTE.")
-    return redirect("/home")
+    print("*"*50)
+    return redirect(reverse('specificUsersPage', args=(pageLocation.firstName, pageLocation.lastName, pageLocation.id,))) #using the name of the url to redirect and passing the variables/params to the form rendering the template
 
-def removeMessageNotification(request, messageId):
+def removeMessageNotification(request, userFirstName='firstName', userLastName='lastName', userId=0, messageId=0):
     print("THIS FUNCTION REMOVES A MESSAGE NOTIFICATION FROM THE NOTIFICATION COUNTER")
     loggedInUser = User.objects.get(id=request.session['loginInfo'])
     #the above three lines of are needed because despite the correct logic below, always reverting to -1
@@ -738,91 +773,216 @@ def removeMessageNotification(request, messageId):
         print("The notification counter is negative and needs to be reset to 0.")
         resetNotificationCounter = User.objects.filter(id=request.session['loginInfo']).update(notifications=0) 
     #the above three lins of is needed because despite the correct logic below, always reverting to -1
-    if messageId:
-        print("This console log means there is a message id")
-        newMessage = Message.objects.get(id= messageId)
-        print("This is the message object that the user is being notified about:", newMessage)
-        changeHoverStatus = Notification.objects.get(user = loggedInUser, message = newMessage)
-        print("This is the notification object of the user that hovered over this specific message notification:", changeHoverStatus)
-        if changeHoverStatus.hover != 0:
-            print("This means the new comment notification has already been hovered over.")
-        else:
-            changeHoverStatus.hover += 1
-            changeHoverStatus.save()
-            updateLoggedInUserNotifications = loggedInUser
-            if updateLoggedInUserNotifications.notifications >= 0:
-                updateLoggedInUserNotifications.notifications -= 1
-                updateLoggedInUserNotifications.save()
-                print("THIS IS THE LAST PRINT STATEMENT IN THE REMOVE MESSAGE NOTIFICATION ROUTE")
-        # changeMessageNotificationStatus = Message.objects.get(id=messageId)
-        # # changeMessageNotificationStatus = Message.objects.get(id=messageId).update(notification = 0)
-        # if changeMessageNotificationStatus.notification == 0: #0 signifies the user had not seen/hovered over the notification message
-        #     changeMessageNotificationStatus.notification = 1 #1 signifies the user has now hovered over the notification message, so decrease the notification counter by one
-        #     changeMessageNotificationStatus.save()
-    return redirect("/home")
+    print("This console log means the logged in user is viewing their notifications on a specific user's page or the home page.")
+    userId = request.POST['pageLocationOfMessage']
+    pageLocation = User.objects.get(id= userId)
+    print("This is the user object of the page current on:", pageLocation)
+    messageId = request.POST['idOfMessage']
+    print("This is the message id", messageId)
+    message = Message.objects.get(id=messageId)
+    print("This is the message object:", message)
+    messageNotification = Notification.objects.get(user_id = loggedInUser, message_id = message.id)
+    print("This is the notification that was created from the message post:", messageNotification)
+    changeHoverStatus = Notification.objects.get(user_id = loggedInUser, message_id = message.id)
+    if changeHoverStatus.hover != 0:
+        print("This means the message notification has already been hovered over.")
+    else:
+        changeHoverStatus.hover += 1
+        changeHoverStatus.save()
+        updateLoggedInUserNotifications = loggedInUser
+        if updateLoggedInUserNotifications.notifications >= 0:
+            print("The notification is at minimum 0.")
+            updateLoggedInUserNotifications.notifications -= 1
+            updateLoggedInUserNotifications.save()
+    if loggedInUser.id == pageLocation.id:
+        print("This means the logged in user is viewing their notifications on their home page.")
+        return redirect("/home")
+    else: 
+        pageLocation != loggedInUser
+        print("This means the logged in user is viewing their notifications on a specific user's page.")
+        return redirect(reverse('specificUsersPage', args=(pageLocation.firstName, pageLocation.lastName, pageLocation.id,))) #using the name of the url to redirect and passing the variables/params to the form rendering the template
 
-def removeCommentNotification(request, commentId):
+def removeCommentNotification(request, userFirstName='firstName', userLastName='lastName', userId=0, messageId=0, commentId=0):
     print("THIS FUNCTION REMOVES A NEW COMMENT NOTIFICATION FROM THE NOTIFICATION COUNTER")
     loggedInUser = User.objects.get(id=request.session['loginInfo'])
+    userId = request.POST['pageLocationOfMessage']
+    pageLocation = User.objects.get(id= userId)
+    print("This is the user object of the page current on:", pageLocation)
     #the below three lines of code are needed because despite the correct logic below, always reverting to -1
-    if loggedInUser.notifications < 0:
-        print("THe notification counter is negative and needs to be reset to 0.")
-        resetNotificationCounter = User.objects.filter(id=request.session['loginInfo']).update(notifications=0) 
-    #the above three lines of are needed because despite the correct logic below, always reverting to -1
-    if commentId:
-        print("This console log means there is a comment id")
-        newComment = Comment.objects.get(id= commentId)
-        print("This is the comment as an object:", newComment)
-        changeHoverStatus = Notification.objects.get(user = loggedInUser, comment = newComment)
-        print("This is the notification object of the user that hovered over this specific message notification:", changeHoverStatus)
-        if changeHoverStatus.hover != 0:
-            print("This means the new comment notification has already been hovered over.")
-        else:
-            changeHoverStatus.hover += 1
-            changeHoverStatus.save()
-            updateLoggedInUserNotifications = loggedInUser
-            if updateLoggedInUserNotifications.notifications >= 0:
-                print("The notification is at minimum 0 and will decrease to one.")
-                updateLoggedInUserNotifications.notifications -= 1
-                updateLoggedInUserNotifications.save()
-                print("THIS IS THE LAST PRINT STATEMENT IN THE REMOVE NEW COMMENT NOTIFICATION ROUTE")
-    return redirect("/home")
+    if loggedInUser != pageLocation:
+        print("This console log means the logged in user is viewing their comment notifications on a specific user's page or the home page.")
+    messageId = request.POST['idOfMessage']
+    # print("This is the message id", messageId)
+    message = Message.objects.get(id=messageId)
+    # print("This is the message object:", message)
+    commentId = request.POST['idOfComment']
+    print("This is the comment id", commentId)
+    comment = Comment.objects.get(id=commentId)
+    print("This is the user object who recieves the comment:", comment.userReceivesComment)
+    print("This is the comment object:", comment)
+    userCommentingId = request.POST['userCommenting']
+    print("This is the id of the user who is commenting:", userCommentingId)
+    userCommenting = Comment.objects.get(user_id = userCommentingId, message_id = message.id, userReceivesComment_id = comment.userReceivesComment.id)
+    print("This is the user object who is commenting:", userCommentingId)
+    commentNotification = Notification.objects.get(user_id = loggedInUser, comment_id = commentId, commenter_id = userCommentingId)
+    print("This is the notification that was created from the message post:", commentNotification)
+    changeHoverStatus = commentNotification
+    if changeHoverStatus.hover != 0:
+        print("This means the message notification has already been hovered over.")
+    else:
+        changeHoverStatus.hover += 1
+        changeHoverStatus.save()
+        updateLoggedInUserNotifications = loggedInUser
+        if updateLoggedInUserNotifications.notifications >= 0:
+            print("The notification is at minimum 0.")
+            updateLoggedInUserNotifications.notifications -= 1
+            updateLoggedInUserNotifications.save()
+    if loggedInUser.id == pageLocation.id:
+        print("This means the logged in user is viewing their notifications on their home page.")
+        return redirect("/home")
+    else: 
+        pageLocation != loggedInUser
+        print("This means the logged in user is viewing their notifications on a specific user's page.")
+        return redirect(reverse('specificUsersPage', args=(pageLocation.firstName, pageLocation.lastName, pageLocation.id,))) #using the name of the url to redirect and passing the variables/params to the form rendering the template
 
-def removeFriendRequestNotification(request, userId):
-    print("THIS FUNCTION REMOVES A FIREND REQUEST NOTIFICATION FROM THE NOTIFICATION COUNTER")
+def removeCommentNotificationOnWall(request, commentId=0):
+    print("THIS FUNCTION REMOVES A COMMENT NOTIFICATION FROM THE NOTIFICATION COUNTER ON THE WALL")
     loggedInUser = User.objects.get(id=request.session['loginInfo'])
     #the above three lines of are needed because despite the correct logic below, always reverting to -1
     if loggedInUser.notifications < 0:
         print("The notification counter is negative and needs to be reset to 0.")
         resetNotificationCounter = User.objects.filter(id=request.session['loginInfo']).update(notifications=0) 
-    #the above three lins of is needed because despite the correct logic below, always reverting to -1
-    if userId:
-        print("This console log means there is a user id")
-        newFriendRequest = User.objects.get(id= userId)
-        print("This is the object of the user that sent the friend request:", newFriendRequest)
-        changeHoverStatus = Notification.objects.get(user = loggedInUser, friendRequest = newFriendRequest)
-        print("This is the notification object of the user that hovered over this specific friend request notification:", changeHoverStatus)
-        if changeHoverStatus.hover != 0:
-            print("This means the friend request notification has already been hovered over.")
-        else:
-            changeHoverStatus.hover += 1
-            changeHoverStatus.save()
-            updateLoggedInUserNotifications = loggedInUser
-            if updateLoggedInUserNotifications.notifications >= 0:
-                print("The notification is at minimum 0")
-                updateLoggedInUserNotifications.notifications -= 1
-                updateLoggedInUserNotifications.save()
-                print("THIS IS THE LAST PRINT STATEMENT IN THE REMOVE FRIEND REQUEST NOTIFICATION ROUTE")
-    return redirect("/home")
+    #the above three lines of is needed because despite the correct logic below, always reverting to -1
+    commentId = commentId
+    print("This is the commentId of the comment object" , commentId)
+    comment = Comment.objects.get(id=commentId)
+    print("This is the comment object:", comment)
+    commentNotification = Notification.objects.get(user_id = loggedInUser, comment_id = comment.id, commenter_id = comment.user.id)
+    print("This is the notification that was created from the comment post:", commentNotification)
+    changeHoverStatus = commentNotification
+    if changeHoverStatus.hover != 0:
+        print("This means the friend request notification has already been hovered over.")
+    else:
+        changeHoverStatus.hover += 1
+        changeHoverStatus.save()
+        updateLoggedInUserNotifications = loggedInUser
+        if updateLoggedInUserNotifications.notifications >= 0:
+            print("The notification is at minimum 0")
+            updateLoggedInUserNotifications.notifications -= 1
+            updateLoggedInUserNotifications.save()
+    return redirect("/wall")
+
+def removeFriendRequestNotification(request, userFirstName='firstName', userLastName='lastName', userId=0):
+    print("THIS FUNCTION REMOVES A FRIEND REQUEST NOTIFICATION FROM THE NOTIFICATION COUNTER")
+    loggedInUser = User.objects.get(id=request.session['loginInfo'])
+    #the above three lines of are needed because despite the correct logic below, always reverting to -1
+    if loggedInUser.notifications < 0:
+        print("The notification counter is negative and needs to be reset to 0.")
+        resetNotificationCounter = User.objects.filter(id=request.session['loginInfo']).update(notifications=0) 
+    #the above three lines of is needed because despite the correct logic below, always reverting to -1
+    idOfPageLocation = request.POST['loggedInUser'] #id of the current page location
+    print("This is the id of the page location:", idOfPageLocation)
+    pageLocation = User.objects.get(id = idOfPageLocation)
+    print("This is the current user page being viewed:", pageLocation)
+    friendRequestId = request.POST['userIdOfFriend']
+    friendRequest = User.objects.get(id = friendRequestId)
+    print("This is the user who sent the friend request:", friendRequest)
+    friendRequestNotification = Notification.objects.get(user_id = loggedInUser, friendRequest_id = friendRequest.id)
+    print("This is the notification that was created from the friend request:", friendRequestNotification)
+    changeHoverStatus = Notification.objects.get(user = loggedInUser, friendRequest = friendRequest)
+    if changeHoverStatus.hover != 0:
+        print("This means the friend request notification has already been hovered over.")
+    else:
+        changeHoverStatus.hover += 1
+        changeHoverStatus.save()
+        updateLoggedInUserNotifications = loggedInUser
+        friendRequest.friends.remove(loggedInUser)
+        friendRequest.friends.remove(friendRequest)
+        loggedInUser.friends.remove(loggedInUser)
+        if updateLoggedInUserNotifications.notifications >= 0:
+            print("The notification is at minimum 0")
+            updateLoggedInUserNotifications.notifications -= 1
+            updateLoggedInUserNotifications.save()
+    if loggedInUser.id == pageLocation.id:
+        print("This means the logged in user is viewing their notifications on their home page.")
+        return redirect("/home")
+    else:
+        print("This means the logged in user is viewing their notifications on a specific user's page.")
+        return redirect(reverse('specificUsersPage', args=(pageLocation.firstName, pageLocation.lastName, pageLocation.id,))) #using the name of the url to redirect and passing the variables/params to the form rendering the template
+
+def removeFriendRequestNotificationOnWall(request):
+    print("THIS FUNCTION REMOVES A FIREND REQUEST NOTIFICATION FROM THE NOTIFICATION COUNTER ON THE WALL")
+    loggedInUser = User.objects.get(id=request.session['loginInfo'])
+    #the above three lines of are needed because despite the correct logic below, always reverting to -1
+    if loggedInUser.notifications < 0:
+        print("The notification counter is negative and needs to be reset to 0.")
+        resetNotificationCounter = User.objects.filter(id=request.session['loginInfo']).update(notifications=0) 
+    #the above three lines of is needed because despite the correct logic below, always reverting to -1
+    print("This console log means the logged in user is viewing their notifications on a specific user's page or the home page.")
+    # pageLocation = request.POST['pageLocation']
+    # print("This is the user object of the page current on:", pageLocation)
+    newFriendRequest = request.POST['userIdOfFriend']
+    print("This is the user who sent the friend request:", newFriendRequest)
+    friendRequestNotification = Notification.objects.get(user_id = loggedInUser, friendRequest_id = newFriendRequest)
+    print("This is the notification that was created from the friend request:", friendRequestNotification)
+    changeHoverStatus = Notification.objects.get(user = loggedInUser, friendRequest = newFriendRequest)
+    if changeHoverStatus.hover != 0:
+        print("This means the friend request notification has already been hovered over.")
+    else:
+        changeHoverStatus.hover += 1
+        changeHoverStatus.save()
+        updateLoggedInUserNotifications = loggedInUser
+        if updateLoggedInUserNotifications.notifications >= 0:
+            print("The notification is at minimum 0")
+            updateLoggedInUserNotifications.notifications -= 1
+            updateLoggedInUserNotifications.save()
+    return redirect("/wall")
+
+def removeMessageNotificationOnWall(request, messageId=0):
+    print("THIS FUNCTION REMOVES A MESSAGE NOTIFICATION FROM THE NOTIFICATION COUNTER ON THE WALL")
+    loggedInUser = User.objects.get(id=request.session['loginInfo'])
+    #the above three lines of are needed because despite the correct logic below, always reverting to -1
+    if loggedInUser.notifications < 0:
+        print("The notification counter is negative and needs to be reset to 0.")
+        resetNotificationCounter = User.objects.filter(id=request.session['loginInfo']).update(notifications=0) 
+    #the above three lines of is needed because despite the correct logic below, always reverting to -1
+    messageId = messageId
+    print("This is the messageId of the message object" , messageId)
+    message = Message.objects.get(id=messageId)
+    print("This is the message object:", message)
+    messageNotification = Notification.objects.get(user_id = loggedInUser, message_id = message.id)
+    print("This is the notification that was created from the message post:", messageNotification)
+    changeHoverStatus = messageNotification
+    print("This is the hover status of the message notification:", changeHoverStatus.hover)
+    if changeHoverStatus.hover == 1:
+        print("This means the message notification has already been hovered over.")
+    else:
+        print("This is the notification that was created from the message post:", messageNotification)
+        changeHoverStatus.hover += 1
+        changeHoverStatus.save()
+        updateLoggedInUserNotifications = loggedInUser
+        if updateLoggedInUserNotifications.notifications >= 0:
+            print("The notification is at minimum 0")
+            updateLoggedInUserNotifications.notifications -= 1
+            updateLoggedInUserNotifications.save()    
+    return redirect("/wall")
 
 def clearAllNotifications(request):
     print("THIS FUNCTION CLEARS ALL THE NOTIFICATIONS THE LOGGED IN USER HAS")
     loggedInUser = User.objects.get(id=request.session["loginInfo"])
     removeMessageNotifications = Notification.objects.filter(user= loggedInUser)
-    print("These are the notifications that will be removed:", removeMessageNotifications)
-    removeMessageNotifications.delete()
+    print("These are the message notifications that will be removed:", removeMessageNotifications)
+    if removeMessageNotifications:
+        removeMessageNotifications.delete()
+    # removCommentNotifications = Notification.objects.filter(user= loggedInUser)
+    # print("These are the comment notifications that will be removed:", removCommentNotifications)
+    # if removCommentNotifications:
+    #     removCommentNotifications.delete()
     removeFriendRequestNotifications = Notification.objects.filter(friendRequest= loggedInUser)
-    removeFriendRequestNotifications.delete()
+    print("These are the friend request notifications that will be removed:", removeFriendRequestNotifications)
+    if removeFriendRequestNotifications:
+        removeFriendRequestNotifications.delete()
+    resetNotificationCounter = User.objects.filter(id=request.session['loginInfo']).update(notifications=0) 
     print("THIS IS THE LAST PRINT STATEMENT IN THE CLEAR ALL NOTIFICATIONS")
     return redirect("/home")
 
@@ -863,7 +1023,7 @@ def searchForUsersProfile(request):
     context = {
         'loggedInUser': User.objects.get(id=request.session['loginInfo']),
         'allUsers': User.objects.all().exclude(id=request.session['loginInfo']).order_by('firstName'), #orders alphabetically
-        # 'searchForUser': searchForUser,
+        'searchForUser': searchForUser,
         'notifications': Notification.objects.all,
         'loggedInUsersNotifs': Notification.objects.filter(user=loggedInUser)
     }

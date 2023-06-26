@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 
 <head>
     <meta charset="UTF-8">
@@ -10,6 +10,7 @@
     <title>CollegeBook</title>
     {% load static %}	<!-- Need this line to use static images -->
     <link rel="stylesheet" href="{% static 'css/collegeWall.css' %}">  <!-- Need this line to use external stylesheet -->
+    <link rel="shortcut icon" href="{% static 'images/logo.png' %}" type="favicon">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script> <!-- Order matters..important to load bootstrap before jquery ui to avoid button method conflicts -->
@@ -269,12 +270,13 @@
 <body class="bg-light">
 <!--The below code is for the navigation bar  -->
     <nav class="navbar navbar-expand-lg bg-white navBarStyle">
-        <a href="/wall">
+        <a class="logoLink" href="/wall">
             <img class="navbar-brand mr-0" id="logoIcon" src="{% static 'Images/logo.png' %}" alt="A stock image of a logo with the two letters CB to represent Collegebook." />
-        </a>    <!--The below button shows when the window size changes/collapses  -->
+        </a>
+    <!--The below button shows when the window size changes/collapses  -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon searchForm">            
-                <form action="/search" method="GET" class="form-inline mr-5 ">
+                <form action="/search" method="GET" class="form-inline">
                 <input class="form-control mr-sm-1 rounded-pill searchInput" type="search" placeholder="Search CollegeBook" name="searchBarInput"  aria-label="Search">
                 <!-- <button class="btn btn-outline-primary btn-sm" type="submit">Search</button> -->
                 </form>
@@ -282,14 +284,14 @@
         </button>
     <!--The above button shows when the window size changes/collapses  -->
         <div class="collapse navbar-collapse" id="">
-            <form action="/search" method="GET" class="form-inline mr-5 ">
+            <form action="/search" method="GET" class="form-inline">
                 <input class="form-control mr-sm-1 rounded-pill" type="search" placeholder="Search CollegeBook" name="searchBarInput"  aria-label="Search">
                 <!-- <button class="btn btn-outline-primary btn-sm" type="submit">Search</button> --> 
             </form> 
-            <ul class="navbar-nav mr-auto navBarSecondSection">
+            <ul class="navbar-nav navBarSecondSection">
                 <li class="nav-item active">
                     <button class="btn btn-outline-light buttonOfNavIcons mr-5">
-                        <a href="/home">
+                        <a class="" href="/wall">
                             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="gray" class="bi bi-house-door-fill" viewBox="0 0 16 16">
                                 <path d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5z"/>
                             </svg>
@@ -329,7 +331,7 @@
                 </li>
             </ul>
         </div>
-        <div class="row navBarThirdSection">
+        <div class="navBarThirdSection">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
                     <a id="linkForNavIconProfPic" href="/home" class="d-inline ">
@@ -353,105 +355,103 @@
                             <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z"/>
                         </svg>
                     </a>
-                    <div class="dropdown-menu notificationsDropDownMenuDiv">
+                    <div class="dropdown-menu notificationsDropDownMenuDiv pb-5">
                         <div class="ml-5 pl-5">
                         {% if notifications != "" %}
                             <a href="" class="ml-5 pl-5" id="clearNotifications">Clear</a>
                         {% endif %}
                         </div>
-        {% for notif in notifications %} <!-- This loops through all the notifications -->
-            {% if notif.user == loggedInUser %} <!-- This provides the notifications only for the logged in user-->
-                {% if notif.friendRequest%}
-                    {% if not loggedInUser in loggedInUser.friends.all %} <!-- This code would remove the sent friend request signifying the logged in user did not accept the friend request -->
-                        {% if notif.friendRequest.profilePic == "" %}
-                            <div class="dropdown-item pb-0 pt-0">
-                                <div class="specificNotification friendRequestNotification" data-index="{{notif.friendRequest.id}}">
-                                    <a href="/{{notif.friendRequest.firstName}}/{{notif.friendRequest.lastName}}/{{notif.friendRequest.id}}" class="d-inline-block">
-                                        <img src="{% static 'Images/blankAvatar.png' %}" id="notifIconProfPic" class="d-inline-block" alt="A thumbnail photo of the user"><p class="d-inline-block nameInNotification mb-0 mt-1">{{notif.friendRequest.firstName}} {{notif.friendRequest.lastName}}</p> 
-                                    </a>
-                                    <p class="d-inline-block mb-0 pt-0"> sent you a friend request.</p>
-                                    <div class="btn-group mt-0 friendRequestButtonDiv">
-                                        <button type="button" class="btn btn-sm btn-primary confirmCancelNotificationButton confirmNotificationButton mr-2" value="{{notif.friendRequest.id}}">Confirm</button>
-                                        {% if notif.hover == 0 %}
-                                        <button type="button" class="btn btn-sm btn-secondary confirmCancelNotificationButton cancelNotificationButton" value="{{notif.friendRequest.id}}">Cancel</button> <div class="specificRedButtonDiv"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-circle-fill hoverNotif ml-2 mb-5" data-index="{{notif.friendRequest.id}}" viewBox="0 0 16 16"><circle cx="6" cy="6" r="6"/></svg></div>
+                        {% for notif in notifications %} <!-- This loops through all the notifications -->
+                        {% if notif.user == loggedInUser %} <!-- This provides the notifications only for the logged in user-->
+                            {% if notif.friendRequest%}
+                                    {% if notif.friendRequest.profilePic == "" %}
+                                        <div class="dropdown-item">
+                                            <div class="specificNotification friendRequestNotification" data-index="{{notif.friendRequest.id}}">
+                                                <a href="/{{notif.friendRequest.firstName}}/{{notif.friendRequest.lastName}}/{{notif.friendRequest.id}}" class="d-inline-block">
+                                                    <img src="{% static 'Images/blankAvatar.png' %}" id="notifIconProfPic" class="d-inline-block mt-1" alt="A thumbnail photo of the user"><p class="d-inline-block nameInNotification mb-0 mt-1 ml-1">{{notif.friendRequest.firstName}} {{notif.friendRequest.lastName}}</p> 
+                                                </a>
+                                                <p class="d-inline-block specificNotificationText"> sent you a friend request.</p>
+                                                <div class="btn-group mt-0 friendRequestButtonDiv">
+                                                    <button type="button" class="btn btn-sm btn-primary confirmCancelNotificationButton confirmNotificationButton mr-2" value="{{notif.friendRequest.id}}">Confirm</button>
+                                                    {% if notif.hover == 0 %}
+                                                    <button type="button" class="btn btn-sm btn-secondary confirmCancelNotificationButton cancelNotificationButton" value="{{notif.friendRequest.id}}">Cancel</button> <div class="specificRedButtonDiv"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-circle-fill hoverNotif ml-2 mb-5" data-index="{{notif.friendRequest.id}}" viewBox="0 0 16 16"><circle cx="6" cy="6" r="6"/></svg></div>
+                                                {% else %}
+                                                    <button type="button" class="btn btn-sm btn-secondary confirmCancelNotificationButton cancelNotificationButton" value="{{notif.friendRequest.id}}">Cancel</button> 
+                                                {% endif %}                                    
+                                                </div>
+                                            </div>
+                                        </div>
                                     {% else %}
-                                        <button type="button" class="btn btn-sm btn-secondary confirmCancelNotificationButton cancelNotificationButton" value="{{notif.friendRequest.id}}">Cancel</button> 
-                                    {% endif %}                                    
-                                    </div>
-                                </div>
-                            </div>
-                        {% else %}
-                            <div class="dropdown-item pb-0 pt-0">
-                                <div class="specificNotification friendRequestNotification pb-0 pt-0" data-index="{{notif.friendRequest.id}}">
-                                    <a href="/{{notif.friendRequest.firstName}}/{{notif.friendRequest.lastName}}/{{notif.friendRequest.id}}" class="d-inline-block">
-                                        <img src='{{notif.friendRequest.profilePic.url }}' id="notifIconProfPic" class="d-inline-block mt-1"><p class="d-inline-block nameInNotification mb-0 mt-1">{{notif.friendRequest.firstName}} {{notif.friendRequest.lastName}}</p>
-                                    </a>
-                                    <p class="d-inline-block mb-0 pt-0"> sent you a friend request.</p>
-                                    <div class="btn-group mt-0 friendRequestButtonDiv">
-                                        <button type="button" class="btn btn-sm btn-primary confirmCancelNotificationButton confirmNotificationButton mr-2" value="{{notif.friendRequest.id}}">Confirm</button>
-                                    {% if notif.hover == 0 %} <!-- 0 signifying False, meaning the user has not hovered over the notification  -->
-                                        <button type="button" class="btn btn-sm btn-secondary confirmCancelNotificationButton cancelNotificationButton" value="{{notif.friendRequest.id}}">Cancel</button> <div class="specificRedButtonDiv"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-circle-fill hoverNotif ml-2 mb-5" data-index="{{notif.friendRequest.id}}" viewBox="0 0 16 16"><circle cx="6" cy="6" r="6"/></svg></div>
-                                    {% else %}
-                                        <button type="button" class="btn btn-sm btn-secondary confirmCancelNotificationButton cancelNotificationButton" value="{{notif.friendRequest.id}}">Cancel</button> 
+                                        <div class="dropdown-item">
+                                            <div class="specificNotification friendRequestNotification pb-0 pt-0" data-index="{{notif.friendRequest.id}}">
+                                                <a href="/{{notif.friendRequest.firstName}}/{{notif.friendRequest.lastName}}/{{notif.friendRequest.id}}" class="d-inline-block">
+                                                    <img src='{{notif.friendRequest.profilePic.url }}' id="notifIconProfPic" class="d-inline-block mt-1"><p class="d-inline-block nameInNotification mb-0 mt-1 ml-1">{{notif.friendRequest.firstName}} {{notif.friendRequest.lastName}}</p>
+                                                </a>
+                                                <p class="d-inline-block specificNotificationText"> sent you a friend request.</p>
+                                                <div class="btn-group mt-0 friendRequestButtonDiv">
+                                                    <button type="button" class="btn btn-sm btn-primary confirmCancelNotificationButton confirmNotificationButton mr-2" value="{{notif.friendRequest.id}}">Confirm</button>
+                                                {% if notif.hover == 0 %} <!-- 0 signifying False, meaning the user has not hovered over the notification  -->
+                                                    <button type="button" class="btn btn-sm btn-secondary confirmCancelNotificationButton cancelNotificationButton" value="{{notif.friendRequest.id}}">Cancel</button> <div class="specificRedButtonDiv"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-circle-fill hoverNotif ml-2 mb-5" data-index="{{notif.friendRequest.id}}" viewBox="0 0 16 16"><circle cx="6" cy="6" r="6"/></svg></div>
+                                                {% else %}
+                                                    <button type="button" class="btn btn-sm btn-secondary confirmCancelNotificationButton cancelNotificationButton" value="{{notif.friendRequest.id}}">Cancel</button> 
+                                                {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
                                     {% endif %}
-                                    </div>
-                                </div>
-                            </div>
-                        {% endif %}
-                    {% endif %}
-                {% endif %}
-                {% if notif.message %} <!-- prevents the notification appearing when it is null -->
-                    {% if loggedInUser != notif.message.user %} <!-- This excludes notifications every time the logged in user posts on something  -->
-                        {% if notif.message.user.profilePic == ""%}
-                            <div class="dropdown-item pt-0">
-                                <div class="specificNotification newPostNotification pt-3" data-index="{{notif.message.id}}"> 
-                                    <a href="/{{notif.message.user.firstName}}/{{notif.message.user.lastName}}/{{notif.message.user.id}}" class="d-inline-block mb-0">
-                                        <img src="{% static 'Images/blankAvatar.png' %}" id="notifIconProfPic" class="d-inline-block" alt="A thumbnail photo of the user"><p class="d-inline-block nameInNotification mb-0 mt-1">{{notif.message.user.firstName}} {{notif.message.user.lastName}}</p>
-                                    </a>
-                                    <p class="d-inline-block mb-0 pb-0 pt-0"> wrote on your <a href="/home">wall.</a></p>{% if notif.hover == 0 %} <!-- 0 signifying False, meaning the user has not hovered over the notification  --><div class="specificRedButtonDiv d-inline-block"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-circle-fill hoverNotif" data-index="{{notif.message.id}}" viewBox="0 0 16 16"><circle cx="6" cy="6" r="6"/></svg></div>{% endif %}    
-                                    <div class="btn-group mt-0 hideButtons">
-                                        <button type="button" class="btn btn-sm btn-primary confirmCancelNotificationButton confirmNotificationButton mr-2" value="{{notif.message.user.id}}}">View</button>
-                                        <button type="button" class="btn btn-sm btn-secondary confirmCancelNotificationButton cancelNotificationButton" value="{{notif.message.user.id}}}">Remove</button>
-                                    </div> 
-                                </div>
-                            </div>
-                        {% else %}
-                            <div class="dropdown-item">
-                                <div class="specificNotification newPostNotification pb-0 pt-0" data-index="{{notif.message.id}}">
-                                    <a href="/{{notif.message.user.firstName}}/{{notif.message.user.lastName}}/{{notif.message.user.id}}" class="d-inline-block mb-0">
-                                        <img src='{{ notif.message.user.profilePic.url }}' id="notifIconProfPic" class="d-inline-block mt-1"> <p class="d-inline-block nameInNotification mb-0 mt-1">{{notif.message.user.firstName}} {{notif.message.user.lastName}}</p>
-                                    </a>
-                                    <p class="d-inline-block mb-0 pb-0 pt-0"> wrote on your <a href="/home">wall.</a></p> {% if notif.hover == 0 %} <!-- 0 signifying False, meaning the user has not hovered over the notification  --><div class="specificRedButtonDiv d-inline-block"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-circle-fill hoverNotif" data-index="{{notif.message.id}}" viewBox="0 0 16 16"><circle cx="6" cy="6" r="6"/></svg></div>{% endif %}                                    
-                                </div>
-                            </div>
-                        {% endif %}
-                    {% endif %}
-                {% endif %}
-                {% if notif.comment %}
-                    {% if loggedInUser != notif.comment.user %} <!-- This excludes  notifications every time the logged in user comments on something  -->
-                        {% if notif.comment.user.profilePic == ""%}
-                            <div class="dropdown-item">
-                                <div class="specificNotification newCommentNotification pt-3" data-index="{{notif.comment.id}}">
-                                    <a href="/{{notif.comment.user.firstName}}/{{notif.comment.user.lastName}}/{{notif.comment.user.id}}" class="d-inline-block mb-0">
-                                        <img src="{% static 'Images/blankAvatar.png' %}" id="notifIconProfPic" class="d-inline-block" alt="A thumbnail photo of the user"><p class="d-inline-block nameInNotification mb-0 mt-1">{{notif.comment.user.firstName}} {{notif.comment.user.lastName}} <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-circle-fill" viewBox="0 0 16 16"><circle cx="6" cy="6" r="6"/></svg></p>
-                                    </a>
-                                    <p class="d-inline-block mb-0 pb-0 pt-0"> commented on a <a href="/home">post.</a></p>{% if notif.hover == 0 %} <!-- 0 signifying False, meaning the user has not hovered over the notification  --><div class="specificRedButtonDiv d-inline-block"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-circle-fill hoverNotif" data-index="{{notif.comment.id}}" viewBox="0 0 16 16"><circle cx="6" cy="6" r="6"/></svg></div>{% endif %} 
-                                </div>
-                            </div>
-                        {% else %}
-                            <div class="dropdown-item">
-                                <div class="specificNotification newCommentNotification pt-2" data-index="{{notif.comment.id}}">
-                                    <a href="/{{notif.comment.user.firstName}}/{{notif.comment.user.lastName}}/{{notif.comment.user.id}}" class="d-inline-block mb-0">
-                                        <img src='{{ notif.comment.user.profilePic.url }}' id="notifIconProfPic" class="d-inline-block mt-1"> <p class="d-inline-block nameInNotification mb-0 mt-1">{{notif.comment.user.firstName}} {{notif.comment.user.lastName}}</p>
-                                    </a>
-                                    <p class="d-inline-block mb-0 pb-0 pt-0"> commented on a <a href="/home">post.</a></p>{% if notif.hover == 0 %} <!-- 0 signifying False, meaning the user has not hovered over the notification  --><div class="specificRedButtonDiv d-inline-block"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-circle-fill hoverNotif" data-index="{{notif.comment.id}}" viewBox="0 0 16 16"><circle cx="6" cy="6" r="6"/></svg></div>{% endif %} 
-                                </div>
-                            </div>
-                        {% endif %}
-                    {% endif %}
-                {% endif %}
-            {% endif %} <!-- The end if statement for only showing the logged in user's notifications -->
-        {% endfor %}
+                            {% endif %}
+                            {% if notif.message %} <!-- prevents the notification appearing when it is null -->
+                                {% if loggedInUser != notif.message.user %} <!-- This excludes notifications every time the logged in user posts on something  -->
+                                    {% if notif.message.user.profilePic == ""%}
+                                        <div class="dropdown-item pt-0">
+                                            <div class="specificNotification newPostNotification" data-index="{{notif.message.id}}"> 
+                                                <a href="/{{notif.message.user.firstName}}/{{notif.message.user.lastName}}/{{notif.message.user.id}}" class="d-inline-block mb-0">
+                                                    <img src="{% static 'Images/blankAvatar.png' %}" id="notifIconProfPic" class="d-inline-block mt-1" alt="A thumbnail photo of the user"><p class="d-inline-block nameInNotification mb-0 mt-1 ml-1">{{notif.message.user.firstName}} {{notif.message.user.lastName}}</p>
+                                                </a>
+                                                <p class="d-inline-block specificNotificationText"> wrote on your <a href="/home">wall.</a></p>{% if notif.hover == 0 %} <!-- 0 signifying False, meaning the user has not hovered over the notification  --><div class="specificRedButtonDiv d-inline-block"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-circle-fill hoverNotif" data-index="{{notif.message.id}}" viewBox="0 0 16 16"><circle cx="6" cy="6" r="6"/></svg></div>{% endif %}    
+                                                <div class="btn-group mt-0 hideButtons">
+                                                    <button type="button" class="btn btn-sm btn-primary confirmCancelNotificationButton confirmNotificationButton mr-2" value="{{notif.message.user.id}}}">View</button>
+                                                    <button type="button" class="btn btn-sm btn-secondary confirmCancelNotificationButton cancelNotificationButton" value="{{notif.message.user.id}}}">Remove</button>
+                                                </div> 
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                        <div class="dropdown-item">
+                                            <div class="specificNotification newPostNotification pb-0 pt-0" data-index="{{notif.message.id}}">
+                                                <a href="/{{notif.message.user.firstName}}/{{notif.message.user.lastName}}/{{notif.message.user.id}}" class="d-inline-block mb-0">
+                                                    <img src='{{ notif.message.user.profilePic.url }}' id="notifIconProfPic" class="d-inline-block mt-1"> <p class="d-inline-block nameInNotification mb-0 ">{{notif.message.user.firstName}} {{notif.message.user.lastName}}</p>
+                                                </a>
+                                                <p class="d-inline-block specificNotificationText"> wrote on your <a href="/home">wall.</a></p> {% if notif.hover == 0 %} <!-- 0 signifying False, meaning the user has not hovered over the notification  --><div class="specificRedButtonDiv d-inline-block"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-circle-fill hoverNotif" data-index="{{notif.message.id}}" viewBox="0 0 16 16"><circle cx="6" cy="6" r="6"/></svg></div>{% endif %}                                    
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
+                            {% if notif.comment %}
+                                {% if loggedInUser != notif.comment.user %} <!-- This excludes  notifications every time the logged in user comments on something  -->
+                                    {% if notif.comment.user.profilePic == ""%}
+                                        <div class="dropdown-item">
+                                            <div class="specificNotification newCommentNotification pt-3" data-index="{{notif.comment.id}}">
+                                                <a href="/{{notif.comment.user.firstName}}/{{notif.comment.user.lastName}}/{{notif.comment.user.id}}" class="d-inline-block mb-0">
+                                                    <img src="{% static 'Images/blankAvatar.png' %}" id="notifIconProfPic" class="d-inline-block mt-1" alt="A thumbnail photo of the user"><p class="d-inline-block nameInNotification mb-0 mt-1 ml-1">{{notif.comment.user.firstName}} {{notif.comment.user.lastName}}</p>
+                                                </a>
+                                                <p class="d-inline-block specificNotificationText"> commented on a <a href="/home">post.</a></p>{% if notif.hover == 0 %}<div class="specificRedButtonDiv d-inline-block"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-circle-fill hoverNotif" data-index="{{notif.comment.id}}" viewBox="0 0 16 16"><circle cx="6" cy="6" r="6"/></svg></div>{% endif %} 
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                        <div class="dropdown-item">
+                                            <div class="specificNotification newCommentNotification pt-2" data-index="{{notif.comment.id}}">
+                                                <a href="/{{notif.comment.user.firstName}}/{{notif.comment.user.lastName}}/{{notif.comment.user.id}}" class="d-inline-block mb-0">
+                                                    <img src='{{ notif.comment.user.profilePic.url }}' id="notifIconProfPic" class="d-inline-block mt-1"> <p class="d-inline-block nameInNotification mb-0 mt-1 ml-1">{{notif.comment.user.firstName}} {{notif.comment.user.lastName}}</p>
+                                                </a>
+                                                <p class="d-inline-block specificNotificationText"> commented on a <a href="/home">post.</a></p>{% if notif.hover == 0 %} <!-- 0 signifying False, meaning the user has not hovered over the notification  --><div class="specificRedButtonDiv d-inline-block"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-circle-fill hoverNotif" data-index="{{notif.comment.id}}" viewBox="0 0 16 16"><circle cx="6" cy="6" r="6"/></svg></div>{% endif %} 
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
+                        {% endif %} <!-- The end if statement for only showing the logged in user's notifications -->
+                    {% endfor %}
                     </div>
                 </li>
                 <div class="ml-3"></div>
@@ -482,102 +482,62 @@
     </nav>
 <!-- The above code is for the navigation bar -->
     
-    <div class="row">
-        <div class="col-sm-4 bg-white pageNotFoundDiv">
-            <h4 class="ml-4 mt-2">Search Results for</h4>
-            <p class="ml-4 mb-0">{{searchForUser.0}} {{searchForUser.1}}</p>
-            <p class="ml-4 mb-0 decorativeLineOnPageNotFound">___________________________________________</p>
-            <div class="row mt-5">
-                <div class="col-sm-2"></div>
-                <div class="col-sm ml-5">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="#167BFF" class="bi bi-hand-thumbs-down-fill thumbsDown mt-3 ml-5" viewBox="0 0 16 16">
-                        <path d="M6.956 14.534c.065.936.952 1.659 1.908 1.42l.261-.065a1.378 1.378 0 0 0 1.012-.965c.22-.816.533-2.512.062-4.51.136.02.285.037.443.051.713.065 1.669.071 2.516-.211.518-.173.994-.68 1.2-1.272a1.896 1.896 0 0 0-.234-1.734c.058-.118.103-.242.138-.362.077-.27.113-.568.113-.856 0-.29-.036-.586-.113-.857a2.094 2.094 0 0 0-.16-.403c.169-.387.107-.82-.003-1.149a3.162 3.162 0 0 0-.488-.9c.054-.153.076-.313.076-.465a1.86 1.86 0 0 0-.253-.912C13.1.757 12.437.28 11.5.28H8c-.605 0-1.07.08-1.466.217a4.823 4.823 0 0 0-.97.485l-.048.029c-.504.308-.999.61-2.068.723C2.682 1.815 2 2.434 2 3.279v4c0 .851.685 1.433 1.357 1.616.849.232 1.574.787 2.132 1.41.56.626.914 1.28 1.039 1.638.199.575.356 1.54.428 2.591z"/>
-                    </svg>
-                </div>
-            </div>
-            <h1 class="pageNotFoundStyling">Page</h1>
-            <h1 class="pageNotFoundStyling">Not</h1>
-            <h1 class="pageNotFoundStyling">Found.</h1>
+    <div class="bg-white pageNotFoundDiv">
+        <h4 class=" ml-2 searchResultsForText">Search Results for:</h4>
+        <p class="ml-2 mt-4 searchResultsText">{{searchForUser.0}} {{searchForUser.1}}</p>
+        <p class="decorativeLineOnPageNotFound">___________________________________________</p>
+        <div class="thumbsDownDiv">
+            <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="#167BFF" class="bi bi-hand-thumbs-down-fill thumbsDown mt-3" viewBox="0 0 16 16">
+                <path d="M6.956 14.534c.065.936.952 1.659 1.908 1.42l.261-.065a1.378 1.378 0 0 0 1.012-.965c.22-.816.533-2.512.062-4.51.136.02.285.037.443.051.713.065 1.669.071 2.516-.211.518-.173.994-.68 1.2-1.272a1.896 1.896 0 0 0-.234-1.734c.058-.118.103-.242.138-.362.077-.27.113-.568.113-.856 0-.29-.036-.586-.113-.857a2.094 2.094 0 0 0-.16-.403c.169-.387.107-.82-.003-1.149a3.162 3.162 0 0 0-.488-.9c.054-.153.076-.313.076-.465a1.86 1.86 0 0 0-.253-.912C13.1.757 12.437.28 11.5.28H8c-.605 0-1.07.08-1.466.217a4.823 4.823 0 0 0-.97.485l-.048.029c-.504.308-.999.61-2.068.723C2.682 1.815 2 2.434 2 3.279v4c0 .851.685 1.433 1.357 1.616.849.232 1.574.787 2.132 1.41.56.626.914 1.28 1.039 1.638.199.575.356 1.54.428 2.591z"/>
+            </svg>
         </div>
-        <div class="col-sm-7 searchResultsDiv">
-            <!-- One of three columns -->
-            <table class="col-sm-12 bg-white mt-3 table">
-                <tbody>
+        <h1 class="pageNotFoundStyling">Page Not Found</h1>
+        <div class="searchResultsDiv">
+            <table class="bg-white mt-3 table">
                 {% for user in allUsers %}
+                <tbody>
                     <tr>
                         <td>
-                            <div class="row">
-                                <div class="col-sm mb-1">
-                                {% if not user.profilePic == "" %} 
-                                    <a href="/{{user.firstName}}/{{user.lastName}}/{{user.id}}" class="d-inline-block">
-                                        <img src='{{ user.profilePic.url }}' class="d-inline thumbnailForEachFriend"> 
-                                    </a>
-                                {% else %}
-                                    <a href="/{{user.firstName}}/{{user.lastName}}/{{user.id}}" class="d-inline-block">
-                                        <img src="{% static 'Images/blankAvatar.png' %}" class="d-inline thumbnailForEachFriend"> 
-                                    </a>
-                                {% endif %}
-                                    <a href="/{{user.firstName}}/{{user.lastName}}/{{user.id}}" class="nameStylingForEachFriend">
-                                        <p class="nameStylingForEachFriend pl-3 ml-5">{{user.firstName}} {{user.lastName}}</p>
-                                    </a>
-                            {% if user in loggedInUser.friends.all%}
-                                    <p class="detailsStylingForEachFriend pl-3 ml-5">Friend 
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="6" height="6" fill="gray" class="bi bi-circle-fill ml-1" viewBox="0 0 16 16">
-                                            <circle cx="4" cy="4" r="4"/>
-                                        </svg>
-                                        {{user.userUniversity}}
-                                    </p>
-                            {% else %}
-                                {% if user.userUniversity == "" %}
-                                    <p class="detailsStylingForEachFriend pl-3 ml-5">Unnamed University</p>    
-                                {% else %}
-                                    <p class="detailsStylingForEachFriend pl-3 ml-5">{{user.userUniversity}}</p>
-                                {% endif %}
+                        {% if not user.profilePic == "" %} 
+                            <a href="/{{user.firstName}}/{{user.lastName}}/{{user.id}}" class="d-inline-block">
+                                <img src='{{ user.profilePic.url }}' class="d-inline thumbnailForEachFriend"> 
+                            </a>
+                        {% else %}
+                            <a href="/{{user.firstName}}/{{user.lastName}}/{{user.id}}" class="d-inline-block">
+                                <img src="{% static 'Images/blankAvatar.png' %}" class="d-inline thumbnailForEachFriend"> 
+                            </a>
+                        {% endif %}
+                            <a href="/{{user.firstName}}/{{user.lastName}}/{{user.id}}" class="nameStylingForEachFriend">
+                                <p class="nameStylingForEachFriend pl-3 ml-5">{{user.firstName}} {{user.lastName}}</p>
+                            </a>
+                    {% if user in loggedInUser.friends.all%}
+                            <p class="detailsStylingForEachFriend pl-3 ml-5">Friend 
+                                <svg xmlns="http://www.w3.org/2000/svg" width="6" height="6" fill="gray" class="bi bi-circle-fill ml-1" viewBox="0 0 16 16">
+                                    <circle cx="4" cy="4" r="4"/>
+                                </svg>
+                                {{user.userUniversity}}
+                            </p>
+                    {% else %}
+                        {% if user.userUniversity == "" %}
+                            <p class="detailsStylingForEachFriend pl-3 ml-5">Unnamed University</p>    
+                        {% else %}
+                            <p class="detailsStylingForEachFriend pl-3 ml-5">{{user.userUniversity}}</p>
+                        {% endif %}
 
-                            {% endif %}
-                                <div>
-                            </div>
-                        </td>
-                        <td class="emptySpace">
-                            <!-- Creates space in between -->
-                        </td>
-                        <td class="emptySpace">
-                            <!-- Creates space in between -->
-                        </td>
-                        <td class="emptySpace">
-                            <!-- Creates space in between -->
-                        </td>
-                        <td class="emptySpace">
-                            <!-- Creates space in between -->
-                        </td>
-                        <td class="emptySpace">
-                            <!-- Creates space in between -->
-                        </td>
-                        <td class="emptySpace">
-                            <!-- Creates space in between -->
-                        </td>
-                        <td class="emptySpace">
-                            <!-- Creates space in between -->
-                        </td>
-                        <td class="emptySpace">
-                            <!-- Creates space in between -->
-                        </td>
-                        <td class="emptySpace">
-                            <!-- Creates space in between -->
-                        </td>
-                        <td class="emptySpace">
-                            <!-- Creates space in between -->
+                    {% endif %}
                         </td>
                     {% if loggedInUser in user.friends.all and user in loggedInUser.friends.all %}
-                        <td class="">
-                            <button class="btn btn-secondary mt-3 ml-4 messageFriendButton">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black" class="bi bi-chat-dots-fill" viewBox="0 0 16 16">
-                                    <path d="M16 8c0 3.866-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7zM5 8a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
-                                </svg>
-                            </button>
+                        <td class="messageIcon">
+                            <a href="/{{user.firstName}}/{{user.lastName}}/{{user.id}}">
+                                <button class="btn btn-secondary mt-3 ml-4 messageFriendButton">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black" class="bi bi-chat-dots-fill" viewBox="0 0 16 16">
+                                        <path d="M16 8c0 3.866-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7zM5 8a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                                    </svg>
+                                </button>
+                            </a>
                         </td>
                     {% else %}
-                        <td>
+                        <td class="seeProfileIcon">
                             <a href="/{{user.firstName}}/{{user.lastName}}/{{user.id}}" class="nameStylingForEachFriend">
                                 <button type="button" class="btn btn-secondary mt-3">
                                     See Profile

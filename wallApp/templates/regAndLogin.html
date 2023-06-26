@@ -9,6 +9,7 @@
     <title>CollegeBook</title>
     {% load static %}	<!-- Need this line to use static images -->
     <link rel="stylesheet" href="{% static 'css/collegeWall.css' %}">  <!-- Need this line to use external stylesheet --> 
+    <link rel="shortcut icon" href="{% static 'images/logo.png' %}" type="favicon">
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
 
     <script>
@@ -47,6 +48,8 @@
                         $('#initialPassword').removeClass('decoratedErrorField');  //This resets/removes the red input box 
                         $('#confirmPassword').removeClass('decoratedErrorField');  //This resets/removes the red input box 
                         $('#userBirthdayMonthID').removeClass('decoratedErrorField');  //This resets/removes the red input box around the specific error that was raised
+                        $('#userBirthdayDayID').removeClass('decoratedErrorField');  //This resets/removes the red input box around the specific error that was raised
+                        $('#userBirthdayYearID').removeClass('decoratedErrorField');  //This resets/removes the red input box around the specific error that was raised
                         $(".displayErrors").hide(); 
                     }
                     $( '#registrationForm' ).hide();
@@ -172,18 +175,17 @@
 
 <body class="bg-light">
     <div class="container">
-        <div class="row mt-5">
-
+        <div class="row">
             <!-- The below code is the first column -->
-            <div class="col-sm-6">
-                <h2 class=" mt-4 ml-5 text-primary">College Book</h2>
-                <h4 class="ml-5 mt-3 font-italic font-weight-light">Good Vibes Only</h3>
-                <small class="text-secondary ml-5">Log In Or Create An Account.</small>
+            <div class="firstColumnOnRegAndLogin">
+                <h2 class="text-primary">College Book</h2>
+                <h4 class="font-italic font-weight-light">Good Vibes Only</h3>
+                <small class="text-secondary">Log In Or Create An Account.</small>
             </div>
             <!-- The above code is the first column -->
 
             <!-- The below code is the second column (login form) -->
-            <div id= "loginForm" class="col-sm-4 mt-5 ml-4 pb-4 bg-white rounded-lg">
+            <div id= "loginForm" class="col-sm-6 bg-white rounded-lg">
                 <form action="/processLogin" method="POST">
                     {% csrf_token %}
                     <div id="loginFormErrorsDiv">
@@ -208,12 +210,12 @@
                     </div>
                     <button type="submit" class="btn btn-primary col-sm-12 rounded-lg pt-2 pb-2">Log In</button>
                 </form>
-                <div class="mr-5 pr-5">
-                    <p class="decorativeLineOnLoginForm ml-2"> ________________________________________</p>
+                <div class="">
+                    <p class="decorativeLineOnLoginForm"> ________________________________________</p>
                 </div>
-                <div class="col-sm-12 ml-4 ">
+                <div class="col-sm-12">
                     <!-- Column two of three --> 
-                    <button type="submit" id="createAccount" class="btn btn-primary btn-success rounded-lg pt-2 pb-2 ml-5">Create New Account</button>
+                    <button type="submit" id="createAccount" class="btn btn-primary btn-success rounded-lg">Create New Account</button>
                 </div>     
             </div>
             <!-- The above code is the second column (login form) -->
@@ -223,35 +225,27 @@
                     <form action="" id="regForm" method="POST">    
                         <!-- Removed the url above to submit form data via jquery/ajax in the script-->
                             {% csrf_token %}
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <h2 class=" mb-0"> Sign Up</h2>
-                                </div>
-                                <div class="col-sm-3 ">
-                                    <!-- Column two of three --> 
-                                </div> 
-                                <div class="col-sm-3">
-                                    <h4 id= "XForRegistrationForm"class="font-weight-bolder text-secondary"> X <h4>
-                                    </div>
-                                </div>
-                                
+                            <div class="signUpDiv">
+                                <h2 class="signUpText"> Sign Up</h2>
+                                <h4 id= "XForRegistrationForm"class="font-weight-bolder text-secondary"> X <h4>
                                 <small id="signUp" class="ml-1 mt-1 text-muted">It's quick and easy.</small>
+                            </div>    
                             <div id="registrationErrors">
                                 <ul class="displayErrors mb-0">
                                     <!-- <li class="  text-danger"> </li> -->
                                 </ul>
                             </div>
-                        <p class="decorativeLineOnRegistrationForm">__________________________________________________________</p>
+                        <p class="decorativeLineOnRegistrationForm">_____________________________________</p>
                         
-                        <div class="form-group pt-0 d-inline">
+                        <div class="form-group d-inline">
                             <label for="firstName"></label>
-                            <input type="text" class="form-control d-inline ml-2 col-sm-5 " name="userFirstName"  id="userFirstNameID" placeholder="First Name" value="{{request.session.rememberFirstName}}">
+                            <input type="text" class="form-control d-inline col-sm-4 " name="userFirstName"  id="userFirstNameID" placeholder="First Name" value="{{request.session.rememberFirstName}}">
                             <label for="lastName"></label>
-                            <input type="text" class=" ml-4 form-control d-inline col-sm-5" name="userLastName" id="userLastNameID" placeholder="Last Name" value="{{request.session.rememberLastName}}">
-                        </div>
+                            <input type="text" class="form-control d-inline col-sm-4" name="userLastName" id="userLastNameID" placeholder="Last Name" value="{{request.session.rememberLastName}}">
+                        
 
-                        <input type="text" class="form-control mt-3" id="userRegistrationEmail" aria-describedby="emailHelp" name="initialEmail" placeholder="Email Address" value="{{rememberEmail}}">
-                        <small id="emailHelp" class=" ml-1 text-muted">We'll never share your email with anyone else.</small>
+                            <input type="text" class="form-control mt-3" id="userRegistrationEmail" aria-describedby="emailHelp" name="initialEmail" placeholder="Email Address" value="{{rememberEmail}}">
+                            <small id="emailHelp" class="text-muted">We'll never share your email with anyone else.</small>
 
                         <input type="password" class="form-control mt-1 mb-3" id="initialPassword" name="initialPassword" placeholder="New Password">
                         <input type="password" class="form-control mb-2" id="confirmPassword" name="userConfirmPassword" placeholder="Confirm Password">
@@ -262,13 +256,12 @@
                         </div>
 
                         <div id="birthdayInfoDiv">
-                            <p>Providing your birthday helps us to remind your college buddies to send you some love amidst midterms and papers.</p>
+                            <small>Providing your birthday helps us to remind your college buddies to send you some love amidst midterms and papers.</small>
                             <p class="decorativeLine">________________________________</p>
                             <button type="button" id="closeBirthdayInfoBoxButton" class="btn btn-primary btn-sm rounded-sm ml-5">Close</button>
                         </div>
 
-                        <div class="form-group pt-0 d-inline">
-                            <select class="form-control d-inline col-sm-4" name="birthdayMonth" id="userBirthdayMonthID">
+                            <select class="form-control d-inline col-sm-4 mt-3" name="birthdayMonth" id="userBirthdayMonthID">
                                 <option disabled selected>Month</option>
                                 <option value="January">January</option>
                                 <option value="February">February</option>
@@ -284,7 +277,7 @@
                                 <option value="December">December</option>
                             </select>
 
-                            <select id="userBirthdayDayID" class="form-control d-inline col-sm-3 ml-2 mr-2" name="birthdayDay">
+                            <select id="userBirthdayDayID" class="form-control d-inline col-sm-3 mt-3"  name="birthdayDay">
                                 <option  disabled selected>Day</option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
@@ -319,7 +312,7 @@
                                 <option value="31">31</option>
                             </select>
 
-                            <select id="userBirthdayYearID" class="form-control d-inline col-sm-4" name="birthdayYear">
+                            <select id="userBirthdayYearID" class="form-control d-inline col-sm-4 mt-3" name="birthdayYear">
                                 <option  disabled selected>Year</option>
                                 <option value="2020">2020</option>
                                 <option value="2019">2019</option>
@@ -352,8 +345,8 @@
                                 <option value="1991">1991</option>
                                 <option value="1990">1990</option>
                             </select>
-                        </div>
-                        <button type="submit" id="submitRegistrationFormButton" name="submitRegistrationFormButton" class="btn btn-primary col-sm-10 btn-success rounded-lg pt-2 pb-2 mt-3 ml-4 mb-3">Register</button>
+                        <button type="submit" id="submitRegistrationFormButton" name="submitRegistrationFormButton" class="btn btn-primary col-sm-12 btn-success rounded-lg pt-2 pb-2 mt-3 mb-3">Register</button>
+                    </div>
                     </form>
                 </div>
                 <!-- The above code is the register form that appears after ajax function is clicked -->

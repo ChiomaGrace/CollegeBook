@@ -12,15 +12,15 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 from pathlib import Path
 import os
-# import cloudinary #to save uploaded images in heroku/deployment stage
-# import cloudinary_storage #to save uploaded images in heroku/deployment stage
+import cloudinary #to save uploaded images in heroku/deployment stage
+import cloudinary_storage #to save uploaded images in heroku/deployment stage
 # from decouple import config #to hide/retrieve my cloud config that are below in the settings.py
-import dj_database_url
-import environ
+# import dj_database_url
+# import environ
 
-env = environ.Env()
+# env = environ.Env()
 
-environ.Env.read_env()
+# environ.Env.read_env()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -53,8 +53,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent #Use this for local
 SECRET_KEY = '29st2j=m_g=qpxaerv#q9j%9*e7!vo4!u79(f$6q@-6jg7a1+h'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True #Turned off for deployment
-DEBUG = False 
+DEBUG = True #Turned off for deployment
+# DEBUG = False 
 
 ALLOWED_HOSTS = [
     '*'
@@ -115,18 +115,18 @@ WSGI_APPLICATION = 'wall.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#
 
 #The below code is the database used for deployment (Render PostgreSQL)
-DATABASES = {
-    'default': dj_database_url.parse(env('DATABASE_URL'))
-}
+# DATABASES = {
+#     'default': dj_database_url.parse(env('DATABASE_URL'))
+# }
 #The above code is the database used for deployment (Render PostgreSQL)
 
 #The below code is the database used for local environment
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 #The above code is the database used for local environment
 
 
@@ -167,14 +167,15 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+# TIME_ZONE = 'UTC'
+
+TIME_ZONE = 'America/Los_Angeles'
+
+USE_TZ = True
 
 USE_I18N = True
 
 USE_L10N = True
-
-USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
