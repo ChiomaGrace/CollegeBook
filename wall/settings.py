@@ -129,6 +129,19 @@ DATABASES = {
 }
 #The above code is the database used for local environment
 
+# The below code is configuring the database for heroku deployment
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'URL': 'postgresql://postgres:A7SX8Twku67VOwimSgEq@containers-us-west-144.railway.app:5792/railway',
+        'NAME': 'railway',
+        'USER': 'postgres',
+        'PASSWORD': 'containers-us-west-144.railway.app',
+        'HOST': 'PGHOST',
+        'PORT': PGPORT,
+    }
+}
+# The above code is from here which is from vercel's settings config vars: postgres://
 
 # The below code is configuring the database for heroku deployment
 # DATABASES = {
@@ -141,7 +154,7 @@ DATABASES = {
 #         'PASSWORD': 'd298c7712382e93a1c1e5f46dd02d699cc27c6612e68a5a2da32f573c077da00',
 #     }
 # }
-# The above code is from here which is from heroku's settings config vars: postgres://axqbwmzhjpfmbg:d298c7712382e93a1c1e5f46dd02d699cc27c6612e68a5a2da32f573c077da00@ec2-35-174-35-242.compute-1.amazonaws.com:5432/d8ocpbri5qij5n
+# The above code is from here which is from vercel's settings config vars: postgres://axqbwmzhjpfmbg:d298c7712382e93a1c1e5f46dd02d699cc27c6612e68a5a2da32f573c077da00@ec2-35-174-35-242.compute-1.amazonaws.com:5432/d8ocpbri5qij5n
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -189,7 +202,12 @@ CLOUDINARY_STORAGE ={
 DEFAULT_FILE_STORAGE='cloudinary_storage.storage.MediaCloudinaryStorage' #This enables the media files to be saved/stored
 #The above code is added so media files save/stay in deployment
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') #added this in order for static files to deploy on heroku. this generates where static files are placed after running the manage.py collectstatic command
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') #added this in order for static files to deploy on heroku. this generates where static files are placed after running the manage.py collectstatic command
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static') #added this in order for static files to deploy on vercel. this generates where static files are placed after running the manage.py collectstatic command
+MEDIA_URLS ='/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 
 STATIC_URL = '/static/' #This url is how a client or browser can access static files. Example: https://www.example.com/staticFiles/nameOfImg.jpg.
 
@@ -202,10 +220,10 @@ STATICFILES_DIRS = (
 )
 
 
-# #I added the below lines of code #
+# #I added the below lines of code for deployment #
 # MEDIA_ROOT= os.path.join(BASE_DIR, 'media/') # contains the absolute path to the file system where media files will be uploaded to store the images on the computer.
-MEDIA_ROOT= os.path.join(BASE_DIR, '/media/') # contains the absolute path to the file system where media files will be uploaded to store the images on the computer.
-MEDIA_URL= "/media/"  #is the reference URL for browser to access the files over Http.
+# MEDIA_ROOT= os.path.join(BASE_DIR, '/media/') # contains the absolute path to the file system where media files will be uploaded to store the images on the computer.
+# MEDIA_URL= "/media/"  #is the reference URL for browser to access the files over Http.
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage' #This enables the app to now serve static assets directly from Gunicorn in production
 
