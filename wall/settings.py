@@ -58,7 +58,7 @@ DEBUG = True #Turned off for deployment
 
 ALLOWED_HOSTS = [
     '*'
-    # 'collegebookbychi.herokuapp.com', 
+    'collegebookbychi.herokuapp.com', 
     # '0.0.0.0',
     # 'localhost',
 ]
@@ -138,17 +138,17 @@ DATABASES = {'default': dj_database_url.config(default='postgresql://postgres:A7
 #The above code is the database used for local environment
 
 # The below code is configuring the database for vercel deployment
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'URL': 'postgresql://postgres:A7SX8Twku67VOwimSgEq@containers-us-west-144.railway.app:5792/railway',
-        'NAME': 'railway',
-        'USER': 'postgres',
-        'PASSWORD': 'A7SX8Twku67VOwimSgEq',
-        'HOST': 'containers-us-west-144.railway.app',
-        'PORT': '5792',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'URL': 'postgresql://postgres:A7SX8Twku67VOwimSgEq@containers-us-west-144.railway.app:5792/railway',
+#         'NAME': 'railway',
+#         'USER': 'postgres',
+#         'PASSWORD': 'A7SX8Twku67VOwimSgEq',
+#         'HOST': 'containers-us-west-144.railway.app',
+#         'PORT': '5792',
+#     }
+# }
 # The above code is from here which is from vercel's settings 
 
 # The below code is configuring the database for vercel deployment
@@ -166,16 +166,16 @@ DATABASES = {
 # The above code is from here which is from vercel's settings 
 
 # The below code is configuring the database for heroku deployment
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql', #using in deployment
-#         'NAME': 'd8ocpbri5qij5n', #using in deployment
-#         'HOST': 'ec2-35-174-35-242.compute-1.amazonaws.com',
-#         'PORT': '5432',
-#         'USER': 'axqbwmzhjpfmbg',
-#         'PASSWORD': 'd298c7712382e93a1c1e5f46dd02d699cc27c6612e68a5a2da32f573c077da00',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql', #using in deployment
+        'NAME': 'd8ocpbri5qij5n', #using in deployment
+        'HOST': 'ec2-35-174-35-242.compute-1.amazonaws.com',
+        'PORT': '5432',
+        'USER': 'axqbwmzhjpfmbg',
+        'PASSWORD': 'd298c7712382e93a1c1e5f46dd02d699cc27c6612e68a5a2da32f573c077da00',
+    }
+}
 # The above code is from here which is from vercel's settings config vars: postgres://axqbwmzhjpfmbg:d298c7712382e93a1c1e5f46dd02d699cc27c6612e68a5a2da32f573c077da00@ec2-35-174-35-242.compute-1.amazonaws.com:5432/d8ocpbri5qij5n
 
 # Password validation
@@ -227,9 +227,9 @@ DEFAULT_FILE_STORAGE='cloudinary_storage.storage.MediaCloudinaryStorage' #This e
 
 STATIC_URL = '/static/' #This url is how a client or browser can access static files. Example: https://www.example.com/staticFiles/nameOfImg.jpg.
 
-STATIC_ROOT = BASE_DIR / "staticfiles_build" / "static" #added this in order for static files to deploy on vercel. this generates where static files are placed after running the manage.py collectstatic command
+# STATIC_ROOT = BASE_DIR / "staticfiles_build" / "static" #added this in order for static files to deploy on vercel. this generates where static files are placed after running the manage.py collectstatic command
 # STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') #added this in order for static files to deploy on vercel. this generates where static files are placed after running the manage.py collectstatic command
-# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') #added this in order for static files to deploy on heroku. this generates where static files are placed after running the manage.py collectstatic command
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') #added this in order for static files to deploy on heroku. this generates where static files are placed after running the manage.py collectstatic command
 MEDIA_URLS ='/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
