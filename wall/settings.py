@@ -15,7 +15,7 @@ import os
 import cloudinary #to save uploaded images in heroku/deployment stage
 import cloudinary_storage #to save uploaded images in heroku/deployment stage
 # from decouple import config #to hide/retrieve my cloud config that are below in the settings.py
-# import dj_database_url
+import dj_database_url #for deployment
 # import environ
 
 # env = environ.Env()
