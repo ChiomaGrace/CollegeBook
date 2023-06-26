@@ -73,6 +73,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    "whitenoise.runserver_nostatic",  # added so media files save/stay in deployment
     'django.contrib.staticfiles',
     'cloudinary', #added so media files save/stay in deployment
     'cloudinary_storage', #added so media files save/stay in deployment
@@ -136,9 +137,9 @@ DATABASES = {
         'URL': 'postgresql://postgres:A7SX8Twku67VOwimSgEq@containers-us-west-144.railway.app:5792/railway',
         'NAME': 'railway',
         'USER': 'postgres',
-        'PASSWORD': 'containers-us-west-144.railway.app',
-        'HOST': 'PGHOST',
-        'PORT': PGPORT,
+        'PASSWORD': 'A7SX8Twku67VOwimSgEq',
+        'HOST': 'containers-us-west-144.railway.app',
+        'PORT': '5792',
     }
 }
 # The above code is from here which is from vercel's settings config vars: postgres://
