@@ -121,6 +121,13 @@ WSGI_APPLICATION = 'wall.wsgi.application'
 # }
 #The above code is the database used for deployment (Render PostgreSQL)
 
+#The below code is the database used for deployment (Vexel/Railway)
+# DATABASES['default'] = dj_database_url.config()
+DATABASES = {'default': dj_database_url.config(default='postgresql://postgres:A7SX8Twku67VOwimSgEq@containers-us-west-144.railway.app:5792/railway')}
+
+#The above code is the database used for deployment (Vexel Railway)
+
+
 #The below code is the database used for local environment
 DATABASES = {
     'default': {
