@@ -53,8 +53,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent #Use this for local
 SECRET_KEY = '29st2j=m_g=qpxaerv#q9j%9*e7!vo4!u79(f$6q@-6jg7a1+h'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True #Turned off for deployment
-# DEBUG = False 
+# DEBUG = True #Turned off for deployment
+DEBUG = False 
 
 ALLOWED_HOSTS = [
     '*'
@@ -122,12 +122,12 @@ WSGI_APPLICATION = 'wall.wsgi.application'
 #The above code is the database used for deployment (Render PostgreSQL)
 
 #The below code is the database used for local environment
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 #The above code is the database used for local environment
 
 # The below code is configuring the database for heroku deployment
