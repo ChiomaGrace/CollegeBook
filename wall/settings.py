@@ -57,8 +57,8 @@ SECRET_KEY = '29st2j=m_g=qpxaerv#q9j%9*e7!vo4!u79(f$6q@-6jg7a1+h'
 DEBUG = False 
 
 ALLOWED_HOSTS = [
-    '.vercel.app', 
-    '.now.sh',
+    # '.vercel.app', 
+    # '.now.sh',
     # 'collegebook-production.up.railway.app'
     '*'
     # 'collegebookbychi.herokuapp.com'
@@ -144,17 +144,17 @@ DATABASES = {
 #The above code is the database used for local environment
 
 # The below code is configuring the database for vercel deployment
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'URL': 'postgresql://postgres:A7SX8Twku67VOwimSgEq@containers-us-west-144.railway.app:5792/railway',
-#         'NAME': 'railway',
-#         'USER': 'postgres',
-#         'PASSWORD': 'A7SX8Twku67VOwimSgEq',
-#         'HOST': 'containers-us-west-144.railway.app',
-#         'PORT': '5792',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'URL': 'postgresql://postgres:A7SX8Twku67VOwimSgEq@containers-us-west-144.railway.app:5792/railway',
+        'NAME': 'railway',
+        'USER': 'postgres',
+        'PASSWORD': 'A7SX8Twku67VOwimSgEq',
+        'HOST': 'containers-us-west-144.railway.app',
+        'PORT': '5792',
+    }
+}
 # The above code is from here which is from vercel's settings 
 
 # The below code is configuring the database for vercel deployment
@@ -227,10 +227,11 @@ CLOUDINARY_STORAGE ={
             'API_KEY': '282544168462578',
             'API_SECRET': 'ENxRVBVJy7pG76TrjqLgB8nzd7s'
 }
-DEFAULT_FILE_STORAGE='cloudinary_storage.storage.MediaCloudinaryStorage' #This enables the media files to be saved/stored
+DEFAULT_FILE_STORAGE='cloudinary_storage.storage.MediaCloudinaryStorage'
+# STATICFILES_STORAGE = 'cloudinary_storage_storage.StaticHashedCloudinaryStorage' #This enables the media files to be saved/stored
 #The above code is added so media files save/stay in deployment
 
-
+ 
 STATIC_URL = '/static/' #This url is how a client or browser can access static files. Example: https://www.example.com/staticFiles/nameOfImg.jpg.
 
 # STATIC_ROOT = BASE_DIR / "staticfiles_build" / "static" #added this in order for static files to deploy on vercel. this generates where static files are placed after running the manage.py collectstatic command
@@ -249,7 +250,7 @@ STATIC_URL = '/static/' #This url is how a client or browser can access static f
     # os.path.join(BASE_DIR, "wallApp/static/JavaScript"),
 # )
 
-STATICFILES_DIRS = os.path.join(BASE_DIR, 'static'),
+STATICFILES_DIRS = os.path.join(BASE_DIR, 'wall/static'),
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
 
 
@@ -259,6 +260,14 @@ MEDIA_ROOT= os.path.join(BASE_DIR, 'media/') # contains the absolute path to the
 # MEDIA_ROOT= os.path.join(BASE_DIR, '/media/') # contains the absolute path to the file system where media files will be uploaded to store the images on the computer.
 MEDIA_URL= "/media/"  #is the reference URL for browser to access the files over Http.
 
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage' #This enables the app to now serve static assets directly from Gunicorn in production
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage' #This enables the app to now serve static assets directly from Gunicorn in production
+
+# The below code solves the collectstatic multiple paths error
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    #'django.contrib.staticfiles.finders.AppDirectoriesFinder',    #causes verbose duplicate notifications in django 1.9
+)
+# The above code solves the collectstatic multiple paths error
+
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

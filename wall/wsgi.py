@@ -19,4 +19,4 @@ application = get_wsgi_application()
 
 # application = DjangoWhiteNoise(application) #added this to show static files in deployment stage
 
-app = application #added this to deploy to vercel
+app= application #added this to deploy to vercel
