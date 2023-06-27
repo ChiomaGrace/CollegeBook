@@ -54,5 +54,5 @@ urlpatterns = [
     path('clearAllNotifications', views.clearAllNotifications),
     path('logout', views.logout),
 ] 
-urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)  # I added this to be able to provide an upload photo feature for the user profile pic. This specifically links to the media file that I defined in the settings.py
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)  # I added this to be able to use static files when deployed
+urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)  # I added this to be able to provide an upload photo feature for the user profile pic. This specifically links to the media file that I defined in the settings.py

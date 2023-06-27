@@ -17,6 +17,8 @@ import cloudinary_storage #to save uploaded images in heroku/deployment stage
 from decouple import config #to hide/retrieve my cloud config that are below in the settings.py
 import dj_database_url #for deployment
 # import environ
+import mimetypes
+
 
 # env = environ.Env()
 
@@ -250,10 +252,8 @@ STATIC_URL = '/static/' #This url is how a client or browser can access static f
     # os.path.join(BASE_DIR, "wallApp/static/JavaScript"),
 # )
 
-STATICFILES_DIRS = os.path.join(BASE_DIR, 'wall/static'),
+STATICFILES_DIRS = os.path.join(BASE_DIR, 'static'),
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
-
-
 
 # #I added the below lines of code for deployment #
 MEDIA_ROOT= os.path.join(BASE_DIR, 'media/') # contains the absolute path to the file system where media files will be uploaded to store the images on the computer.
@@ -269,5 +269,6 @@ STATICFILES_FINDERS = (
 )
 # The above code solves the collectstatic multiple paths error
 
+mimetypes.add_type("text/css", ".css")
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
