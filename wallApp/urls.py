@@ -1,3 +1,4 @@
+from django.contrib import admin
 from django.urls import path
 from . import views
 from django.conf import settings # I added this to link the lines of code I added in the settings.py (for the upload photo feature)

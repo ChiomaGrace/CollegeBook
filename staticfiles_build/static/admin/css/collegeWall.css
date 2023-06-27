@@ -1,0 +1,1315 @@
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+/* The below code is the css for the reg/login html for mobile */
+.container .row {
+    height: 100vh;
+    justify-content: center;
+    align-content: center;
+}
+
+.container .row #loginForm .col-sm-12 {
+    text-align: center;
+    padding-bottom: 14px;
+}
+
+.firstColumnOnRegAndLogin {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: #CCCCCC;
+    opacity: .9;
+    z-index: 998;
+    height: 100%;
+    width: 100%;
+}
+
+.decorativeLineOnLoginForm {
+    color: #DADDE1;
+    text-align: center;
+}
+
+.container .row .overlay #registrationForm {
+    display: flex;
+    align-items: center;
+    max-width: 100%;
+    height: 100%;
+}
+
+.container .row .overlay #registrationForm #regForm { /*The actual form*/
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    height: 447px;
+    overflow-y: auto;
+    background-color: white;
+    border: 4px solid #f1f1f1;
+}
+
+.container .row .overlay #registrationForm #regForm .signUpDiv {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.container .row .overlay #registrationForm #regForm .signUpDiv .signUpText {
+    flex: 1 0 85%;
+}
+
+#XForRegistrationForm{
+    cursor: pointer;
+    flex-grow: 1;
+}
+
+.container .row .overlay #registrationForm #regForm .decorativeLineOnRegistrationForm {
+    color: #DADDE1;
+    margin: 0px 4px 0px 4px;
+}
+
+#questionMark{
+    display: inline-block;
+    background-color: #616870;
+    border-radius: 50%;
+    color: white; 
+}
+
+.container .row .overlay #registrationForm #regForm #registrationErrors {
+   margin-right: 10px;
+}
+
+/* The above code is the css for the reg/login html for mobile */
+
+/* The below code is the css for the wall html for mobile screensize(s) */
+
+.bg-light .navbar .navbar-toggler .searchForm .form-inline .searchInput{
+    display: none;
+}
+
+.bg-light .row .firstWallColumn, .bg-light .row .lastWallColumn{
+    display: none;
+}
+
+.bg-light .row {
+    margin: 0px;
+}
+
+.bg-light .row .middleWallColumn{
+    z-index: 2;
+    margin-top: 10px;
+} 
+
+.bg-light .navbar {
+    justify-content: normal;
+    max-width: 100%;
+    padding: 6px 6px;
+}
+
+.bg-light .navbar-nav {
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.collapse:not(.show) {
+    display: flex;
+    width: 100%;
+    margin-top: 4px;
+}
+
+.collapse:not(.show) .form-inline {
+    flex: 1;
+}
+
+.bg-light .navBarStyle .navBarSecondSection {
+    display: none;
+}
+
+.bg-light .navBarStyle .logoLink {
+    order: -2;
+    flex-basis: 20%;
+}
+
+.bg-light .navBarStyle .navbar-toggler {
+    display: none;
+}
+
+.bg-light .navBarStyle .navBarThirdSection {
+    order: -1;
+    flex: 1;
+}
+
+.bg-light .navBarStyle .navbar-collapse .form-control {
+    height: calc(.6rem + 0.75rem + 2px);
+    width: 100%;
+}
+
+#logoIcon, #navIconProfPic, #notifIconProfPic, .commentIconProfPic {
+    width: 30px;
+    height: 30px;
+    border-radius: 60%;
+}
+
+#notifIconProfPic{
+    margin-top: -4px;
+}
+
+.notificationNumber {
+    border-radius: 50%;
+    border: red;
+    color: white;
+    position: absolute;
+    bottom: 14px;
+    left: 4px;
+    font-size: 9px;
+}
+
+#clearNotifications {
+    margin-left: auto;
+    padding-right: 6px;
+}
+
+.bg-light .navBarStyle .navBarThirdSection .navbar-nav .dropdown-menu {
+    position: absolute;
+    min-width: 250px;
+}
+
+.notificationsDropDownMenu{
+    border-radius: 6px;
+    z-index: 998; /* brings it in front of other elements */
+}
+
+.notificationsDropDownMenuDiv.show {
+    display: flex !important;
+    flex-direction: column;
+    flex-wrap: wrap;
+    transform: translateX(-88%); /*moves the dropdown menu to the left*/
+    display: contents;
+}
+
+.dropdown-item {
+    white-space: normal;
+    padding: 0px 12px;
+}
+
+.notificationsDropDownMenuDiv .dropdown-item {
+    display: contents;
+}
+
+.nameInNotification, .specificNotificationText {
+    height: 0;
+    font-size: 14px;
+}
+
+.nameInNotification{
+    font-weight: bold;
+    max-width: 100%;
+    color: black;
+}
+
+.specificNotification, .specificNotificationText {
+    position: relative;
+    margin: 0px 4px;
+}
+
+.specificNotificationText {
+    margin-left: 39px;
+    z-index: 4;
+    top: -14px;
+}
+
+.specificRedButtonDiv {
+    position: absolute;
+    margin-top: -16px;
+    display: contents;
+}
+
+.friendRequestButtonDiv{
+    height: 30px;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+}
+
+.row .middleWallColumn .listOfPostedMessagesOnWall #postAMessageForm{
+    border-radius: 10px;
+}
+
+.row .middleWallColumn .listOfPostedMessagesOnWall #postAMessageForm .form-group {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.postMessageProfPicLink {
+    margin-top: 14px;
+    padding-right: 4px;
+}
+
+ .userMessageDiv {
+    flex-basis: 80%;
+    display: flex;
+    margin-top: 14px;
+}
+
+.postAMessageButtonDiv {
+    display: flex;
+    width: 90%;
+    margin: 12px 0px;
+}
+
+#postAMessageButton {
+    flex: 1;
+}
+
+#userMessageID {
+    background-color: #F0F2F5;
+    border-color: #F0F2F5;
+    font-size: small;
+}
+
+.messageContentsDivOnWall {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.likeDislikeCountText {
+    margin-bottom: 6px;
+}
+
+.postMessageProfPic {
+    width: 40px;
+    height: 40px;
+    border-radius: 60%;
+}
+
+.row .middleWallColumn .listOfPostedMessagesOnWall {
+    border-radius: 10px;
+}
+
+.messageContentsDivOnWall .nameInPost {
+    position: relative;
+    z-index: 2;
+    margin-left: 4px;
+}
+
+.messageContentsDivOnWall .carrotSymbol {
+    margin: 0px 8px;
+}
+
+.messageContentsDivOnWall .nameInPost, 
+.messageContentsDivOnWall .userReceivesNameOnWall {
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.messageContentsDivOnWall .messageCreatedAtWithThumbnail {
+    flex-basis: 100%;
+    order: 2;
+    margin-left: 44px;
+    position: absolute;
+    padding-top: 26px;
+    font-size: 8px;
+}
+
+.messageCreatedAtWithThumbnail a {
+    all: unset;
+}
+
+.messageTextOnWall {
+    margin-bottom: 0px;
+}
+
+.messageContentsDivOnWall .deleteMessageDiv {
+    margin-left: auto;
+    max-height: 0px;
+    align-self: flex-start;
+}
+
+.commentSectionDivOnWall {
+    display: flex;
+    max-width: 100%;
+    word-break: break-word;
+    margin-bottom: 10px;
+}
+
+.commentSection {
+    padding: 0px 4px;
+    display: flex;
+    flex-wrap: wrap;
+    border-radius: 10px;
+    line-height: 1.2;
+}
+
+.commentHeadText{
+    flex-grow: 1;
+    align-self: end;
+    text-align: left;  
+    font-weight: 400;
+    font-size: 12px;
+}
+
+.commentSubText {
+    flex-basis: 100%;
+    order: 2;
+    word-break: break-word;
+}
+
+.deleteCommentBinButtonOnWall {
+    margin-left: auto;
+}
+
+.commentSubDivOnWall {
+    display: flex;
+    align-items: center;
+}
+
+#userMessageID, .commentTextAreaOnForm {
+    resize: none;
+
+}
+
+.commentTextAreaOnForm{
+    height: max-content !important;
+    margin: 0px 4px;
+}
+
+#postACommentForm .commentSubDivOnWall .postACommentButton .sendIcon {
+    display: block;
+}
+
+.displayCommentErrors{
+    margin-left: 40px;
+    margin-bottom: 0px;
+}
+
+.displayCommentErrors li{
+    list-style-type: none;
+}
+
+.likeUnlikeCommentButtonStylingOnWall{
+    border: none;
+    font-size: 14px;
+}
+
+.likeUnlikeCommentButtonStylingOnWall:hover {
+    background-color: #007bff;
+}
+
+.col-sm-6 {
+    flex: 100%;
+    max-width: 100%;
+}
+
+.deletePostBin {
+    width: 12px;
+    height: 12px;
+}
+
+/* The above code is the css for the wall html for mobile screensize(s) */
+
+/* The below code is the css for the home html for mobile screensize(s) */
+
+.container .profilePicBanner {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+}
+
+.container .profilePicBanner .col-sm {
+    align-self: end;
+}
+
+.profilePicBanner{
+    background-color: white;
+    border-radius: 10px;
+}
+
+.profilePicContainerDiv {
+    text-align: center;
+}
+
+#profilePicContainer{
+    height: 160px;
+    width: 160px;
+    border: 3px dashed darkgray;
+    background-color: #fafafa;
+    font-family: "Calibri";
+    font-size: 9px;
+    text-align: center;
+    vertical-align: middle;
+    padding-top: 30px;
+    color: darkgrey;
+    cursor: pointer;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+}
+
+#profilePicForm, .clearImageForm {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    position: relative;
+}
+
+#profilePicForm {
+    height: 160px;
+}
+
+#button {  /*The button holding the save symbol */
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-left: 154px;
+    margin-bottom: 36px;
+    position: absolute;
+    align-self: flex-end;
+}
+
+.clearImage { /*For when the image is in the database */
+    margin-left: 160px;
+    margin-bottom: 124px;
+    position: absolute;
+    align-self: flex-end;
+    font-weight: bolder; 
+    color: black;
+    font-size: small;
+}
+
+#userProfileHeaderText{
+    width: 100%;
+    text-align: center;
+    padding: 0% 15%;
+}
+
+#userProfileHeaderForm{
+    display: none;
+    padding: 0px 20%;
+}
+
+#userProfileHeaderTextArea {
+    resize: none;
+}
+
+.saveCancelButtons {
+    text-align: end;
+}
+
+.profilePicBannerLinksDiv {
+    width: 100%
+}
+
+.moreText{
+    display: none;
+}
+
+.loggedInPageContentDiv {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+}
+
+.triDiv {
+    flex-grow: 1;
+}
+
+.introDiv, .allUsersDiv, .friendsDiv {
+    display: none;
+}
+
+.introDiv {
+    height: 280px;
+    border-radius: 8px;
+    margin: 10px 0px;
+}
+
+.friendsIconName{
+    font-size: 12px;
+    padding-left: 20px;
+}
+
+.friendsIconNameWithBlankAvatar{
+    font-size: 12px;
+    text-align: center;
+    padding-left: 20px;
+}
+
+.friendsIconProfPic{
+    width: 44px;
+    height: 44px;
+    border-radius: 30%;
+    position: relative;
+    margin-left: 24px;
+}
+
+.friendsLinkStyling{
+    padding-left: 60px;
+}
+
+#profileIntroFormDiv { /*The div that contains the update intro form*/
+    background-color: white;
+    border: 4px solid #f1f1f1;
+    cursor: pointer;
+    width: 96%;
+    display: flex;
+    justify-content: center;
+    /* max-width: 78%; */
+    max-width: 100%;
+}
+
+#profileIntroForm {
+    flex-grow: 1;
+    /* margin: 0px -14px; */
+    font-size: 14px;
+}
+
+.profileIntroFormDivHeadings .text-secondary {
+    margin-left: auto;
+    padding-right: 12px;
+}
+
+.decorativeLine{
+    color: #DADDE1;
+}
+
+#userUniversityID, #userHighSchoolID, #userDormBuildingID, #userHomeTownID {
+    width: 64%;
+}
+
+.studiesAtText {
+    padding-right: 3px;
+}
+
+.wentToText {
+    padding-right: 12px;
+}
+
+.livesInText {
+    padding-right: 16px;
+}
+
+.fromText {
+    padding-right: 28px;
+}
+
+.editDetailsButtonStyling {
+    width: 100%;
+    text-align: center;
+}
+
+.emptyEditDetailsButton {
+    margin-top: 60px;
+}
+
+.editDetailsButtonSpecificUser {
+    margin-top: 80px;
+}
+
+.allUsersDiv, .friendsDiv {
+    height: 200px;
+    border-radius: 6px;
+}
+
+.allUsersDiv {
+    margin: 10px 0px;
+}
+
+.allUsersDiv p, .friendsDiv p {
+    position: absolute;
+    z-index: 0;
+}
+
+.friendsDiv {
+    margin-bottom: 30px;
+}
+
+.noFriendsText{
+   text-align: center;
+}
+
+.showAllUsers{
+    display: none;
+    left: 10px;
+}
+
+.showFriends{
+    display: none;
+}
+
+.noFriendsText {
+    border: none !important;
+    background-color: #f8f9fa;
+}
+
+.allUsersTableTitleText {
+    border: none !important;
+}
+
+.seeProfileButton {
+    text-align: end;
+}
+
+.allUsersDiv, .friendsDiv {
+    overflow-y: auto;
+}
+
+.allUsersLink, .friendsLinkStyling{
+    font-size: small;
+    text-align: end;
+}
+
+.allUsersLink, .friendsLinkStyling {
+    width: 94%;
+}
+
+.profilePicBannerLinks:focus {
+    background-color: #F8F9FA;
+}
+
+.specificIntroDiv {
+    margin-left: 10px;
+}
+
+.specificIntroCaption {
+    font-size: 14px;
+}
+
+.specificIntroDetail {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.profileIntroFormDivOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: #CCCCCC;
+    opacity: .9;
+    z-index: 998;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profileIntroFormDivHeadings {
+    display: flex;
+    flex-direction: row;
+}
+
+.postAMessageDiv {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    border-radius: 8px;
+}
+
+/* The above code is the css for the home html for mobile screensize(s) */
+
+/* The below code is the css for the specific user page for mobile screesize(s) */
+#mainSendFriendRequestButton, #mainPendingFriendRequestButton {
+    order: -2;
+    font-size: 12px;
+    align-self: end;
+    margin-right: 10px;
+}
+/* The above code is the css for the specific user page for mobile screensize(s) */
+
+/* The below code is the css for the no user found page for mobile screensize(s) */
+.pageNotFoundDiv {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    /* max-width: 282px; */
+    padding: 10px 15px 0px 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.thumbsDownDiv {
+    text-align: center;
+}
+
+.noUserFound .container{
+    background-color: pink !important;
+}
+
+/* .searchResultsDiv {
+    width: 60%;
+} */
+
+.searchResultsText {
+    /* text-decoration: underline;
+    color: #DADDE1; */
+}
+
+/* The above code is the css for the no user found page for mobile screensize(s) */
+
+@media (min-width: 576px) {
+    
+/* The below code is the css for the reg/login html for tablet */
+    .container .row .overlay #registrationForm #regForm .form-group.d-inline #userFirstNameID,
+    .container .row .overlay #registrationForm #regForm .form-group.d-inline #userLastNameID {
+        max-width: 48%;
+    }
+
+    .container .row .overlay #registrationForm #regForm { /*The actual form*/
+        height: max-content;
+        overflow-y: auto;
+    }
+
+    .container .row .overlay #registrationForm #regForm .signUpDiv .signUpText {
+        flex: 1 0 92%;
+    }
+    
+    #XForRegistrationForm{
+        flex-grow: 0;
+    }
+
+    .profileIntroFormDivOverlay .col-sm-12 {
+        /* max-width: 80%;  */
+        max-width: 60%; 
+    }
+
+    #profileIntroFormDiv { /*The div that contains the update intro form*/
+        max-width: 60%;
+    }
+
+
+}
+
+@media (min-width: 768px) {
+    .container .row {
+        margin-top: 0px;
+    }
+    .container .row .firstColumnOnRegAndLogin {
+        align-self: center;
+    }
+    
+    .container .row .firstColumnOnRegAndLogin h2 {
+        font-size: 44px;
+    }
+    
+    .container .row .firstColumnOnRegAndLogin h4 {
+        font-size: 32px;
+    }
+
+    .firstColumnOnRegAndLogin {
+        align-self: center;
+        padding-right: 50px;
+    }
+    
+    #loginForm {
+        flex: 1 0 33.33%;
+        margin-top: 0px;
+        align-self: center;
+    }
+
+    .container .row .overlay #registrationForm #regForm { /*The actual form*/
+        justify-content: center;
+    }
+
+    .container .row .overlay #registrationForm #regForm #submitRegistrationFormButton { /*The actual form*/
+        max-width: 100%;
+    }
+
+    .container .row .overlay #registrationForm #regForm .decorativeLineOnRegistrationForm {
+       display: none;
+    }
+
+    .container .row .overlay #registrationForm #regForm .form-group.d-inline #userFirstNameID,
+    .container .row .overlay #registrationForm #regForm .form-group.d-inline #userLastNameID {
+        max-width: 48%;
+    }
+
+/* The above code is the css for the reg/login html for tablet screensize(s) */
+
+/* The below code is the css for the wall html for tablet screensize(s) */
+    .bg-light .row {
+        justify-content: center;
+        flex-wrap: nowrap;
+    }
+
+    .col-sm-6 {
+        flex: 60%;
+        max-width: 80%;
+    }
+
+    .bg-light .navbar {
+        justify-content: normal;
+    }
+
+    .bg-light .navbar .navbar-toggler .searchForm .form-inline .searchInput{
+        display: none;
+    }
+
+    .bg-light .navBarStyle .logoLink {
+        order: 0;
+        flex-basis: 15%;
+    }
+
+    .collapse:not(.show) {
+        flex-basis: 59%;
+        margin-top: 0px;
+    }
+
+    .collapse:not(.show) .form-inline {
+        justify-content: center;
+    }
+
+    .bg-light .navBarStyle .navbar-collapse .form-control {
+        width: 50%;
+    }
+
+    .bg-light .navBarStyle .navBarThirdSection {
+        order: 0;
+        flex-basis: 24%;
+    }
+
+    .notificationsDropDownMenuDiv{
+        transform: translateX(-86%); 
+    }
+
+    .bg-light .row .firstWallColumn{
+        display: block;
+    }
+
+    .sidebarIconsDiv {
+        position: fixed;
+    }
+    .sidebarIconsDiv {
+        position: fixed;
+    }
+
+    .sidebarIcons {
+        margin-bottom: 67px;
+    }
+
+    .messageContentsDivOnWall .nameInPost, .messageContentsDivOnWall .userReceivesNameOnWall {
+        font-size: 14px;
+    }
+
+    .userMessageDiv {
+        flex-basis: 80%;
+        display: flex;
+    }
+
+    .bg-light .row .lastWallColumn{
+        display: none;
+    }
+
+/* The above code is the css for the wall html for tablet screensize(s) */
+
+/* The below code is the css for the home html for tablet screensize(s) */
+    .introDiv {
+        margin: 7px 0px;
+    }
+    .specificIntroDiv {
+        margin-left: 10px;
+    }
+
+    .listOfPostedMessages {
+        flex: 1 0 60%;
+        padding-left: 10px;
+    }
+
+    .introDiv, .allUsersDiv, .friendsDiv {
+        display: block;
+    }
+
+    .moreText{
+        display: inline-block;
+    }
+
+    #profileIntroFormDiv { /*The div that contains the update intro form*/
+        /* max-width: 50%; */
+    }
+
+    .decorativeLine{
+        display: none;
+    }
+
+    .customizeIntroText{
+   
+    }
+/* The above code is the css for the home html for tablet screensizes */
+
+
+/* The below code is the css for the no user found page for tablet screensize(s) */
+    .pageNotFoundDiv {
+        max-width: 560px;
+    }
+    
+/* The above code is the css for the no user found page for tablet screensize(s) */
+}
+
+
+@media (min-width: 1024px) {
+    
+/* The below code is the css for the reg/login html for laptop screensize(s) */
+    .container .row .overlay #registrationForm #regForm { /*The actual form*/
+        max-width: 80%;
+    }
+
+    .container .row .overlay #registrationForm {
+        justify-content: center;
+    }
+
+    
+/* The above code is the css for the reg/login html for laptop screensize(s) */
+
+/* The below code is the css for the wall html for laptop screensize(s) */
+    .collapse:not(.show) {
+        flex-basis: 44%;
+    }
+
+    .col-sm-6 {
+        flex: 60%;
+        max-width: 80%;
+    }
+
+    .bg-light .navBarStyle .navBarSecondSection {
+        display: flex;
+    }
+
+    .buttonOfNavIcons {
+        border-color: transparent;
+        padding-right: 10px;
+    }
+
+    .bg-light .row .lastWallColumn {
+        display: flex;
+        flex-direction: row-reverse;
+    }
+
+    .rightSidebarIconsDiv {
+        padding-left: 30px;
+    }
+
+    .nameInNotification, .specificNotificationText {
+        font-size: 16px;
+    }
+
+/* The above code is the css for the wall html for laptop screensize(s) */
+
+/* The below code is the css for the home html for laptop screensize(s) */
+    .bg-light .navBarStyle .logoLink {
+        flex-basis: 6%;
+    }
+
+    .collapse:not(.show) {
+       flex-basis: 0%;
+    }
+
+    .collapse:not(.show) .form-inline {
+        flex: none;
+        flex-basis 36%
+    }
+
+    .bg-light .navBarStyle .navbar-collapse .form-control {
+        width: 100%;
+    }
+
+    .bg-light .navBarStyle .navBarSecondSection {
+        flex: 1;
+        justify-content: space-around;
+    }
+
+    .bg-light .navBarStyle .navBarThirdSection {
+        order: 0;
+        flex-basis: 0%;
+        flex: 0;
+    }
+
+    #profileIntroFormDiv { /*The div that contains the update intro form*/
+        /* max-width: 30%; */
+    }
+
+
+/* The above code is the css for the home html for laptop screensize(s) */
+
+/* The below code is the css for the no user found page for laptop screensize(s) */
+    .messageIcon, .seeProfileIcon {
+        text-align: end;
+        /* margin-right: 10px; */
+    }
+
+    .pageNotFoundDiv {
+        max-width: 720px;
+    }
+/* The above code is the css for the no user found page for laptop screensize(s) */
+}
+
+
+
+/*This is the template/normal sized computer aka what the css standard is*/
+/* @media only screen and (min-width: 1024px) and (max-width: 1439px) { */
+    .addFriendText{ /* the text on the add friend button on the show all users html */
+        text-indent: 16px;
+    }
+
+    .bi-chat-dots-fill{ /* The message symbol inside the button for each individual friend */
+        margin-left: -2px;
+        margin-top: -3px;
+    }
+
+    #birthdayInfoBox{
+        border: 1px solid #f1f1f1;
+        margin-left: 30%;
+        font-family: Georgia, 'Times New Roman', Times, serif;
+        font-size: small;
+    }
+
+    #birthdayLabel{
+        display: inline-block
+    }
+
+    #closeBirthdayInfoBoxButton{
+        margin-left: 20%;
+    }
+
+    .confirmCancelNotificationButton{
+        width: 90px;
+        height: 30px;
+    }
+
+    .connectLine{
+        margin-top: -1px;
+    }
+
+    .decoratedErrorField{
+        border:1px solid red;
+    }
+
+    .decorativeLineOnPageNotFound{
+        color: #DADDE1;
+    }
+
+    .detailsStylingForEachFriend{ /* This is when a user search cannot be found and the friend list shows. Styling for the first and last name */
+        margin-top: -20px;
+        font-size: small;
+    }
+
+    #errorDialogForFileSize{ /*The div containing the message of the error dialog box for an uploaded image*/
+        display: none;
+    } 
+
+    #errorDialogForFileType{ /*The div containing the message of the error dialog box for an uploaded image*/
+        display: none;
+    }
+
+
+
+    .hide {
+        display: none;
+    }
+
+    .hideButtons{
+        display: none;
+    }
+
+    .listOfPostedMessages{
+        border-radius: 10px;
+        width: 100%;
+    }
+
+    #messageBin{
+        margin-top: -34px;
+    }
+
+    .messageFriendButton{
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+    }
+
+    .nameStylingForEachFriend{
+        margin-top: -50px;
+        color: black;
+        font-weight: bold;
+    }
+
+    .noDormBuilding{
+        display: none;
+    }
+
+    .pageNotFoundStyling{
+        text-align: center;
+        margin-left: 14px;
+    }
+
+    #pendingFriendRequestButton{ /*The styling of the button on the home page*/
+        font-size: 8px;
+        text-align: center;
+    }
+
+
+    #profilePicContainer.dragging {
+        border-color: green;
+        border-width: 10px;
+        opacity: .3;
+    }
+
+    #profilePicForm{
+        height: 160px;    
+    }
+
+    .profilePicBannerLinks{
+        color: darkgrey;
+        border-color: transparent;
+        font-size: 16px;
+        font-style: oblique;
+        /* font-weight: bold; */
+    }
+
+    .removeFriendRequestButton{
+        font-size: 8px;
+        text-align: center;
+    }
+
+    .save{
+        /* display: inline-block; */
+        height: 18px;
+        width: 18px;
+        transform: translateX(-12%);
+    }
+
+    #searchBarForm{
+        height: 38px;
+        width: 180px;
+    }
+
+    .settingsDropDownMenuDiv{
+        left: 50%; /*positions the left edge of the dropdown in the center of its parent*/
+        right: auto; /*ensures that the dropdown's width doesn't get messed up.*/
+        transform: translateX(-100%); /*moves the dropdown menu to the left*/
+        border-radius: 6px;
+        z-index: 998; /* brings it in front of other elements */
+    }
+
+    .table{ /*Style of the table when it displays all the users or the friends*/
+        border-radius: 10px;
+    }
+
+    #searchBarForm{
+        width: 30px;
+        height: 30px;
+        border-radius: 60%;
+    }
+
+    .thumbnailForEachFriend{
+            width: 60px;
+            height: 60px;
+            border-radius: 60%;
+            margin-top: 6px;
+    }
+
+    .ui-dialog .ui-dialog-buttonpane button{ /*The css for the okay button on the error dialog box for uploading an image*/
+        background-color: blue;
+        color: white;
+        border-color: white;
+        border-width: 1px;
+    }
+
+    .ui-button .ui-icon{ /*The css for the X on the error dialog box for uploading an image*/
+        background-image: url(../CSS/redIcons.png);
+    }
+
+    .ui-dialog .ui-dialog-titlebar{ /*The css for the top section on the error dialog box for uploading an image*/
+        background-color: blue;
+        color: white;
+    }
+
+    .ui-dialog .ui-dialog-titlebar-close { /*The css for the close button on the error dialog box for uploading an image*/
+        /* background-color: red; */
+        border-color: white;
+        border-width: 1px;
+    }
+
+    .ui-icon.ui-icon-alert{ /*The css for the error icon on the error dialog box for uploading an image*/
+        float:left; 
+        margin:0 7px 20px 0;
+        /* background-image: url(http://download.jqueryui.com/themeroller/images/ui-icons_ff0000_256x240.png
+        ); */ /*another way to change the color of the icon above w this link but better to save the file locally*/
+        background-image: url(../CSS/redIcons.png);
+    }
+
+    .ui-widget.ui-widget-content{  /*The div of the entire error dialog box for an uploaded image */
+        left: 480px; 
+        top: 80px; 
+        text-align: left;
+        vertical-align: top; 
+    }
+
+    .uploadedPhotoProperties {
+        position: absolute;
+        top: -10px;
+        left: 50%;
+        width: 110%;
+        height: 110%;
+        transform: translateX(-50%);
+    }
+
+    #userNameText{
+        text-align: center;
+    }
+
+/* } */
+/* The end of the "standard" sized computer aka what the css standard is*/
+
+
+/*This is a media only for a (large) phone*/
+@media only screen and (min-width: 425px) and (max-width: 767px){
+
+    .pageNotFoundStyling{
+        text-align: center;
+        margin-left: 14px;
+        margin-top: -10px;
+    }
+
+} 
+
+/*This is a media only for a (medium-sized) phone*/
+@media only screen and (min-width: 375px) and (max-width: 424px){
+ 
+
+    #birthdayDayOnRegistrationForm{
+        position: relative;
+        left: -4px;
+        top: 8px;
+    }
+
+    #birthdayYearOnRegistrationForm{
+        position: relative;
+        left: 4px;
+        top: 16px;
+    }
+
+    #emailHelp{
+        position: relative;
+        left: 6px;
+    }
+    
+} 

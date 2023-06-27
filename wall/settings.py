@@ -53,14 +53,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent #Use this for local
 SECRET_KEY = '29st2j=m_g=qpxaerv#q9j%9*e7!vo4!u79(f$6q@-6jg7a1+h'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True #Turned off for deployment
-# DEBUG = False 
+# DEBUG = True #Turned off for deployment
+DEBUG = False 
 
 ALLOWED_HOSTS = [
     '.vercel.app', 
     '.now.sh',
-    'collegebook-production.up.railway.app'
-    # '*'
+    # 'collegebook-production.up.railway.app'
+    '*'
     # 'collegebookbychi.herokuapp.com'
     # '0.0.0.0',
     # 'localhost',
@@ -236,8 +236,8 @@ STATIC_URL = '/static/' #This url is how a client or browser can access static f
 # STATIC_ROOT = BASE_DIR / "staticfiles_build" / "static" #added this in order for static files to deploy on vercel. this generates where static files are placed after running the manage.py collectstatic command
 # STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') #added this in order for static files to deploy on vercel. this generates where static files are placed after running the manage.py collectstatic command
 # STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') #added this in order for static files to deploy on heroku. this generates where static files are placed after running the manage.py collectstatic command
-MEDIA_URLS ='/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# MEDIA_URLS ='/media/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 
@@ -255,10 +255,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
 
 
 # #I added the below lines of code for deployment #
-# MEDIA_ROOT= os.path.join(BASE_DIR, 'media/') # contains the absolute path to the file system where media files will be uploaded to store the images on the computer.
+MEDIA_ROOT= os.path.join(BASE_DIR, 'media/') # contains the absolute path to the file system where media files will be uploaded to store the images on the computer.
 # MEDIA_ROOT= os.path.join(BASE_DIR, '/media/') # contains the absolute path to the file system where media files will be uploaded to store the images on the computer.
-# MEDIA_URL= "/media/"  #is the reference URL for browser to access the files over Http.
+MEDIA_URL= "/media/"  #is the reference URL for browser to access the files over Http.
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage' #This enables the app to now serve static assets directly from Gunicorn in production
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage' #This enables the app to now serve static assets directly from Gunicorn in production
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
