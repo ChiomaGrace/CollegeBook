@@ -178,7 +178,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2', #using in deployment
         'NAME': 'collegebook', #using in deployment
-        'HOST': 'localhost',
+        # 'HOST': 'localhost',
+        'HOST': '*',
         'PORT': '5432',
         'USER': 'postgres',
         'PASSWORD': 'password',
