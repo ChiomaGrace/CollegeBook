@@ -128,7 +128,7 @@ WSGI_APPLICATION = 'wall.wsgi.application'
 
 #The below code is the database used for deployment (Vexel/Railway)
 # DATABASES = {'default': dj_database_url.config(default='postgresql://postgres:A7SX8Twku67VOwimSgEq@containers-us-west-144.railway.app:5792/railway')}
-DATABASE_URL = "postgresql://postgres:0OjIlRhMzJy1n0mysXkf@containers-us-west-15.railway.app:6344/railway"
+# DATABASE_URL = "postgresql://postgres:V6FtoLQxnDkiGkjqwkAU@containers-us-west-59.railway.app:6071/railway"
 # DATABASES['default'] = dj_database_url.config()
 # DATABASES = {
 #     'default': dj_database_url.config(default=DATABASE_URL, conn_max_age=1800)
@@ -160,30 +160,30 @@ DATABASE_URL = "postgresql://postgres:0OjIlRhMzJy1n0mysXkf@containers-us-west-15
 # The above code is from here which is from vercel's settings 
 
 # The below code is configuring the database for vercel deployment
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'URL': 'postgresql://postgres:A7SX8Twku67VOwimSgEq@containers-us-west-144.railway.app:5792/railway',
-        'NAME': 'railway',
-        'USER': 'postgres',
-        'PASSWORD': 'A7SX8Twku67VOwimSgEq',
-        'HOST': 'containers-us-west-144.railway.app',
-        'PORT': '5792',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'URL': 'postgresql://postgres:A7SX8Twku67VOwimSgEq@containers-us-west-144.railway.app:5792/railway',
+#         'NAME': 'railway',
+#         'USER': 'postgres',
+#         'PASSWORD': 'A7SX8Twku67VOwimSgEq',
+#         'HOST': 'containers-us-west-144.railway.app',
+#         'PORT': '5792',
+#     }
+# }
 # The above code is from here which is from vercel's settings 
 
 # The below code is configuring the database for heroku deployment
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql', #using in deployment
-#         'NAME': 'd8ocpbri5qij5n', #using in deployment
-#         'HOST': 'ec2-35-174-35-242.compute-1.amazonaws.com',
-#         'PORT': '5432',
-#         'USER': 'axqbwmzhjpfmbg',
-#         'PASSWORD': 'd298c7712382e93a1c1e5f46dd02d699cc27c6612e68a5a2da32f573c077da00',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', #using in deployment
+        'NAME': 'collegebook', #using in deployment
+        'HOST': 'localhost',
+        'PORT': '5432',
+        'USER': 'postgres',
+        'PASSWORD': 'password',
+    }
+}
 # The above code is from here which is from vercel's settings config vars: postgres://axqbwmzhjpfmbg:d298c7712382e93a1c1e5f46dd02d699cc27c6612e68a5a2da32f573c077da00@ec2-35-174-35-242.compute-1.amazonaws.com:5432/d8ocpbri5qij5n
 
 # Password validation
