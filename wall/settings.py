@@ -146,20 +146,6 @@ WSGI_APPLICATION = 'wall.wsgi.application'
 #The above code is the database used for local environment
 
 # The below code is configuring the database for vercel deployment
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'URL': 'postgresql://postgres:A7SX8Twku67VOwimSgEq@containers-us-west-144.railway.app:5792/railway',
-#         'NAME': 'railway',
-#         'USER': 'postgres',
-#         'PASSWORD': 'A7SX8Twku67VOwimSgEq',
-#         'HOST': 'containers-us-west-144.railway.app',
-#         'PORT': '5792',
-#     }
-# }
-# The above code is from here which is from vercel's settings 
-
-# The below code is configuring the database for vercel deployment
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -172,19 +158,6 @@ DATABASES = {
     }
 }
 # The above code is from here which is from vercel's settings 
-
-# The below code is configuring the database for heroku deployment
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2', #using in deployment
-#         'NAME': 'collegebook', #using in deployment
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#         'USER': 'postgres',
-#         'PASSWORD': 'password',
-#     }
-# }
-# The above code is from here which is from vercel's settings config vars: postgres://axqbwmzhjpfmbg:d298c7712382e93a1c1e5f46dd02d699cc27c6612e68a5a2da32f573c077da00@ec2-35-174-35-242.compute-1.amazonaws.com:5432/d8ocpbri5qij5n
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -233,7 +206,6 @@ DEFAULT_FILE_STORAGE='cloudinary_storage.storage.MediaCloudinaryStorage'
 # STATICFILES_STORAGE = 'cloudinary_storage_storage.StaticHashedCloudinaryStorage' #This enables the media files to be saved/stored
 #The above code is added so media files save/stay in deployment
 
- 
 STATIC_URL = '/static/' #This url is how a client or browser can access static files. Example: https://www.example.com/staticFiles/nameOfImg.jpg.
 
 # STATIC_ROOT = BASE_DIR / "staticfiles_build" / "static" #added this in order for static files to deploy on vercel. this generates where static files are placed after running the manage.py collectstatic command
@@ -241,8 +213,6 @@ STATIC_URL = '/static/' #This url is how a client or browser can access static f
 # STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') #added this in order for static files to deploy on heroku. this generates where static files are placed after running the manage.py collectstatic command
 # MEDIA_URLS ='/media/'
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-
 
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (
