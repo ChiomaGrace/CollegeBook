@@ -55,14 +55,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent #Use this for local
 SECRET_KEY = '29st2j=m_g=qpxaerv#q9j%9*e7!vo4!u79(f$6q@-6jg7a1+h'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = #for locally
+# DEBUG = True #for locally
 DEBUG = False #for deployment
 
 ALLOWED_HOSTS = [
     # '.vercel.app', 
     # '.now.sh',
-    # 'collegebook-production.up.railway.app'
     '*'
+    'collegebook.railway.app'
     # 'collegebookbychi.herokuapp.com'
     # '0.0.0.0',
     # 'localhost',
