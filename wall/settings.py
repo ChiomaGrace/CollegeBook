@@ -130,9 +130,9 @@ WSGI_APPLICATION = 'wall.wsgi.application'
 # DATABASES = {'default': dj_database_url.config(default='postgresql://postgres:A7SX8Twku67VOwimSgEq@containers-us-west-144.railway.app:5792/railway')}
 DATABASE_URL = "postgresql://postgres:0OjIlRhMzJy1n0mysXkf@containers-us-west-15.railway.app:6344/railway"
 # DATABASES['default'] = dj_database_url.config()
-DATABASES = {
-    'default': dj_database_url.config(default=DATABASE_URL, conn_max_age=1800)
-}
+# DATABASES = {
+#     'default': dj_database_url.config(default=DATABASE_URL, conn_max_age=1800)
+# }
 #The above code is the database used for deployment (Vexel Railway)
 
 
@@ -160,17 +160,17 @@ DATABASES = {
 # The above code is from here which is from vercel's settings 
 
 # The below code is configuring the database for vercel deployment
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'URL': 'postgresql://postgres:A7SX8Twku67VOwimSgEq@containers-us-west-144.railway.app:5792/railway',
-#         'NAME': 'railway',
-#         'USER': 'postgres',
-#         'PASSWORD': 'A7SX8Twku67VOwimSgEq',
-#         'HOST': 'containers-us-west-144.railway.app',
-#         'PORT': '5792',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'URL': 'postgresql://postgres:A7SX8Twku67VOwimSgEq@containers-us-west-144.railway.app:5792/railway',
+        'NAME': 'railway',
+        'USER': 'postgres',
+        'PASSWORD': 'A7SX8Twku67VOwimSgEq',
+        'HOST': 'containers-us-west-144.railway.app',
+        'PORT': '5792',
+    }
+}
 # The above code is from here which is from vercel's settings 
 
 # The below code is configuring the database for heroku deployment
