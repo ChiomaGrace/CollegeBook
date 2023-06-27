@@ -58,7 +58,8 @@ DEBUG = True #Turned off for deployment
 
 ALLOWED_HOSTS = [
     '.vercel.app', 
-    '.now.sh'
+    '.now.sh',
+    'collegebook-production.up.railway.app'
     # '*'
     # 'collegebookbychi.herokuapp.com'
     # '0.0.0.0',
