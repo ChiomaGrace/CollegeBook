@@ -57,8 +57,8 @@ DEBUG = True #Turned off for deployment
 # DEBUG = False 
 
 ALLOWED_HOSTS = [
-    '*'
-    'collegebookbychi.herokuapp.com', 
+    # '*'
+    'collegebookbychi.herokuapp.com'
     # '0.0.0.0',
     # 'localhost',
 ]
