@@ -57,8 +57,10 @@ DEBUG = True #Turned off for deployment
 # DEBUG = False 
 
 ALLOWED_HOSTS = [
+    '.vercel.app', 
+    '.now.sh'
     # '*'
-    'collegebookbychi.herokuapp.com'
+    # 'collegebookbychi.herokuapp.com'
     # '0.0.0.0',
     # 'localhost',
 ]
@@ -166,16 +168,16 @@ DATABASES = {'default': dj_database_url.config(default='postgresql://postgres:A7
 # The above code is from here which is from vercel's settings 
 
 # The below code is configuring the database for heroku deployment
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql', #using in deployment
-        'NAME': 'd8ocpbri5qij5n', #using in deployment
-        'HOST': 'ec2-35-174-35-242.compute-1.amazonaws.com',
-        'PORT': '5432',
-        'USER': 'axqbwmzhjpfmbg',
-        'PASSWORD': 'd298c7712382e93a1c1e5f46dd02d699cc27c6612e68a5a2da32f573c077da00',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql', #using in deployment
+#         'NAME': 'd8ocpbri5qij5n', #using in deployment
+#         'HOST': 'ec2-35-174-35-242.compute-1.amazonaws.com',
+#         'PORT': '5432',
+#         'USER': 'axqbwmzhjpfmbg',
+#         'PASSWORD': 'd298c7712382e93a1c1e5f46dd02d699cc27c6612e68a5a2da32f573c077da00',
+#     }
+# }
 # The above code is from here which is from vercel's settings config vars: postgres://axqbwmzhjpfmbg:d298c7712382e93a1c1e5f46dd02d699cc27c6612e68a5a2da32f573c077da00@ec2-35-174-35-242.compute-1.amazonaws.com:5432/d8ocpbri5qij5n
 
 # Password validation
@@ -229,19 +231,23 @@ STATIC_URL = '/static/' #This url is how a client or browser can access static f
 
 # STATIC_ROOT = BASE_DIR / "staticfiles_build" / "static" #added this in order for static files to deploy on vercel. this generates where static files are placed after running the manage.py collectstatic command
 # STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') #added this in order for static files to deploy on vercel. this generates where static files are placed after running the manage.py collectstatic command
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') #added this in order for static files to deploy on heroku. this generates where static files are placed after running the manage.py collectstatic command
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') #added this in order for static files to deploy on heroku. this generates where static files are placed after running the manage.py collectstatic command
 MEDIA_URLS ='/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 
 # Extra places for collectstatic to find static files.
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "wallApp/static"), #baseDir references the "home" so for me starting at collegebook
+# STATICFILES_DIRS = (
+    # os.path.join(BASE_DIR, "wallApp/static"), #baseDir references the "home" so for me starting at collegebook
     # os.path.join(BASE_DIR, "wallApp/static/CSS"), #baseDir references the "home" so for me starting at collegebook
     # os.path.join(BASE_DIR, "wallApp/static/Images"),
     # os.path.join(BASE_DIR, "wallApp/static/JavaScript"),
-)
+# )
+
+STATICFILES_DIRS = os.path.join(BASE_DIR, 'static'),
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
+
 
 
 # #I added the below lines of code for deployment #

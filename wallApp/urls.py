@@ -51,6 +51,7 @@ urlpatterns = [
     path('removeCommentNotification/wall', views.removeCommentNotificationOnWall, name='removeCommentNotificationOnWall'), #route that processes the removal of a comment notification of a user made on the wall
     path('removeCommentNotificationOnWall/<int:commentId>', views.removeCommentNotificationOnWall, name='removeCommentNotificationOnWall'),
     path('clearAllNotifications', views.clearAllNotifications),
-    path('logout', views.logout)
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)# I added this to be able to provide an upload photo feature for the user profile pic. This specifically links to the media file that I defined in the settings.py
-    # + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)# I added this to be able to show the static files when deployed
+    path('logout', views.logout),
+] 
+urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)  # I added this to be able to provide an upload photo feature for the user profile pic. This specifically links to the media file that I defined in the settings.py
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)  # I added this to be able to use static files when deployed
