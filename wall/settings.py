@@ -149,12 +149,12 @@ WSGI_APPLICATION = 'wall.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'URL': 'postgresql://postgres:A7SX8Twku67VOwimSgEq@containers-us-west-144.railway.app:5792/railway',
+        'URL': 'postgresql://postgres:V6FtoLQxnDkiGkjqwkAU@containers-us-west-59.railway.app:6071/railway',
         'NAME': 'railway',
         'USER': 'postgres',
-        'PASSWORD': 'A7SX8Twku67VOwimSgEq',
-        'HOST': 'containers-us-west-144.railway.app',
-        'PORT': '5792',
+        'PASSWORD': 'V6FtoLQxnDkiGkjqwkAU',
+        'HOST': 'containers-us-west-59.railway.app',
+        'PORT': '6071',
     }
 }
 # The above code is from here which is from vercel's settings 
