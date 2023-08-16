@@ -62,7 +62,7 @@ ALLOWED_HOSTS = [
     # '.vercel.app', 
     # '.now.sh',
     '*',
-    'collegebook.railway.app'
+    # 'collegebook.railway.app'
     # 'collegebookbychi.herokuapp.com'
     # '0.0.0.0',
     # 'localhost',
@@ -145,16 +145,27 @@ WSGI_APPLICATION = 'wall.wsgi.application'
 # }
 #The above code is the database used for local environment
 
-# The below code is configuring the database for vercel deployment
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'collegebook',
+#         'USER': 'postgres',
+#         'PASSWORD': 'password',
+#         'PORT': '5432',
+#         'HOST': 'localhost'
+#     }
+# }
+
+# The below code is configuring the database for railway deployment
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'URL': 'postgresql://postgres:V6FtoLQxnDkiGkjqwkAU@containers-us-west-59.railway.app:6071/railway',
         'NAME': 'railway',
         'USER': 'postgres',
-        'PASSWORD': 'V6FtoLQxnDkiGkjqwkAU',
-        'HOST': 'containers-us-west-59.railway.app',
-        'PORT': '6071',
+        'PASSWORD': 'vzYwpvUvV27GHr4MynlW',
+        'HOST': 'containers-us-west-196.railway.app',
+        'PORT': '6447',
+        # 'URL': 'postgresql://postgres:uwUjyhdLzGoOV2Cnbq28@containers-us-west-160.railway.app:7685/railway',
     }
 }
 # The above code is from here which is from vercel's settings 
