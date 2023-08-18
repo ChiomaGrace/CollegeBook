@@ -667,7 +667,7 @@
     <nav class="navbar navbar-expand-lg navbar-blue bg-white" id="navBar">
     <!-- The below code is the first third of the navigation bar containing the logo, search textarea, and search button -->
         <a class="navbar-brand" href="/home">
-            <img id="logoIcon" src="{% static 'Images/logo.png' %}" alt="A stock image of a logo with the two letters CB to represent Collegebook." />
+            <img id="logoIcon" src="{% static 'images/logo.png' %}" alt="A stock image of a logo with the two letters CB to represent Collegebook." />
         </a>
         <form action="/search" method="GET" class="form-inline col-sm-3" id="searchBarForm" >
             <input class="form-control rounded-pill " name="searchBarInput" type="search" placeholder="Search CollegeBook" aria-label="Search">
@@ -896,7 +896,7 @@
                                             </a>
                                         {% else %}
                                             <a href="/{{user.firstName}}/{{user.lastName}}/{{user.id}}" class="d-inline-block">
-                                                <img src="{% static 'Images/blankAvatar.png' %}" class="d-inline thumbnailForEachFriend"> 
+                                                <img src="{% static 'images/blankAvatar.png' %}" class="d-inline thumbnailForEachFriend"> 
                                             </a>
                                         {% endif %}
                                             <a href="/{{user.firstName}}/{{user.lastName}}/{{user.id}}" class="nameStylingForEachFriend">

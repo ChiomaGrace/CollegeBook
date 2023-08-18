@@ -218,7 +218,7 @@ STATIC_URL = '/static/' #This url is how a client or browser can access static f
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "wallApp/static"), #baseDir references the "home" so for me starting at collegebook
     # os.path.join(BASE_DIR, "wallApp/static/CSS"), #baseDir references the "home" so for me starting at collegebook
-    # os.path.join(BASE_DIR, "wallApp/static/Images"),
+    os.path.join(BASE_DIR, "wallApp/static/Images"),
     # os.path.join(BASE_DIR, "wallApp/static/JavaScript"),
 )
 

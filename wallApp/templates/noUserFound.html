@@ -271,7 +271,7 @@
 <!--The below code is for the navigation bar  -->
     <nav class="navbar navbar-expand-lg bg-white navBarStyle">
         <a class="logoLink" href="/wall">
-            <img class="navbar-brand mr-0" id="logoIcon" src="{% static 'Images/logo.png' %}" alt="A stock image of a logo with the two letters CB to represent Collegebook." />
+            <img class="navbar-brand mr-0" id="logoIcon" src="{% static 'images/logo.png' %}" alt="A stock image of a logo with the two letters CB to represent Collegebook." />
         </a>
     <!--The below button shows when the window size changes/collapses  -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -337,7 +337,7 @@
                     <a id="linkForNavIconProfPic" href="/home" class="d-inline ">
                     <!-- This if statement only displays the image src when an image is uploaded -->
                     {% if loggedInUser.profilePic == "" %} 
-                        <img src="{% static 'Images/blankAvatar.png' %}" id="navIconProfPic" class="d-inline-block" alt="A thumbnail photo of the user"><p class="d-inline-block nameInNotification mb-0 mt-1">{{notif.friendRequest.firstName}} {{notif.friendRequest.lastName}}</p> 
+                        <img src="{% static 'images/blankAvatar.png' %}" id="navIconProfPic" class="d-inline-block" alt="A thumbnail photo of the user"><p class="d-inline-block nameInNotification mb-0 mt-1">{{notif.friendRequest.firstName}} {{notif.friendRequest.lastName}}</p> 
                     {% else %}
                         <img src='{{ loggedInUser.profilePic.url }}' id="navIconProfPic" class="d-inline notifIconProfPic"> 
                     {% endif %}
@@ -368,7 +368,7 @@
                                         <div class="dropdown-item">
                                             <div class="specificNotification friendRequestNotification" data-index="{{notif.friendRequest.id}}">
                                                 <a href="/{{notif.friendRequest.firstName}}/{{notif.friendRequest.lastName}}/{{notif.friendRequest.id}}" class="d-inline-block">
-                                                    <img src="{% static 'Images/blankAvatar.png' %}" id="notifIconProfPic" class="d-inline-block mt-1" alt="A thumbnail photo of the user"><p class="d-inline-block nameInNotification mb-0 mt-1 ml-1">{{notif.friendRequest.firstName}} {{notif.friendRequest.lastName}}</p> 
+                                                    <img src="{% static 'images/blankAvatar.png' %}" id="notifIconProfPic" class="d-inline-block mt-1" alt="A thumbnail photo of the user"><p class="d-inline-block nameInNotification mb-0 mt-1 ml-1">{{notif.friendRequest.firstName}} {{notif.friendRequest.lastName}}</p> 
                                                 </a>
                                                 <p class="d-inline-block specificNotificationText"> sent you a friend request.</p>
                                                 <div class="btn-group mt-0 friendRequestButtonDiv">
@@ -406,7 +406,7 @@
                                         <div class="dropdown-item pt-0">
                                             <div class="specificNotification newPostNotification" data-index="{{notif.message.id}}"> 
                                                 <a href="/{{notif.message.user.firstName}}/{{notif.message.user.lastName}}/{{notif.message.user.id}}" class="d-inline-block mb-0">
-                                                    <img src="{% static 'Images/blankAvatar.png' %}" id="notifIconProfPic" class="d-inline-block mt-1" alt="A thumbnail photo of the user"><p class="d-inline-block nameInNotification mb-0 mt-1 ml-1">{{notif.message.user.firstName}} {{notif.message.user.lastName}}</p>
+                                                    <img src="{% static 'images/blankAvatar.png' %}" id="notifIconProfPic" class="d-inline-block mt-1" alt="A thumbnail photo of the user"><p class="d-inline-block nameInNotification mb-0 mt-1 ml-1">{{notif.message.user.firstName}} {{notif.message.user.lastName}}</p>
                                                 </a>
                                                 <p class="d-inline-block specificNotificationText"> wrote on your <a href="/home">wall.</a></p>{% if notif.hover == 0 %} <!-- 0 signifying False, meaning the user has not hovered over the notification  --><div class="specificRedButtonDiv d-inline-block"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-circle-fill hoverNotif" data-index="{{notif.message.id}}" viewBox="0 0 16 16"><circle cx="6" cy="6" r="6"/></svg></div>{% endif %}    
                                                 <div class="btn-group mt-0 hideButtons">
@@ -433,7 +433,7 @@
                                         <div class="dropdown-item">
                                             <div class="specificNotification newCommentNotification pt-3" data-index="{{notif.comment.id}}">
                                                 <a href="/{{notif.comment.user.firstName}}/{{notif.comment.user.lastName}}/{{notif.comment.user.id}}" class="d-inline-block mb-0">
-                                                    <img src="{% static 'Images/blankAvatar.png' %}" id="notifIconProfPic" class="d-inline-block mt-1" alt="A thumbnail photo of the user"><p class="d-inline-block nameInNotification mb-0 mt-1 ml-1">{{notif.comment.user.firstName}} {{notif.comment.user.lastName}}</p>
+                                                    <img src="{% static 'images/blankAvatar.png' %}" id="notifIconProfPic" class="d-inline-block mt-1" alt="A thumbnail photo of the user"><p class="d-inline-block nameInNotification mb-0 mt-1 ml-1">{{notif.comment.user.firstName}} {{notif.comment.user.lastName}}</p>
                                                 </a>
                                                 <p class="d-inline-block specificNotificationText"> commented on a <a href="/home">post.</a></p>{% if notif.hover == 0 %}<div class="specificRedButtonDiv d-inline-block"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-circle-fill hoverNotif" data-index="{{notif.comment.id}}" viewBox="0 0 16 16"><circle cx="6" cy="6" r="6"/></svg></div>{% endif %} 
                                             </div>
@@ -504,7 +504,7 @@
                             </a>
                         {% else %}
                             <a href="/{{user.firstName}}/{{user.lastName}}/{{user.id}}" class="d-inline-block">
-                                <img src="{% static 'Images/blankAvatar.png' %}" class="d-inline thumbnailForEachFriend"> 
+                                <img src="{% static 'images/blankAvatar.png' %}" class="d-inline thumbnailForEachFriend"> 
                             </a>
                         {% endif %}
                             <a href="/{{user.firstName}}/{{user.lastName}}/{{user.id}}" class="nameStylingForEachFriend">
