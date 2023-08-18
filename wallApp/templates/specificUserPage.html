@@ -1410,11 +1410,11 @@
                             </a>
                         {% else %}
                             <a href="/home" class="postMessageProfPicLink">
-                                <img src="{{specificUsersPage.profilePic.url}}" class="postMessageProfPic" alt="" class="d-inline-block">
+                                <img src="{{loggedInUser.profilePic.url}}" class="postMessageProfPic" alt="" class="d-inline-block">
                             </a>
                         {% endif %}
                             <div class="userMessageDiv">
-                                <textarea class="form-control rounded-pill" id="userMessageID" name="userMessage" rows="1" placeholder="What's On Your Mind, {{specificUsersPage.firstName}}?"></textarea>
+                                <textarea class="form-control rounded-pill" id="userMessageID" name="userMessage" rows="1" placeholder="Write something to {{specificUsersPage.firstName}}..."></textarea>
                             </div>
                             <div class="postAMessageButtonDiv">
                             {% if loggedInUser in specificUsersFriends and specificUsersPage in loggedInUser.friends.all %}
