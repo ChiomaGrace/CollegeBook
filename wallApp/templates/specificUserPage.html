@@ -1404,7 +1404,7 @@
                         </div>
                         <div class="form-group pt-2 postAMessageDiv">
                             <input type="hidden" id="userWhoReceivesPostID" name="userWhoReceivesPost" value="{{specificUsersPage.id}}">
-                        {% if specificUsersPage.profilePic == "" %}
+                        {% if loggedInUser.profilePic == "" %}
                             <a href="/home" class="postMessageProfPicLink">
                                 <img src="{% static 'Images/blankAvatar.png' %}" id="" class="postMessageProfPic mt-1" alt="A thumbnail photo of the user">
                             </a>

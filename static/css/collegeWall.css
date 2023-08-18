@@ -90,6 +90,10 @@ a:hover {
    margin-right: 10px;
 }
 
+.loginErrors, .displayErrors {
+    list-style-type: none;
+}
+
 /* The above code is the css for the reg/login html for mobile */
 
 /* The below code is the css for the wall html for mobile screensize(s) */
