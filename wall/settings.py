@@ -197,10 +197,15 @@ USE_L10N = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 #The below code is added so media files save/stay in deployment
+# CLOUDINARY_STORAGE ={
+#             'CLOUD_NAME': 'hag7l2sjd',
+#             'API_KEY': '282544168462578',
+#             'API_SECRET': 'ENxRVBVJy7pG76TrjqLgB8nzd7s'
+# }
 CLOUDINARY_STORAGE ={
-            'CLOUD_NAME': 'hag7l2sjd',
-            'API_KEY': '282544168462578',
-            'API_SECRET': 'ENxRVBVJy7pG76TrjqLgB8nzd7s'
+            'CLOUD_NAME': 'chioma-grace-apps',
+            'API_KEY': '855871784712111',
+            'API_SECRET': '1jwGl_GQdfBEI4zHt7LKexi2BR8'
 }
 DEFAULT_FILE_STORAGE='cloudinary_storage.storage.MediaCloudinaryStorage'
 # STATICFILES_STORAGE = 'cloudinary_storage_storage.StaticHashedCloudinaryStorage' #This enables the media files to be saved/stored
