@@ -152,12 +152,13 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'railway',
         'USER': 'postgres',
-        'PASSWORD': 'vzYwpvUvV27GHr4MynlW',
-        'HOST': 'containers-us-west-196.railway.app',
-        'PORT': '6447',
+        'PASSWORD': 'qD58JcLQooL8Dr61vOev',
+        'HOST': 'containers-us-west-65.railway.app',
+        'PORT': '7181',
     }
 }
-# The above code is from here which is from vercel's settings 
+# The above code is configuring the database for railway deployment
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
