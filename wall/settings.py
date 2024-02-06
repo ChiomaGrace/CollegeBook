@@ -150,11 +150,11 @@ WSGI_APPLICATION = 'wall.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'railway',
-        'USER': 'postgres',
-        'PASSWORD': 'GaCeC5e1BFDFdb1DEbB6Aa1cDdDEf5c4',
-        'HOST': 'roundhouse.proxy.rlwy.net',
-        'PORT' : '52988',
+        'NAME': os.environ["PGDATABASE"],
+        'USER': os.environ["PGUSER"],
+        'PASSWORD': os.environ["PGPASSWORD"],
+        'HOST': os.environ["PGHOST"],
+        'PORT': os.environ["PGPORT"],
     }
 }
 # The above code is configuring the database for railway deployment
