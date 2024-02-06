@@ -15,7 +15,7 @@ import os
 import cloudinary #to save uploaded images in heroku/deployment stage
 import cloudinary_storage #to save uploaded images in heroku/deployment stage
 from decouple import config #to hide/retrieve my cloud config that are below in the settings.py
-import dj_database_url #for deployment
+# import dj_database_url #for deployment
 # import environ
 import mimetypes
 
@@ -55,8 +55,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent #Use this for local
 SECRET_KEY = '29st2j=m_g=qpxaerv#q9j%9*e7!vo4!u79(f$6q@-6jg7a1+h'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True #for locally
-DEBUG = False #for deployment
+DEBUG = True #for locally
+# DEBUG = False #for deployment
 
 ALLOWED_HOSTS = [
     # '.vercel.app', 
@@ -64,8 +64,8 @@ ALLOWED_HOSTS = [
     '*',
     # 'collegebook.railway.app'
     # 'collegebookbychi.herokuapp.com'
-    # '0.0.0.0',
-    # 'localhost',
+    '0.0.0.0',
+    'localhost',
 ]
 
 
@@ -152,13 +152,12 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'railway',
         'USER': 'postgres',
-        'PASSWORD': 'qD58JcLQooL8Dr61vOev',
-        'HOST': 'containers-us-west-65.railway.app',
-        'PORT': '7181',
+        'PASSWORD': 'GaCeC5e1BFDFdb1DEbB6Aa1cDdDEf5c4',
+        'HOST': 'roundhouse.proxy.rlwy.net',
+        'PORT' : '52988',
     }
 }
 # The above code is configuring the database for railway deployment
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -198,16 +197,16 @@ USE_L10N = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 #The below code is added so media files save/stay in deployment
-# CLOUDINARY_STORAGE ={
-#             'CLOUD_NAME': 'hag7l2sjd',
-#             'API_KEY': '282544168462578',
-#             'API_SECRET': 'ENxRVBVJy7pG76TrjqLgB8nzd7s'
-# }
 CLOUDINARY_STORAGE ={
             'CLOUD_NAME': 'chioma-grace-apps',
             'API_KEY': '855871784712111',
             'API_SECRET': '1jwGl_GQdfBEI4zHt7LKexi2BR8'
 }
+# cloudinary.config( 
+#   	cloud_name = "chioma-grace-apps",
+#   	api_key = "855871784712111",
+#   	api_secret = "1jwGl_GQdfBEI4zHt7LKexi2BR8"
+# )
 DEFAULT_FILE_STORAGE='cloudinary_storage.storage.MediaCloudinaryStorage'
 # STATICFILES_STORAGE = 'cloudinary_storage_storage.StaticHashedCloudinaryStorage' #This enables the media files to be saved/stored
 #The above code is added so media files save/stay in deployment

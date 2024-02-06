@@ -14,8 +14,6 @@ idna==3.4
 insultgenerator==1.0.3
 loremipsum==1.0.5
 os0==2.0.1
-Pillow==9.4.0
-psycopg2-binary==2.9.6
 python-decouple==3.8
 pytz==2023.3
 requests==2.28.2
